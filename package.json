@@ -1,0 +1,56 @@
+{
+  "name": "remix-peterbecom2",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "cross-env NODE_ENV=production react-router build",
+    "dev": "react-router dev",
+    "#start": "cross-env NODE_ENV=production react-router-serve ./build/server/index.js",
+    "start": "cross-env NODE_ENV=production node --experimental-strip-types --no-warnings start-server.ts ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc",
+    "pretty": "biome check server app tests vite.config.ts server.ts start-server.ts",
+    "pretty:fix": "biome check --write server app tests vite.config.ts server.ts start-server.ts"
+  },
+  "dependencies": {
+    "@nitedani/shrink-ray-current": "^4.3.0",
+    "@react-router/node": "^7.1.1",
+    "@react-router/serve": "^7.1.1",
+    "@types/compression": "^1.7.5",
+    "@types/morgan": "^1.9.9",
+    "axios": "^1.7.9",
+    "axios-retry": "^4.5.0",
+    "compression": "^1.7.5",
+    "cursor-effects": "^1.0.17",
+    "dotenv": "^16.4.7",
+    "downshift": "^9.0.8",
+    "express-async-handler": "^1.2.0",
+    "http-proxy-middleware": "^3.0.3",
+    "isbot": "^5.1.19",
+    "morgan": "^1.10.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.1.1",
+    "rollbar": "^2.26.4",
+    "sharp": "^0.33.5",
+    "swr": "^2.3.0",
+    "usehooks-ts": "^3.1.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@react-router/dev": "^7.1.1",
+    "@types/node": "^22",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
+    "postcss": "^8.4.49",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.6",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "overrides": {
+    "usehooks-ts": {
+      "react": "^19"
+    }
+  }
+}
