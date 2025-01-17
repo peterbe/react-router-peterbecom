@@ -6,10 +6,24 @@ import { absoluteURL, newValiError } from "~/utils/utils"
 import { HomepageServerData } from "~/valibot-types"
 import type { Route } from "./+types/home-splat"
 
-export function meta({ location }: Route.MetaArgs) {
+export function meta({ location, data }: Route.MetaArgs) {
+  let title = "Peterbe.com"
+  if (data.categories.length) {
+    title = `${data.categories.join(", ")} only on Peterbe.com`
+    if (data.page && data.page !== 1) {
+      title += ` - page ${data.page}`
+    }
+  } else {
+    if (data.page && data.page !== 1) {
+      title += ` - page ${data.page}`
+    } else {
+      title += " - Stuff in Peter's head"
+    }
+  }
+
   return [
     {
-      title: "Peterbe.com - Stuff in Peter's head",
+      title,
     },
     {
       name: "description",
@@ -32,7 +46,7 @@ export function headers() {
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const { "*": splat } = params
+  const splat = params["*"] || ""
 
   let page = 1
   const categories: string[] = []
@@ -46,11 +60,12 @@ export async function loader({ params }: Route.LoaderArgs) {
     }
     if (/^p\d+$/.test(part)) {
       page = Number.parseInt(part.replace("p", ""))
-      if (isNaN(page)) {
+      if (Number.isNaN(page)) {
         throw new Response("Not Found (page not valid)", { status: 404 })
       }
       continue
-    } else if (/oc-[\w+]+/.test(part)) {
+    }
+    if (/oc-[\w+]+/.test(part)) {
       const matched = part.match(/oc-([\w\.\+]+)/)
       if (matched) {
         const category = matched[1].replace(/\+/g, " ")

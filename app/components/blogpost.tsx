@@ -126,37 +126,33 @@ function RelatedPosts({ post }: { post: Post }) {
       </dl>
 
       {relatedByCategory.length > 0 && (
-        <>
-          <dl className="related-posts">
-            <dt>Related by category:</dt>
-            {relatedByCategory.map((related) => (
-              <dd key={related.oid}>
-                <LinkWithPrefetching to={postURL(related.oid)}>
-                  {related.title}
-                </LinkWithPrefetching>{" "}
-                <small>{formatDateBasic(related.pub_date)}</small>{" "}
-                <SubCategories categories={related.categories || []} />
-              </dd>
-            ))}
-          </dl>
-        </>
+        <dl className="related-posts">
+          <dt>Related by category:</dt>
+          {relatedByCategory.map((related) => (
+            <dd key={related.oid}>
+              <LinkWithPrefetching to={postURL(related.oid)}>
+                {related.title}
+              </LinkWithPrefetching>{" "}
+              <small>{formatDateBasic(related.pub_date)}</small>{" "}
+              <SubCategories categories={related.categories || []} />
+            </dd>
+          ))}
+        </dl>
       )}
 
       {relatedByKeyword.length > 0 && (
-        <>
-          <dl className="related-posts">
-            <dt>Related by keyword:</dt>
-            {relatedByKeyword.map((related) => (
-              <dd key={related.oid}>
-                <LinkWithPrefetching to={postURL(related.oid)}>
-                  {related.title}
-                </LinkWithPrefetching>{" "}
-                <small>{formatDateBasic(related.pub_date)}</small>{" "}
-                <SubCategories categories={related.categories || []} />
-              </dd>
-            ))}
-          </dl>
-        </>
+        <dl className="related-posts">
+          <dt>Related by keyword:</dt>
+          {relatedByKeyword.map((related) => (
+            <dd key={related.oid}>
+              <LinkWithPrefetching to={postURL(related.oid)}>
+                {related.title}
+              </LinkWithPrefetching>{" "}
+              <small>{formatDateBasic(related.pub_date)}</small>{" "}
+              <SubCategories categories={related.categories || []} />
+            </dd>
+          ))}
+        </dl>
       )}
     </>
   )

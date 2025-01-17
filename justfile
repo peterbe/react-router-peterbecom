@@ -29,7 +29,7 @@ lint: pretty
     npm run tsc
 
 lintfix:
-    npm run lintfix
+    npm run pretty:fix
 
 test:
     npm run test

@@ -302,8 +302,9 @@ export function CommentForm({
         style={{ marginTop: 40 }}
       >
         <div className="field">
-          <label>What do you think?</label>
+          <label htmlFor="id_comment">What do you think?</label>
           <textarea
+            id="id_comment"
             ref={textareaRef}
             name="comment"
             value={comment}
@@ -313,7 +314,7 @@ export function CommentForm({
             }}
             rows={5}
             aria-label="Your comment"
-          ></textarea>
+          />
         </div>
 
         <div className="field">

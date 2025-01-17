@@ -25,7 +25,7 @@ export function LyricsSong({ song }: Props) {
             <h2 style={{ fontSize: "1.2rem" }}>
               By <b>{song.artist.name}</b> {song.year && `(${song.year})`}
               <br />
-              {song.albums && song.albums.length ? (
+              {song.albums?.length ? (
                 <>
                   On album{" "}
                   {song.albums.map((album, i, arr) => (
@@ -58,7 +58,7 @@ export function LyricsSong({ song }: Props) {
         <div
           dangerouslySetInnerHTML={{ __html: song.text_html }}
           style={{ marginBottom: 50 }}
-        ></div>
+        />
 
         <Back />
 
@@ -88,7 +88,7 @@ function Back() {
         <p>
           Go back to your search{" "}
           <a
-            href={PREFIX + "/q/" + encodeURIComponent(search)}
+            href={`${PREFIX}/q/${encodeURIComponent(search)}`}
             style={{ fontStyle: "italic" }}
           >
             "{search}"

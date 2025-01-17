@@ -8,7 +8,7 @@ import type { Route } from "./+types/plog-splat"
 // type LoaderDataType = ServerDataType;
 export function meta({ params, location, data }: Route.MetaArgs) {
   // const oid = params["*"]?.split("/")[0];
-  const oid = params["oid"]
+  const oid = params.oid
   if (!oid) throw new Error("No oid")
 
   if (!data) {
@@ -68,11 +68,11 @@ export function meta({ params, location, data }: Route.MetaArgs) {
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   let page = 1
-  const oid = params["oid"] as string
+  const oid = params.oid
   const p = params["*"]
   if (p && /^p\d+$/.test(p)) {
     page = Number.parseInt(p.replace("p", ""))
-    if (isNaN(page)) {
+    if (Number.isNaN(page)) {
       throw new Response("Not Found (page not valid)", { status: 404 })
     }
   }

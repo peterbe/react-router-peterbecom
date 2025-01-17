@@ -18,7 +18,7 @@ export function CarbonAd() {
     }
   }, [])
 
-  if (import.meta.env.NODE_ENV === "development") {
+  if (!import.meta.env.PROD) {
     return null
   }
 

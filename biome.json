@@ -12,6 +12,12 @@
       },
       "correctness": {
         "noUnusedImports": "error"
+      },
+      "complexity": {
+        "noForEach": "off"
+      },
+      "a11y": {
+        "useValidAnchor": "off"
       }
     }
   },

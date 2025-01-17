@@ -132,6 +132,7 @@ function AboutScreensaver({
       </strong>
       <br />
       <button
+        type="button"
         style={{ padding: "5px 10px", fontSize: "80%", margin: 5 }}
         onClick={() => stopScreensaver()}
       >
@@ -171,5 +172,5 @@ function getRandomBrightColor() {
 
 function componentToHex(c: number) {
   const hex = c.toString(16)
-  return hex.length === 1 ? "0" + hex : hex
+  return hex.length === 1 ? `0${hex}` : hex
 }

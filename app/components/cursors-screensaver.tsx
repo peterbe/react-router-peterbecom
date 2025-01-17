@@ -27,9 +27,11 @@ const possibleCursors = {
   emoji: () => {
     const emoji =
       shorterEmojis[Math.floor(Math.random() * shorterEmojis.length)]
+    // biome-ignore lint/suspicious/noExplicitAny: Can't remember why it doesn't work
     return new (emojiCursor as any)({ emoji }) as CursorEffectResult
   },
   rainbow: () => {
+    // biome-ignore lint/suspicious/noExplicitAny: Can't remember why it doesn't work
     return new (rainbowCursor as any)({}) as CursorEffectResult
   },
   springy: () => {
@@ -37,6 +39,7 @@ const possibleCursors = {
       shorterEmojis[Math.floor(Math.random() * shorterEmojis.length)]
     emojis.sort(() => Math.random() - 0.5)
     const randomEmoji = emojis[0]
+    // biome-ignore lint/suspicious/noExplicitAny: Can't remember why it doesn't work
     return new (springyEmojiCursor as any)({
       emoji: randomEmoji,
     }) as CursorEffectResult
@@ -118,7 +121,7 @@ function AboutScreensaver({
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [opacity])
 
   const [colors] = useState(getLetterRandomColors("Cursor activated!"))
 
@@ -146,12 +149,14 @@ function AboutScreensaver({
       </strong>
       <br />
       <button
+        type="button"
         style={{ padding: "5px 10px", fontSize: "80%", margin: 5 }}
         onClick={() => stopScreensaver()}
       >
         Stop this silliness
       </button>{" "}
       <button
+        type="button"
         style={{ padding: "5px 10px", fontSize: "80%", margin: 5 }}
         onClick={() => changeCursor()}
       >
@@ -191,5 +196,5 @@ function getRandomBrightColor() {
 
 function componentToHex(c: number) {
   const hex = c.toString(16)
-  return hex.length === 1 ? "0" + hex : hex
+  return hex.length === 1 ? `0${hex}` : hex
 }

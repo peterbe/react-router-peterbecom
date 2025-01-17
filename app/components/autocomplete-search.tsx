@@ -134,14 +134,22 @@ function Clear({
 }) {
   return (
     <div>
-      <fieldset role="group">
+      <fieldset>
         {visited.length > 0 && (
-          <button className="secondary outline" onClick={clearVisited}>
+          <button
+            type="button"
+            className="secondary outline"
+            onClick={clearVisited}
+          >
             Clear visited
           </button>
         )}
         {searches.length > 0 && (
-          <button className="secondary outline" onClick={clearSearches}>
+          <button
+            type="button"
+            className="secondary outline"
+            onClick={clearSearches}
+          >
             Clear searches
           </button>
         )}
@@ -154,7 +162,7 @@ function approximateVisited(date: string) {
   const d = new Date(date)
   const now = new Date()
   const diff = now.getTime() - d.getTime()
-  if (isNaN(diff)) {
+  if (Number.isNaN(diff)) {
     return ""
   }
   const diffSeconds = diff / 1000

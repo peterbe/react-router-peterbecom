@@ -69,7 +69,8 @@ function Results({
   results: LyricsSearchResult[]
   metadata: LyricsSearchMetadata
 }) {
-  function makeURL(url: string) {
+  function makeURL(urlStart: string) {
+    let url = urlStart
     if (metadata.search) {
       url += `?${new URLSearchParams({ search: metadata.search })}`
     }
@@ -93,7 +94,7 @@ function Results({
                   <p>
                     On album{" "}
                     {result.albums.map((album, i, arr) => (
-                      <Fragment key={album.name + i}>
+                      <Fragment key={album.name}>
                         <b>{album.name}</b> {album.year && `(${album.year})`}
                         {i === arr.length - 1 ? " " : ", "}
                       </Fragment>
@@ -114,9 +115,9 @@ function Results({
             {result.fragments.map((fragment, i) => (
               <p
                 className="fragment"
-                key={i}
+                key={`${fragment}`}
                 dangerouslySetInnerHTML={{ __html: fragment }}
-              ></p>
+              />
             ))}
             <footer>
               <a href={makeURL(result._url)}>Go to song</a>

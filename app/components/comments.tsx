@@ -75,7 +75,9 @@ export function PostComments({ post, comments, page }: Props) {
 
 function PostOwnComment() {
   return (
+    // biome-ignore lint/a11y/useValidAnchor: I don't care
     <a
+      // biome-ignore lint/a11y/useSemanticElements: I don't care
       href="#commentsform"
       role="button"
       className="mini"
@@ -128,7 +130,7 @@ function Heading({
             {prevPage ? (
               <Link
                 to={getPaginationURL(oid, prevPage)}
-                role="button"
+                // role="button"
                 className="mini"
               >
                 Page {prevPage}
@@ -137,7 +139,7 @@ function Heading({
               <a
                 href={getPaginationURL(oid, 1)}
                 onClick={(event) => event.preventDefault()}
-                role="button"
+                // role="button"
                 className="secondary outline mini"
                 aria-disabled="true"
               >
@@ -149,7 +151,7 @@ function Heading({
             {nextPage ? (
               <Link
                 to={getPaginationURL(oid, nextPage)}
-                role="button"
+                // role="button"
                 className="mini"
               >
                 Page {nextPage}
@@ -158,7 +160,7 @@ function Heading({
               <a
                 href={getPaginationURL(oid, page)}
                 onClick={(event) => event.preventDefault()}
-                role="button"
+                // role="button"
                 className="secondary outline mini"
                 aria-disabled="true"
               >
@@ -273,18 +275,16 @@ function ShowCommentTree({
                 </Message>
               )}
               {parent && parent === comment.oid && !disallowComments && (
-                <>
-                  <CommentForm
-                    parent={parent}
-                    post={post}
-                    addOwnComment={addOwnComment}
-                    setParent={setParent}
-                    depth={comment.depth + 1}
-                    onSubmitted={() => {
-                      setSubmitted(comment.oid)
-                    }}
-                  />
-                </>
+                <CommentForm
+                  parent={parent}
+                  post={post}
+                  addOwnComment={addOwnComment}
+                  setParent={setParent}
+                  depth={comment.depth + 1}
+                  onSubmitted={() => {
+                    setSubmitted(comment.oid)
+                  }}
+                />
               )}
             </DisplayComment>
 
@@ -404,6 +404,6 @@ function DisplayOwnComment({
       toggleEditMode={() => {
         setEditMode((prevState) => !prevState)
       }}
-    ></DisplayComment>
+    />
   )
 }
