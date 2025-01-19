@@ -215,7 +215,7 @@ test("filter home page by bad category", async () => {
 test("redirect to correct case of oc categoru", async () => {
   const response = await get("/oc-jAVAsCRIPT")
   expect(response.status).toBe(308)
-  expect(response.headers["location"]).toBe("/oc-JavaScript")
+  expect(response.headers.location).toBe("/oc-JavaScript")
 })
 
 test("lyrics post page", async () => {

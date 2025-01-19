@@ -1,27 +1,27 @@
-import { Fragment } from "react";
-import { Link } from "react-router";
+import { Fragment } from "react"
+import { Link } from "react-router"
 
-import { useSendPageview } from "~/analytics";
-import { categoryURL, formatDateBasic, postURL } from "~/utils/utils";
-import type { Comments, Post } from "~/valibot-types";
+import { useSendPageview } from "~/analytics"
+import { categoryURL, formatDateBasic, postURL } from "~/utils/utils"
+import type { Comments, Post } from "~/valibot-types"
 
-import { CarbonAd } from "./carbonad";
-import { PostComments } from "./comments";
-import { LinkWithPrefetching } from "./link-with-prefetching";
-import { Nav } from "./nav";
-import { useRememberVisit } from "./remember-visit";
-import { ScrollToTop } from "./scroll-to-top";
+import { CarbonAd } from "./carbonad"
+import { PostComments } from "./comments"
+import { LinkWithPrefetching } from "./link-with-prefetching"
+import { Nav } from "./nav"
+import { useRememberVisit } from "./remember-visit"
+import { ScrollToTop } from "./scroll-to-top"
 
 type Props = {
-  post: Post;
-  comments: Comments;
-  page: number;
-};
+  post: Post
+  comments: Comments
+  page: number
+}
 export function Blogpost({ post, comments, page }: Props) {
-  useSendPageview();
-  const pubDate = new Date(post.pub_date);
+  useSendPageview()
+  const pubDate = new Date(post.pub_date)
 
-  useRememberVisit(post);
+  useRememberVisit(post)
 
   return (
     <div>
@@ -56,7 +56,7 @@ export function Blogpost({ post, comments, page }: Props) {
                     </LinkWithPrefetching>
                     {i < arr.length - 1 ? ", " : ""}
                   </Fragment>
-                );
+                )
               })}
             </span>
           </>
@@ -75,7 +75,7 @@ export function Blogpost({ post, comments, page }: Props) {
 
       {comments.count >= 10 && <ScrollToTop />}
     </div>
-  );
+  )
 }
 
 function AboutPostURL({ url }: { url: string }) {
@@ -86,14 +86,14 @@ function AboutPostURL({ url }: { url: string }) {
         {url}
       </a>
     </p>
-  );
+  )
 }
 
 function RelatedPosts({ post }: { post: Post }) {
-  const previousPost = post.previous_post;
-  const nextPost = post.next_post;
-  const relatedByCategory = post.related_by_category || [];
-  const relatedByKeyword = post.related_by_keyword || [];
+  const previousPost = post.previous_post
+  const nextPost = post.next_post
+  const relatedByCategory = post.related_by_category || []
+  const relatedByKeyword = post.related_by_keyword || []
 
   return (
     <>
@@ -157,7 +157,7 @@ function RelatedPosts({ post }: { post: Post }) {
         </dl>
       )}
     </>
-  );
+  )
 }
 
 function SubCategories({ categories }: { categories: string[] }) {
@@ -172,5 +172,5 @@ function SubCategories({ categories }: { categories: string[] }) {
         </Fragment>
       ))}
     </>
-  );
+  )
 }

@@ -1,31 +1,31 @@
-import { useCombobox } from "downshift";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router";
-import useSWR from "swr";
-import { useDebounceValue, useMediaQuery } from "usehooks-ts";
+import { useCombobox } from "downshift"
+import { useEffect, useState } from "react"
+import { useSearchParams } from "react-router"
+import useSWR from "swr"
+import { useDebounceValue, useMediaQuery } from "usehooks-ts"
 
-import type { RememberedSearch } from "./remember-search";
+import type { RememberedSearch } from "./remember-search"
 
 type SearchMeta = {
-  found: number;
-};
+  found: number
+}
 
 type TypeaheadResult = {
-  term: string;
-  highlights: string[];
-  faux?: true;
-};
+  term: string
+  highlights: string[]
+  faux?: true
+}
 
 type ServerData = {
-  results: TypeaheadResult[];
-  meta: SearchMeta;
-};
+  results: TypeaheadResult[]
+  meta: SearchMeta
+}
 
 type Props = {
-  goTo: (url: string) => void;
-  autofocus?: boolean;
-  recentSearches: RememberedSearch[];
-};
+  goTo: (url: string) => void
+  autofocus?: boolean
+  recentSearches: RememberedSearch[]
+}
 
 export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
   useEffect(() => {
@@ -33,59 +33,59 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
       // Using a useRef didn't work. Perhaps the downshift library
       // props overrides it.
       const input = document.querySelector<HTMLInputElement>(
-        '.downshift-wrapper input[type="search"]'
-      );
+        '.downshift-wrapper input[type="search"]',
+      )
       if (input) {
-        input.focus();
+        input.focus()
       }
     }
-  }, [autofocus]);
+  }, [autofocus])
 
-  const [searchParams] = useSearchParams();
-  const [query] = useState(searchParams.get("q") || "");
+  const [searchParams] = useSearchParams()
+  const [query] = useState(searchParams.get("q") || "")
 
-  const [input, setInput] = useState(query);
+  const [input, setInput] = useState(query)
 
-  const isLarge = useMediaQuery("(min-width: 768px)");
+  const isLarge = useMediaQuery("(min-width: 768px)")
 
-  const debouncedInput = useDebounceValue<string>(input, 100);
+  const debouncedInput = useDebounceValue<string>(input, 100)
 
   const apiURL = debouncedInput[0].trim()
     ? `/api/v1/typeahead?${new URLSearchParams({
         q: debouncedInput[0].trim(),
         n: isLarge ? "9" : "6",
       }).toString()}`
-    : null;
+    : null
 
   const { data, error } = useSWR<ServerData, Error>(
     apiURL,
     async (url) => {
-      const r = await fetch(url);
+      const r = await fetch(url)
       if (!r.ok) {
-        throw new Error(`${r.status} on ${url}`);
+        throw new Error(`${r.status} on ${url}`)
       }
-      return r.json();
+      return r.json()
     },
     {
       revalidateOnFocus: false,
       keepPreviousData: true,
-    }
-  );
-  const debouncedError = useDebounceValue<Error | undefined>(error, 500);
+    },
+  )
+  const debouncedError = useDebounceValue<Error | undefined>(error, 500)
 
-  const items: TypeaheadResult[] = [];
+  const items: TypeaheadResult[] = []
   if (input.trim()) {
-    items.push(...recentSearchesToTypeaheadResults(input, recentSearches));
+    items.push(...recentSearchesToTypeaheadResults(input, recentSearches))
   }
   if (input.trim() && data?.results) {
     items.push(
       ...data.results.filter(
-        (result) => !items.find((item) => item.term === result.term)
-      )
-    );
+        (result) => !items.find((item) => item.term === result.term),
+      ),
+    )
   }
 
-  const hasSearchResults = items.length > 0;
+  const hasSearchResults = items.length > 0
   if (
     input.trim() &&
     input.trim().length > 2 &&
@@ -96,7 +96,7 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
       term: input,
       highlights: [input],
       faux: true,
-    });
+    })
   }
 
   const {
@@ -118,37 +118,35 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
         !selectedItem &&
         inputValue
       ) {
-        goTo(`/search?${new URLSearchParams({ q: inputValue }).toString()}`);
+        goTo(`/search?${new URLSearchParams({ q: inputValue }).toString()}`)
       }
     },
     onInputValueChange({ inputValue }) {
-      setInput(inputValue);
+      setInput(inputValue)
     },
     inputValue: input,
     initialInputValue: query,
     items,
     itemToString(item) {
-      return item ? item.term : "";
+      return item ? item.term : ""
     },
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         goTo(
-          `/search?${new URLSearchParams({ q: selectedItem.term }).toString()}`
-        );
+          `/search?${new URLSearchParams({ q: selectedItem.term }).toString()}`,
+        )
       }
     },
-  });
+  })
 
   return (
     <form
       className="downshift-wrapper"
       action="/search"
       onSubmit={(event) => {
-        event.preventDefault();
+        event.preventDefault()
         if (input.trim()) {
-          goTo(
-            `/search?${new URLSearchParams({ q: input.trim() }).toString()}`
-          );
+          goTo(`/search?${new URLSearchParams({ q: input.trim() }).toString()}`)
         }
       }}
     >
@@ -177,12 +175,12 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
         <ul {...getMenuProps()}>
           {isOpen &&
             items.map((item, index) => {
-              let className = "";
+              let className = ""
               if (highlightedIndex === index)
-                className += "downshift-highlighted ";
+                className += "downshift-highlighted "
 
               if (item.faux) {
-                className += "downshift-faux";
+                className += "downshift-faux"
                 return (
                   <li
                     className={className}
@@ -193,7 +191,7 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
                       Search for <code>{item.term}</code>
                     </i>
                   </li>
-                );
+                )
               }
               return (
                 <li
@@ -207,35 +205,35 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
                         key={highlight}
                         dangerouslySetInnerHTML={{ __html: highlight }}
                       />
-                    );
+                    )
                   })}
                 </li>
-              );
+              )
             })}
         </ul>
       </article>
     </form>
-  );
+  )
 }
 
 function escapeRegex(value: string) {
-  return value.replace(/[-[\]{}()*+?.,\\^$|#]/g, "\\$&");
+  return value.replace(/[-[\]{}()*+?.,\\^$|#]/g, "\\$&")
 }
 
 function recentSearchesToTypeaheadResults(
   input: string,
-  recentSearches: RememberedSearch[]
+  recentSearches: RememberedSearch[],
 ) {
-  const results: TypeaheadResult[] = [];
-  const rex = new RegExp(`\\b(${escapeRegex(input)})`, "gi");
+  const results: TypeaheadResult[] = []
+  const rex = new RegExp(`\\b(${escapeRegex(input)})`, "gi")
   for (const recentSearch of recentSearches) {
     if (rex.test(recentSearch.term)) {
       results.push({
         term: recentSearch.term,
         highlights: [recentSearch.term.replace(rex, "<mark>$1</mark>")],
-      });
+      })
     }
   }
 
-  return results;
+  return results
 }

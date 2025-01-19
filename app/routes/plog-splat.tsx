@@ -1,36 +1,38 @@
-import * as v from "valibot";
-import { Blogpost } from "~/components/blogpost";
-import { get } from "~/lib/get-data";
-import { absoluteURL, newValiError } from "~/utils/utils";
-import { ServerData } from "~/valibot-types";
-import type { Route } from "./+types/plog-splat";
+import { data } from "react-router"
+
+import * as v from "valibot"
+import { Blogpost } from "~/components/blogpost"
+import { get } from "~/lib/get-data"
+import { absoluteURL, newValiError } from "~/utils/utils"
+import { ServerData } from "~/valibot-types"
+import type { Route } from "./+types/plog-splat"
 
 export function meta({ params, location, data }: Route.MetaArgs) {
   // const oid = params["*"]?.split("/")[0];
-  const oid = params.oid;
-  if (!oid) throw new Error("No oid");
+  const oid = params.oid
+  if (!oid) throw new Error("No oid")
 
   if (!data) {
     // In catch CatchBoundary
-    return [{ title: "Page not found" }];
+    return [{ title: "Page not found" }]
   }
 
-  let pageTitle = "";
+  let pageTitle = ""
 
   //   const d = data as ServerDataType;
-  const d = data;
+  const d = data
 
-  pageTitle = d.post.title;
+  pageTitle = d.post.title
 
   if (d.page > 1) {
-    pageTitle += ` (page ${d.page})`;
+    pageTitle += ` (page ${d.page})`
   }
-  pageTitle += " - Peterbe.com";
+  pageTitle += " - Peterbe.com"
 
-  const summary = d.post.summary || undefined;
+  const summary = d.post.summary || undefined
   const openGraphImage = d.post.open_graph_image
     ? absoluteURL(d.post.open_graph_image)
-    : undefined;
+    : undefined
   const tags = [
     { title: pageTitle },
     {
@@ -61,58 +63,66 @@ export function meta({ params, location, data }: Route.MetaArgs) {
       rel: "canonical",
       href: absoluteURL(location.pathname),
     },
-  ];
-  return tags.filter((o) => Object.values(o).every((x) => x !== undefined));
+  ]
+  return tags.filter((o) => Object.values(o).every((x) => x !== undefined))
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
-  let page = 1;
-  const oid = params.oid;
-  const p = params["*"];
+  let page = 1
+  const oid = params.oid
+  const p = params["*"]
   if (p && /^p\d+$/.test(p)) {
-    page = Number.parseInt(p.replace("p", ""));
+    page = Number.parseInt(p.replace("p", ""))
     if (Number.isNaN(page)) {
-      throw new Response("Not Found (page not valid)", { status: 404 });
+      throw new Response("Not Found (page not valid)", { status: 404 })
     }
   }
 
-  const sp = new URLSearchParams({ page: `${page}` });
-  const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}?${sp}`;
+  const sp = new URLSearchParams({ page: `${page}` })
+  const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}?${sp}`
 
-  const response = await get(fetchURL);
+  const response = await get(fetchURL)
   if (response.status === 404) {
-    throw new Response("Not Found (oid not found)", { status: 404 });
+    throw new Response("Not Found (oid not found)", { status: 404 })
   }
   if (response.status >= 500) {
-    throw new Error(`${response.status} from ${fetchURL}`);
+    throw new Error(`${response.status} from ${fetchURL}`)
   }
   try {
-    const { post, comments } = v.parse(ServerData, response.data);
+    const { post, comments } = v.parse(ServerData, response.data)
 
     const cacheSeconds =
-      post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12;
+      post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
 
-    return { post, comments, page, cacheSeconds };
+    return data(
+      { post, comments, page },
+      { headers: cacheHeaders(cacheSeconds) },
+    )
   } catch (error) {
-    throw newValiError(error);
+    throw newValiError(error)
   }
 }
 
 function isNotPublished(date: string) {
-  const actualDate = new Date(date);
-  return actualDate > new Date();
-}
-export function headers(args: Route.HeadersArgs) {
-  console.log("ARGS:", args);
-  // XXX This sould vary depending on isNotPublished
-  const seconds = 60 * 60;
-  return {
-    "cache-control": `public, max-age=${seconds}`,
-  };
+  const actualDate = new Date(date)
+  return actualDate > new Date()
 }
 
+function cacheHeaders(seconds: number) {
+  return { "cache-control": `public, max-age=${seconds}` }
+}
+
+// export function headers(args: Route.HeadersArgs) {
+//   console.log("ARGS:", args);
+//   // XXX This sould vary depending on isNotPublished
+//   const seconds = 60 * 60;
+//   return {
+//     "cache-control": `public, max-age=${seconds}`,
+//   };
+// }
+
 export default function Component({ loaderData }: Route.ComponentProps) {
-  const { post, comments, page } = loaderData; //useLoaderData<typeof loader>();
+  const { post, comments, page } = loaderData //useLoaderData<typeof loader>();
   //   const { post, comments, page } = loaderData as LoaderDataType;
-  return <Blogpost post={post} comments={comments} page={page} />;
+  return <Blogpost post={post} comments={comments} page={page} />
 }

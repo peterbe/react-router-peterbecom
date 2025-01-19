@@ -1,127 +1,128 @@
 // import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 // import { json, redirect } from "@remix-run/node";
 // import { useLoaderData } from "@remix-run/react";
-import { redirect } from "react-router";
+// import { data } from "react-router";
+import { data, redirect } from "react-router"
 
-import * as v from "valibot";
+import * as v from "valibot"
 
-import type { Route } from "./+types/lyrics-search";
+import type { Route } from "./+types/lyrics-search"
 
-import { LyricsSearch } from "~/components/lyrics-search";
-import { LyricsSearchError } from "~/components/lyrics-search-error";
-import { get } from "~/lib/get-data";
+import { LyricsSearch } from "~/components/lyrics-search"
+import { LyricsSearchError } from "~/components/lyrics-search-error"
+import { get } from "~/lib/get-data"
 // import global from "~/styles/build/global-lyricspost.css";
-import { absoluteURL, newValiError } from "~/utils/utils";
-import { ServerSearchData } from "~/valibot-types";
+import { absoluteURL, newValiError } from "~/utils/utils"
+import { ServerSearchData } from "~/valibot-types"
 
-export { ErrorBoundary } from "../root";
-export { headers } from "./lyrics-post";
+export { ErrorBoundary } from "../root"
+// export { headers } from "./lyrics-post";
 
-const OID = "/plog/blogitem-040601-1";
+const OID = "/plog/blogitem-040601-1"
 // export function links() {
 //   return [{ rel: "stylesheet", href: global }];
 // }
 
 export async function loader({ params, request }: Route.LoaderArgs) {
-  const { pathname } = new URL(request.url);
+  const { pathname } = new URL(request.url)
   if (pathname.endsWith("/")) {
-    return redirect(pathname.slice(0, -1));
+    return redirect(pathname.slice(0, -1))
   }
   if (pathname.endsWith("/p1")) {
-    return redirect(pathname.slice(0, -3));
+    return redirect(pathname.slice(0, -3))
   }
-  const dynamicPage = params["*"] || "";
-  const parts = dynamicPage.split("/");
+  const dynamicPage = params["*"] || ""
+  const parts = dynamicPage.split("/")
   if (parts.length > 1) {
-    return redirect(OID, 308);
+    return redirect(OID, 308)
   }
 
-  let page = 1;
+  let page = 1
 
-  let search = "";
+  let search = ""
   for (const part of parts) {
     if (!part) {
       // Because in JS,
       // > "".split('/')
       // [ '' ]
-      continue;
+      continue
     }
     if (part === "q") {
-      continue;
+      continue
     }
     if (/^p\d+$/.test(part)) {
-      page = Number.parseInt(part.replace("p", ""));
+      page = Number.parseInt(part.replace("p", ""))
       if (Number.isNaN(page)) {
-        throw new Response("Not Found (page not valid)", { status: 404 });
+        throw new Response("Not Found (page not valid)", { status: 404 })
       }
-      continue;
+      continue
     }
-    search = part;
+    search = part
   }
 
-  const sp = new URLSearchParams({ page: `${page}` });
+  const sp = new URLSearchParams({ page: `${page}` })
   if (!search) {
-    return redirect(OID, 308);
+    return redirect(OID, 308)
   }
-  sp.append("q", search);
-  const fetchURL = `/api/v1/lyrics/search?${sp}`;
-  const response = await get(fetchURL);
+  sp.append("q", search)
+  const fetchURL = `/api/v1/lyrics/search?${sp}`
+  const response = await get(fetchURL)
   if (response.status === 404) {
-    throw new Response("Not Found (oid not found)", { status: 404 });
+    throw new Response("Not Found (oid not found)", { status: 404 })
   }
   if (response.status === 400) {
-    let error = "Backend search failed";
+    let error = "Backend search failed"
     if ("error" in response.data) {
-      error = response.data.error;
+      error = response.data.error
       if (typeof error === "object") {
-        error = JSON.stringify(error);
+        error = JSON.stringify(error)
       }
     }
-    // return json({ search, error }, { headers: cacheHeaders(60) });
-    return { search, error }; //, { headers: cacheHeaders(60) });
+    return data({ search, error }, { headers: cacheHeaders(60) })
+    // return { search, error }; //, { headers: cacheHeaders(60) });
   }
   if (response.status !== 200) {
-    console.warn(`UNEXPECTED STATUS (${response.status}) from ${fetchURL}`);
-    throw new Error(`${response.status} from ${fetchURL}`);
+    console.warn(`UNEXPECTED STATUS (${response.status}) from ${fetchURL}`)
+    throw new Error(`${response.status} from ${fetchURL}`)
   }
   try {
-    const { results, metadata } = v.parse(ServerSearchData, response.data);
-    const cacheSeconds = 60 * 60 * 12;
-    return { results, metadata, page };
-    // return json(
-    //   { results, metadata, page },
-    //   { headers: cacheHeaders(cacheSeconds) }
-    // );
+    const { results, metadata } = v.parse(ServerSearchData, response.data)
+    const cacheSeconds = 60 * 60 * 12
+    // return { results, metadata, page };
+    return data(
+      { results, metadata, page },
+      { headers: cacheHeaders(cacheSeconds) },
+    )
   } catch (error) {
-    throw newValiError(error);
+    throw newValiError(error)
   }
 }
 
 function cacheHeaders(seconds: number) {
-  return { "cache-control": `public, max-age=${seconds}` };
+  return { "cache-control": `public, max-age=${seconds}` }
 }
 
 // export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 export function meta({ location, data }: Route.MetaArgs) {
   if (data && "error" in data) {
-    return [{ title: "Search error" }];
+    return [{ title: "Search error" }]
   }
-  const pageTitle = "Find song by lyrics";
-  const page = data?.page || 1;
+  const pageTitle = "Find song by lyrics"
+  const page = data?.page || 1
   // The contents of the `<title>` has to be a string
   let title = `${pageTitle} ${
     page > 1 ? ` (Page ${page})` : " Looking for songs by the lyrics"
-  }`;
-  let description = "Find songs by lyrics.";
+  }`
+  let description = "Find songs by lyrics."
 
-  const { pathname } = location;
+  const { pathname } = location
 
   if (pathname.includes("/search/") && data && "metadata" in data) {
-    const { metadata } = data;
+    const { metadata } = data
     title = `"${metadata.search}" ${
       page > 1 ? ` (page ${page}) ` : ""
-    }- ${pageTitle}`;
-    description = `Searching for song lyrics by "${metadata.search}"`;
+    }- ${pageTitle}`
+    description = `Searching for song lyrics by "${metadata.search}"`
   }
 
   return [
@@ -140,18 +141,18 @@ export function meta({ location, data }: Route.MetaArgs) {
       content:
         "You can find the song if you only know parts of the song's lyrics.",
     },
-  ];
+  ]
 }
 
 // export default function View() {
 //   const loaderData = useLoaderData<typeof loader>();
 export default function Component({ loaderData }: Route.ComponentProps) {
   if ("error" in loaderData) {
-    const { error, search } = loaderData;
+    const { error, search } = loaderData
     return (
       <LyricsSearchError error={error as string} search={search as string} />
-    );
+    )
   }
-  const { results, metadata, page } = loaderData;
-  return <LyricsSearch results={results} metadata={metadata} page={page} />;
+  const { results, metadata, page } = loaderData
+  return <LyricsSearch results={results} metadata={metadata} page={page} />
 }

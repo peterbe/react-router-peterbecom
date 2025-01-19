@@ -1,20 +1,20 @@
-import { useEffect } from "react";
+import { useEffect } from "react"
 
-import { sendEvent, useSendPageview } from "../analytics";
+import { sendEvent, useSendPageview } from "../analytics"
 
-const PREFIX = "/plog/blogitem-040601-1";
+const PREFIX = "/plog/blogitem-040601-1"
 
 type Props = {
-  search: string;
-  error: string;
-};
+  search: string
+  error: string
+}
 export function LyricsSearchError({ error, search }: Props) {
-  useSendPageview();
+  useSendPageview()
   useEffect(() => {
-    sendEvent("search-error", { search, error });
-  }, [search, error]);
+    sendEvent("search-error", { search, error })
+  }, [search, error])
 
-  const pageTitle = `Search for "${search}" failed.`;
+  const pageTitle = `Search for "${search}" failed.`
 
   return (
     <div className="lyrics-search-error" id="main-content">
@@ -29,5 +29,5 @@ export function LyricsSearchError({ error, search }: Props) {
         </footer>
       </article>
     </div>
-  );
+  )
 }

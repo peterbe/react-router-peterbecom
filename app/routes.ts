@@ -3,7 +3,7 @@ import {
   index,
   prefix,
   route,
-} from "@react-router/dev/routes";
+} from "@react-router/dev/routes"
 
 export default [
   index("routes/home.tsx"),
@@ -19,4 +19,4 @@ export default [
   route("contact", "routes/contact.tsx"),
   route("search", "routes/search.tsx"),
   route("*", "routes/home-splat.tsx"),
-] satisfies RouteConfig;
+] satisfies RouteConfig
