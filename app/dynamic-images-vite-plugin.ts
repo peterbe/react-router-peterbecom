@@ -1,5 +1,5 @@
-import path from "path"
-import fs from "fs/promises"
+import fs from "node:fs/promises"
+import path from "node:path"
 import sharp from "sharp"
 
 import type { Plugin } from "vite"
@@ -10,9 +10,6 @@ export function dynamicImagesPlugin(): Plugin {
   return {
     name: "dynamic-images-plugin",
     apply: "serve",
-    // configResolved(config) {
-    //   console.log(config);
-    // },
     configureServer(server) {
       return () => {
         server.middlewares.use(async (req, res, next) => {

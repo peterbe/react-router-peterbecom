@@ -1,22 +1,22 @@
-import { Fragment } from "react"
+import { Fragment } from "react";
 
-import type { LyricsSearchMetadata, LyricsSearchResult } from "~/valibot-types"
+import type { LyricsSearchMetadata, LyricsSearchResult } from "~/valibot-types";
 
-import { useSendPageview } from "../analytics"
-import { CarbonAd } from "./carbonad"
-import { ScrollToTop } from "./scroll-to-top"
+import { useSendPageview } from "../analytics";
+import { CarbonAd } from "./carbonad";
+import { ScrollToTop } from "./scroll-to-top";
 
-const PREFIX = "/plog/blogitem-040601-1"
+const PREFIX = "/plog/blogitem-040601-1";
 
 type Props = {
-  metadata: LyricsSearchMetadata
-  results: LyricsSearchResult[]
-  page: number
-}
+  metadata: LyricsSearchMetadata;
+  results: LyricsSearchResult[];
+  page: number;
+};
 export function LyricsSearch({ metadata, results, page }: Props) {
-  useSendPageview()
+  useSendPageview();
 
-  const pageTitle = `"${metadata.search}"`
+  const pageTitle = `"${metadata.search}"`;
 
   return (
     <div className="lyrics-search" id="main-content">
@@ -40,7 +40,7 @@ export function LyricsSearch({ metadata, results, page }: Props) {
 
       {results.length > 10 ? <ScrollToTop /> : null}
     </div>
-  )
+  );
 }
 
 function AboutResults({ metadata }: { metadata: LyricsSearchMetadata }) {
@@ -59,22 +59,22 @@ function AboutResults({ metadata }: { metadata: LyricsSearchMetadata }) {
         <a href={`${PREFIX}#commentsform`}>Post your own comment</a>
       </p>
     </div>
-  )
+  );
 }
 
 function Results({
   results,
   metadata,
 }: {
-  results: LyricsSearchResult[]
-  metadata: LyricsSearchMetadata
+  results: LyricsSearchResult[];
+  metadata: LyricsSearchMetadata;
 }) {
-  function makeURL(urlStart: string) {
-    let url = urlStart
+  function makeURL(url: string) {
+    let u = url;
     if (metadata.search) {
-      url += `?${new URLSearchParams({ search: metadata.search })}`
+      u += `?${new URLSearchParams({ search: metadata.search })}`;
     }
-    return `${PREFIX}${url}`
+    return `${PREFIX}${u}`;
   }
   return (
     <div className="lyrics-search-results">
@@ -94,7 +94,7 @@ function Results({
                   <p>
                     On album{" "}
                     {result.albums.map((album, i, arr) => (
-                      <Fragment key={album.name}>
+                      <Fragment key={`${album.name}${i}`}>
                         <b>{album.name}</b> {album.year && `(${album.year})`}
                         {i === arr.length - 1 ? " " : ", "}
                       </Fragment>
@@ -115,7 +115,7 @@ function Results({
             {result.fragments.map((fragment, i) => (
               <p
                 className="fragment"
-                key={`${fragment}`}
+                key={fragment}
                 dangerouslySetInnerHTML={{ __html: fragment }}
               />
             ))}
@@ -123,10 +123,10 @@ function Results({
               <a href={makeURL(result._url)}>Go to song</a>
             </footer>
           </article>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
 function Credit() {
@@ -136,5 +136,5 @@ function Credit() {
         Showing search results from <a href="https://songsear.ch">SongSearch</a>
       </small>
     </p>
-  )
+  );
 }

@@ -242,11 +242,13 @@ function ShowCommentTree({
 
   useEffect(() => {
     let mounted = true
-    setTimeout(() => {
-      if (mounted) {
-        setSubmitted(null)
-      }
-    }, 5 * 1000)
+    if (submitted) {
+      setTimeout(() => {
+        if (mounted) {
+          setSubmitted(null)
+        }
+      }, 5 * 1000)
+    }
     return () => {
       mounted = false
     }

@@ -17,6 +17,7 @@
         "noForEach": "off"
       },
       "a11y": {
+        "useSemanticElements": "error",
         "useValidAnchor": "off"
       }
     }

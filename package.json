@@ -33,6 +33,7 @@
     "rollbar": "^2.26.4",
     "sharp": "^0.33.5",
     "swr": "^2.3.0",
+    "throttle-debounce": "^5.0.2",
     "usehooks-ts": "^3.1.0"
   },
   "devDependencies": {
@@ -41,6 +42,7 @@
     "@types/node": "^22",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
+    "@types/throttle-debounce": "^5.0.2",
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
     "postcss": "^8.4.49",
