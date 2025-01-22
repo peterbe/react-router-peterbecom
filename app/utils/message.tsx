@@ -25,7 +25,11 @@ export function Message({
 
   return (
     <article className={cls}>
-      <i className="close icon" onClick={() => onClose()}>
+      <i
+        className="close icon"
+        onClick={() => onClose()}
+        onKeyDown={() => onClose()}
+      >
         &times;
       </i>
       <div className="header">

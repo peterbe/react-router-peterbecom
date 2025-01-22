@@ -229,7 +229,7 @@ export default function SongSearchAutocomplete() {
       setRedirectingSearch("")
       setShowAutocompleteSuggestions(true)
     }
-  }, [q])
+  }, [q, searchMaxLength, waitingFor])
 
   const fetchAutocompleteSuggestionsDebounced = debounce(
     800,
@@ -281,7 +281,8 @@ export default function SongSearchAutocomplete() {
       ) {
         setAutocompleteHighlight(highlight + 1)
         return true
-      } else if (key === "ArrowUp" && highlight > -1) {
+      }
+      if (key === "ArrowUp" && highlight > -1) {
         setAutocompleteHighlight(highlight - 1)
       } else if (key === "Enter") {
         if (highlight > -1) {
@@ -409,6 +410,7 @@ function ShowAutocompleteSuggestions({
             <li
               key={s.id}
               className={className ? className : undefined}
+              onKeyDown={() => onSelectSuggestion(s)}
               onClick={() => onSelectSuggestion(s)}
             >
               <ShowAutocompleteSuggestionSong song={s} />
@@ -441,8 +443,10 @@ function ShowAutocompleteSuggestionSong({ song }: { song: Suggestion }) {
           <span className="by">{" by "}</span>
           <span>{song.artist.name}</span>
         </p>
-        {song.fragments.map((fragment, i) => {
-          return <p key={i} dangerouslySetInnerHTML={{ __html: fragment }} />
+        {song.fragments.map((fragment) => {
+          return (
+            <p key={fragment} dangerouslySetInnerHTML={{ __html: fragment }} />
+          )
         })}
       </div>
     </div>
@@ -488,7 +492,7 @@ function SongImage({ url, name }: { url: string; name: string }) {
       // Immediately undo the preloading since we might not need this image.
       preloadImg.src = ""
     }
-  }, [])
+  }, [url])
 
   return (
     <img

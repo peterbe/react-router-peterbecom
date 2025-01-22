@@ -179,7 +179,7 @@ test("plog archive page", async () => {
 test("plog archive page redirect trailing slash", async () => {
   const response = await get("/plog/", false)
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe("/plog")
+  expect(response.headers.location).toBe("/plog")
 })
 
 test("about page", async () => {
@@ -238,20 +238,20 @@ test("lyrics post page (page 999)", async () => {
 test("lyrics post page (trailing slash)", async () => {
   const response = await get("/plog/blogitem-040601-1/")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe("/plog/blogitem-040601-1")
+  expect(response.headers.location).toBe("/plog/blogitem-040601-1")
 })
 
 test("lyrics post page (/p1)", async () => {
   const response = await get("/plog/blogitem-040601-1/p1")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe("/plog/blogitem-040601-1")
+  expect(response.headers.location).toBe("/plog/blogitem-040601-1")
 })
 
 test("certain query strings cause a redirect", async () => {
   for (const querystring of ["comments=all", "magmadomain=something"]) {
     const response = await get(`/anything?${querystring}`)
     expect(response.status).toBe(301)
-    expect(response.headers["location"]).toBe("/anything")
+    expect(response.headers.location).toBe("/anything")
   }
 })
 
@@ -305,7 +305,7 @@ test("canonical link on home page", async () => {
     expect(response.status).toBe(200)
     const $ = cheerio.load(response.data)
     const href = $('link[rel="canonical"]').attr("href")
-    expect(href).toBe("https://www.peterbe.com" + url)
+    expect(href).toBe(`https://www.peterbe.com${url}`)
   }
 })
 
@@ -341,37 +341,37 @@ test("junk URLs", async () => {
 test("go to blog post with trailing slash", async () => {
   const response = await get("/plog/blogitem-20030629-2128/")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe("/plog/blogitem-20030629-2128")
+  expect(response.headers.location).toBe("/plog/blogitem-20030629-2128")
 })
 
 test("go to blog post with trailing /p1", async () => {
   const response = await get("/plog/blogitem-20030629-2128/p1")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe("/plog/blogitem-20030629-2128")
+  expect(response.headers.location).toBe("/plog/blogitem-20030629-2128")
 })
 
 test("redirect from trailing slash with Unicode", async () => {
   const response = await get("/plog/تیک/")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe(encodeURI("/plog/تیک"))
+  expect(response.headers.location).toBe(encodeURI("/plog/تیک"))
 })
 
 test("redirect from trailing /1 with Unicode", async () => {
   const response = await get("/plog/تیک/p1")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe(encodeURI("/plog/تیک"))
+  expect(response.headers.location).toBe(encodeURI("/plog/تیک"))
 })
 
 test("redirect from urls with & without a ?", async () => {
   const response = await get("/&a=b")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe("/")
+  expect(response.headers.location).toBe("/")
 })
 
 test("redirect from urls with & before the ?", async () => {
   const response = await get("/&a=b?c=d")
   expect(response.status).toBe(302)
-  expect(response.headers["location"]).toBe("/")
+  expect(response.headers.location).toBe("/")
 })
 
 test("search compression", async () => {
@@ -436,5 +436,5 @@ test("redirect to blog post song page", async () => {
   const url = "/song/foo-bar/h3l_lo/123"
   const response = await get(url)
   expect(response.status).toBe(308)
-  expect(response.headers["location"]).toBe("/plog/blogitem-040601-1" + url)
+  expect(response.headers.location).toBe(`/plog/blogitem-040601-1${url}`)
 })

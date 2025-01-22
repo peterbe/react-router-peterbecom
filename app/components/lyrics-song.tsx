@@ -1,7 +1,7 @@
 import { Fragment } from "react"
 import { useSearchParams } from "react-router"
 
-import type { LyricsSong } from "~/valibot-types"
+import type { LyricsSong as LyricsSongT } from "~/valibot-types"
 
 import { useSendPageview } from "../analytics"
 import { CarbonAd } from "./carbonad"
@@ -9,7 +9,7 @@ import { CarbonAd } from "./carbonad"
 const PREFIX = "/plog/blogitem-040601-1"
 
 type Props = {
-  song: LyricsSong
+  song: LyricsSongT
 }
 export function LyricsSong({ song }: Props) {
   useSendPageview()
@@ -29,7 +29,7 @@ export function LyricsSong({ song }: Props) {
                 <>
                   On album{" "}
                   {song.albums.map((album, i, arr) => (
-                    <Fragment key={album.name + i}>
+                    <Fragment key={album.name}>
                       <b>{album.name}</b> {album.year && `(${album.year})`}
                       {i === arr.length - 1 ? " " : ", "}
                     </Fragment>

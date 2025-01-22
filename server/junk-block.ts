@@ -27,17 +27,18 @@ export function junkBlock(
   }
 
   const last = req.path.split("/").at(-1)
-  if (JUNK_PATH_BASENAME.has(last!)) {
+  if (last && JUNK_PATH_BASENAME.has(last)) {
     res.status(400).type("text").send("Junk path basename")
     return
   }
 
   // Any request that uses & without a & is junk
   if (req.path.includes("&") && !req.path.includes("?")) {
-    return res.redirect(302, req.path.split("&")[0])
+    res.redirect(302, req.path.split("&")[0])
+    return
   }
 
-  return next()
+  next()
 }
 
 function countChineseCharacters(str: string) {

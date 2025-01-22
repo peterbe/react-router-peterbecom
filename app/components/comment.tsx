@@ -34,6 +34,7 @@ export function DisplayComment({
       </a>{" "}
       {toggleEditMode && (
         <button
+          type="button"
           className="mini edit-comment"
           onClick={(event) => {
             event.preventDefault()
@@ -45,6 +46,7 @@ export function DisplayComment({
       )}
       {!disallowComments && allowReply && !toggleEditMode && (
         <button
+          type="button"
           className="mini reply-comment"
           onClick={(event) => {
             event.preventDefault()

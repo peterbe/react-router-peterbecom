@@ -1,7 +1,3 @@
-// import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-// import { json, redirect } from "@remix-run/node";
-// import { useLoaderData } from "@remix-run/react";
-// import { data } from "react-router";
 import { data, redirect } from "react-router"
 
 import * as v from "valibot"
@@ -16,7 +12,6 @@ import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSearchData } from "~/valibot-types"
 
 export { ErrorBoundary } from "../root"
-// export { headers } from "./lyrics-post";
 
 const OID = "/plog/blogitem-040601-1"
 // export function links() {
@@ -102,7 +97,6 @@ function cacheHeaders(seconds: number) {
   return { "cache-control": `public, max-age=${seconds}` }
 }
 
-// export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 export function meta({ location, data }: Route.MetaArgs) {
   if (data && "error" in data) {
     return [{ title: "Search error" }]
@@ -144,8 +138,6 @@ export function meta({ location, data }: Route.MetaArgs) {
   ]
 }
 
-// export default function View() {
-//   const loaderData = useLoaderData<typeof loader>();
 export default function Component({ loaderData }: Route.ComponentProps) {
   if ("error" in loaderData) {
     const { error, search } = loaderData

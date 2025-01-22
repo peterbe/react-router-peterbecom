@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useMemo, useState } from "react"
 import { Link, useNavigate } from "react-router"
 import useSWR from "swr"
-
+import { useInterval } from "usehooks-ts"
 import { useSearchResults, useSendPageview } from "~/analytics"
 import type {
   Document,
@@ -28,7 +28,7 @@ export function Search({ q, debug }: Props) {
   useSendPageview(extra)
 
   let pageTitle = "Search"
-  if (q && q.trim()) {
+  if (q?.trim()) {
     if (q.startsWith('"') && q.endsWith('"')) {
       pageTitle = `Searching for ${q}`
     } else {
@@ -37,13 +37,12 @@ export function Search({ q, debug }: Props) {
   }
   let extraHead = null
 
-  const apiURL =
-    q && q.trim()
-      ? `/api/v1/search?${new URLSearchParams({
-          q: q.trim(),
-          debug: JSON.stringify(debug),
-        }).toString()}`
-      : null
+  const apiURL = q?.trim()
+    ? `/api/v1/search?${new URLSearchParams({
+        q: q.trim(),
+        debug: JSON.stringify(debug),
+      }).toString()}`
+    : null
 
   const { data, error, isLoading } = useSWR<ServerData, Error>(
     apiURL,
@@ -66,7 +65,7 @@ export function Search({ q, debug }: Props) {
   )
   useSearchResults(resultsMemoized)
 
-  if (data && data.results) {
+  if (data?.results) {
     const found = data.results.count_documents
     const shown = data.results.count_documents_shown
     if (found === 1) {
@@ -91,7 +90,7 @@ export function Search({ q, debug }: Props) {
     if (q && data) {
       rememberSearch({ term: q, found: data.results.count_documents })
     }
-  }, [q, data])
+  }, [q, data, rememberSearch])
 
   useEffect(() => {
     if (q) {
@@ -134,7 +133,7 @@ export function Search({ q, debug }: Props) {
 
       {isLoading && <LoadingSpace />}
 
-      {data && data.results && (
+      {data?.results && (
         <div id="main-content">
           {data.results.documents.map((result, i) => {
             const first = !i
@@ -190,7 +189,7 @@ export function Search({ q, debug }: Props) {
         </div>
       )}
 
-      {data && data.results && !error && (
+      {data?.results && !error && (
         <SearchMetaDetails
           found={data.results.count_documents}
           seconds={data.results.search_time}
@@ -209,20 +208,10 @@ export function Search({ q, debug }: Props) {
 
 function LoadingSpace() {
   const [seconds, setSeconds] = useState(0)
-  useEffect(() => {
-    let mounted = true
 
-    const timer = setTimeout(() => {
-      if (mounted) {
-        setSeconds((prevState) => prevState + 1)
-      }
-    }, 1000)
-
-    return () => {
-      clearTimeout(timer)
-      mounted = false
-    }
-  }, [seconds])
+  useInterval(() => {
+    setSeconds((prevState) => prevState + 1)
+  }, 1000)
 
   let statement = ""
   if (seconds > 6) {
@@ -284,7 +273,7 @@ function SearchTermDebugging({
       <p>
         <b>Search Term Debugging</b>
       </p>
-      <table role="grid">
+      <table>
         <thead>
           <tr>
             <th>Search Term</th>

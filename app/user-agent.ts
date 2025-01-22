@@ -19,8 +19,8 @@ const BROWSER_REGEXPS = [
   /(safari)\/([^\s)]+)/i,
 ]
 
-export function parseUserAgent(ua = navigator.userAgent) {
-  ua = ua.toLowerCase()
+export function parseUserAgent(userAgent = navigator.userAgent) {
+  const ua = userAgent.toLowerCase()
   const osRe = OS_REGEXPS.find((re) => re.test(ua))
   let [, os = "other", os_version = "0"] = (osRe && ua.match(osRe)) || []
   if (os === "iphone os" || os === "ipad os") os = "ios"

@@ -9,9 +9,8 @@ export default [
   index("routes/home.tsx"),
   ...prefix("plog", [
     index("./routes/plog-index.tsx"),
-    // route("/plog/blogitem-040601-1", "./routes/lyricspost.tsx"),
     route("blogitem-040601-1/q/*", "./routes/lyrics-search.tsx"),
-    // route("blogitem-040601-1/song/*", "./routes/lyrics-song.tsx"),
+    route("blogitem-040601-1/song/*", "./routes/lyrics-song.tsx"),
     route("blogitem-040601-1/*", "./routes/lyrics-post.tsx"),
     route(":oid/*", "./routes/plog-splat.tsx"),
   ]),

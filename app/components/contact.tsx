@@ -37,11 +37,6 @@ export function Contact() {
           <a href="https://www.instagram.com/peppebe/">@peppebe</a> (
           <em>inactive</em>)
         </p>
-
-        <h3>Twitter</h3>
-        <p>
-          <a href="https://twitter.com/peterbe">@peterbe</a> (<em>inactive</em>)
-        </p>
       </div>
     </div>
   )

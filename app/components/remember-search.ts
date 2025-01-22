@@ -29,6 +29,7 @@ export function useRememberSearch() {
       localStorage.getItem(STORAGE_KEY) || "[]",
     ) as RememberedSearch[]
     let save = false
+
     if (previous.length > 0 && previous[0].term === search.term) {
       // Update, maybe
       if (previous[0].found !== search.found) {

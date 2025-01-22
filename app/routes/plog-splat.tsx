@@ -7,8 +7,52 @@ import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerData } from "~/valibot-types"
 import type { Route } from "./+types/plog-splat"
 
+export async function loader({ params }: Route.LoaderArgs) {
+  let page = 1
+  const oid = params.oid
+  const p = params["*"]
+  if (p && /^p\d+$/.test(p)) {
+    page = Number.parseInt(p.replace("p", ""))
+    if (Number.isNaN(page)) {
+      throw new Response("Not Found (page not valid)", { status: 404 })
+    }
+  }
+
+  const sp = new URLSearchParams({ page: `${page}` })
+  const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}?${sp}`
+
+  const response = await get(fetchURL)
+  if (response.status === 404) {
+    throw new Response("Not Found (oid not found)", { status: 404 })
+  }
+  if (response.status >= 500) {
+    throw new Error(`${response.status} from ${fetchURL}`)
+  }
+  try {
+    const { post, comments } = v.parse(ServerData, response.data)
+
+    const cacheSeconds =
+      post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
+
+    return data(
+      { post, comments, page },
+      { headers: cacheHeaders(cacheSeconds) },
+    )
+  } catch (error) {
+    throw newValiError(error)
+  }
+}
+
+function isNotPublished(date: string) {
+  const actualDate = new Date(date)
+  return actualDate > new Date()
+}
+
+function cacheHeaders(seconds: number) {
+  return { "cache-control": `public, max-age=${seconds}` }
+}
+
 export function meta({ params, location, data }: Route.MetaArgs) {
-  // const oid = params["*"]?.split("/")[0];
   const oid = params.oid
   if (!oid) throw new Error("No oid")
 
@@ -65,51 +109,6 @@ export function meta({ params, location, data }: Route.MetaArgs) {
     },
   ]
   return tags.filter((o) => Object.values(o).every((x) => x !== undefined))
-}
-
-export async function loader({ params }: Route.LoaderArgs) {
-  let page = 1
-  const oid = params.oid
-  const p = params["*"]
-  if (p && /^p\d+$/.test(p)) {
-    page = Number.parseInt(p.replace("p", ""))
-    if (Number.isNaN(page)) {
-      throw new Response("Not Found (page not valid)", { status: 404 })
-    }
-  }
-
-  const sp = new URLSearchParams({ page: `${page}` })
-  const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}?${sp}`
-
-  const response = await get(fetchURL)
-  if (response.status === 404) {
-    throw new Response("Not Found (oid not found)", { status: 404 })
-  }
-  if (response.status >= 500) {
-    throw new Error(`${response.status} from ${fetchURL}`)
-  }
-  try {
-    const { post, comments } = v.parse(ServerData, response.data)
-
-    const cacheSeconds =
-      post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
-
-    return data(
-      { post, comments, page },
-      { headers: cacheHeaders(cacheSeconds) },
-    )
-  } catch (error) {
-    throw newValiError(error)
-  }
-}
-
-function isNotPublished(date: string) {
-  const actualDate = new Date(date)
-  return actualDate > new Date()
-}
-
-function cacheHeaders(seconds: number) {
-  return { "cache-control": `public, max-age=${seconds}` }
 }
 
 // export function headers(args: Route.HeadersArgs) {

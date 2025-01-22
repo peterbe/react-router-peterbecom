@@ -8,7 +8,8 @@ function uuidv4(): string {
     return crypto.randomUUID()
   } catch (err) {
     // https://stackoverflow.com/a/2117523
-    return (([1e7] as any) + -1e3 + -4e3 + -8e3 + -1e11).replace(
+    // biome-ignore lint/suspicious/noExplicitAny: doesn't really matter
+    return (<any>[1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(
       /[018]/g,
       (c: number) =>
         (

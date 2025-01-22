@@ -1,6 +1,6 @@
-import path from "path"
+import fs from "node:fs/promises"
+import path from "node:path"
 import type { NextFunction, Request, Response } from "express"
-import fs from "fs/promises"
 import sharp from "sharp"
 
 const PUBLIC_DIR = path.resolve("public")

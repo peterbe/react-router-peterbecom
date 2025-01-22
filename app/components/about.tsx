@@ -81,7 +81,6 @@ export function About() {
             <i>Nothing found</i>{" "}
             <a
               href="/about"
-              role="button"
               onClick={(event) => {
                 event.preventDefault()
                 setQInput("")

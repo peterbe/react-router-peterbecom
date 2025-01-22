@@ -57,7 +57,7 @@ function DelayedScreensaver({ lazyStartSeconds }: Props) {
     return () => {
       window.removeEventListener("scroll", delayLazyStart)
     }
-  }, [])
+  }, [lazyStartSeconds])
 
   return (
     <div>

@@ -155,7 +155,7 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
         <label className="visually-hidden" {...getLabelProps()}>
           Search terms:
         </label>
-        <fieldset role="search">
+        <fieldset>
           <input
             placeholder="Search anything on this blog"
             type="search"

@@ -22,8 +22,8 @@ export function PostComments({ post, comments, page }: Props) {
   const totalPages = comments.total_pages
     ? comments.total_pages
     : comments.truncated && comments.truncated !== true
-      ? Math.ceil(comments.count / comments.truncated)
-      : 1
+    ? Math.ceil(comments.count / comments.truncated)
+    : 1
 
   if (hideComments && disallowComments) {
     return (
@@ -75,7 +75,6 @@ export function PostComments({ post, comments, page }: Props) {
 
 function PostOwnComment() {
   return (
-    // biome-ignore lint/a11y/useValidAnchor: I don't care
     <a
       // biome-ignore lint/a11y/useSemanticElements: I don't care
       href="#commentsform"

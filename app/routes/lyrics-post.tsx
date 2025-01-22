@@ -1,7 +1,4 @@
-// import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
-// import { json, redirect } from "@remix-run/node";
 import { data, redirect } from "react-router"
-// import { useLoaderData } from "@remix-run/react";
 import * as v from "valibot"
 
 import type { Route } from "./+types/lyrics-post"

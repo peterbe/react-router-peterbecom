@@ -9,7 +9,7 @@ import { ip } from "./server/ip.ts"
 import { junkBlock } from "./server/junk-block.ts"
 import { legacyRedirects } from "./server/legacy-redirects.ts"
 
-import path from "path"
+import path from "node:path"
 import { createRequestHandler } from "@react-router/express"
 import dotenv from "dotenv"
 import express from "express"
@@ -76,7 +76,10 @@ app.use(shrinkRay())
 const backendProxy = createProxyMiddleware({
   target: BACKEND_BASE_URL,
   changeOrigin: true,
-  pathRewrite: (path, req) => (req as any).originalUrl as string,
+  pathRewrite: (path, req) => (req as Request).originalUrl as string,
+  // pathRewrite: (path, req) => {
+  //   return (req as Request).originalUrl
+  // },
 })
 app.use("*/rss.xml", backendProxy)
 app.use("/robots.txt", backendProxy)
