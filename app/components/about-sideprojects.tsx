@@ -551,9 +551,7 @@ sideProjects.push({
       off on your smartphone.
       <br />
       This is a work in progress project. I have blogged out it{" "}
-      <Link to="/plog/us-license-plate-spotter-part-1">
-        first here
-      </Link> and{" "}
+      <Link to="/plog/us-license-plate-spotter-part-1">first here</Link> and{" "}
       <Link to="/plog/us-license-plate-spotter-part-2">then here</Link> about
       the update. It&apos;s an ongoing project to try to build real mobile
       native apps from HTML and Javascript. <br />
@@ -609,9 +607,7 @@ sideProjects.push({
       In 2012 I re-wrote this site from scratch. Being very fast was important
       to me and I&apos;ve blogged about how I made the{" "}
       <Link to="/plog/secs-sell-frickin-fast-server-side">server-side</Link> and
-      <Link to="/plog/secs-sell-frickin-fast-client-side">
-        client-side
-      </Link>{" "}
+      <Link to="/plog/secs-sell-frickin-fast-client-side">client-side</Link>{" "}
       fast.
       <br />
       The code to this site is open source and the{" "}
@@ -637,9 +633,7 @@ sideProjects.push({
     <p>
       This is a full HTML5 calendar. It&apos;s fast and simple and has a
       practical <a href="http://donecal.com/help/API">API</a>.<br />
-      I&apos;ve <Link to="/plog/donecal.com">
-        blogged about it here
-      </Link> and{" "}
+      I&apos;ve <Link to="/plog/donecal.com">blogged about it here</Link> and{" "}
       <a href="https://github.com/peterbe/worklog">source code is here</a>.
     </p>
   ),

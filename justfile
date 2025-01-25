@@ -18,15 +18,12 @@ start: build
 start-fast: build-fast
     npm run start
 
-pretty:
-    prettier --check app *.js
-
 tsc:
     npm run tsc
 
-lint: pretty
-    npm run lint
-    npm run tsc
+lint:
+    npm run pretty
+    npm run typecheck
 
 lintfix:
     npm run pretty:fix

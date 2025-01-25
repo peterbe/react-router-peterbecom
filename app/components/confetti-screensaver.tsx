@@ -16,7 +16,7 @@ export default function ConfettiScreensaver() {
     const interval = window.setInterval(() => {
       if (run) {
         const emojis = Array.from(EMOJIS[i++ % EMOJIS.length]).sort(
-          () => Math.random() - 0.5
+          () => Math.random() - 0.5,
         )
 
         jsConfetti.addConfetti({
@@ -164,7 +164,7 @@ function getRandomBrightColor() {
 
   // Convert RGB to hex format
   const hexColor = `#${componentToHex(adjustedRed)}${componentToHex(
-    adjustedGreen
+    adjustedGreen,
   )}${componentToHex(adjustedBlue)}`
 
   return hexColor

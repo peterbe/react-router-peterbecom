@@ -22,8 +22,8 @@ export function PostComments({ post, comments, page }: Props) {
   const totalPages = comments.total_pages
     ? comments.total_pages
     : comments.truncated && comments.truncated !== true
-    ? Math.ceil(comments.count / comments.truncated)
-    : 1
+      ? Math.ceil(comments.count / comments.truncated)
+      : 1
 
   if (hideComments && disallowComments) {
     return (

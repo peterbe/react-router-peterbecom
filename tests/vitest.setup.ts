@@ -2,6 +2,7 @@ import { main } from "../server"
 
 let teardownHappened = false
 
+// biome-ignore lint/suspicious/noExplicitAny: this is a test file
 type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
   ? U
   : never
