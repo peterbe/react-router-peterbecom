@@ -42,7 +42,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
     return data(
       { post, comments, page },
-      { headers: cacheHeaders(cacheSeconds) }
+      { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
     throw newValiError(error)

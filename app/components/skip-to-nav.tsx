@@ -1,12 +1,12 @@
 export function SkipToNav() {
   function handler(event: React.MouseEvent<HTMLAnchorElement>) {
-    const id = event.currentTarget.href.split("#")[1];
+    const id = event.currentTarget.href.split("#")[1]
     if (id) {
-      const element = document.getElementById(id);
+      const element = document.getElementById(id)
       if (element) {
-        event.preventDefault();
-        element.scrollIntoView();
-        element.focus();
+        event.preventDefault()
+        element.scrollIntoView()
+        element.focus()
       }
     }
   }
@@ -28,5 +28,5 @@ export function SkipToNav() {
         </a>
       </li>
     </ul>
-  );
+  )
 }

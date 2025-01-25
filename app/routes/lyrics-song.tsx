@@ -57,7 +57,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     const cacheSeconds = 60 * 60 * 12
     return data(
       { song, error: undefined },
-      { headers: cacheHeaders(cacheSeconds) }
+      { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
     throw newValiError(error)

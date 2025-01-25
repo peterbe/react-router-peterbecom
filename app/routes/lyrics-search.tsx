@@ -88,7 +88,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     // return { results, metadata, page };
     return data(
       { results, metadata, page },
-      { headers: cacheHeaders(cacheSeconds) }
+      { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
     throw newValiError(error)

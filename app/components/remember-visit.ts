@@ -65,7 +65,7 @@ export function useRememberVisit(post: Post) {
     return () => {
       mounted = false
     }
-  }, [post, remember])
+  }, [remember])
 }
 
 export function useRecentVisits() {

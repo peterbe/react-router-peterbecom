@@ -50,7 +50,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       const issue = error.issues[0]
       if (issue.path)
         console.error(
-          `Validation issue in ${issue.path.map((p) => p.key).join(".")}`
+          `Validation issue in ${issue.path.map((p) => p.key).join(".")}`,
         )
     }
     throw error

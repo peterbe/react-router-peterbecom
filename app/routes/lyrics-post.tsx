@@ -64,7 +64,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     // return { post, comments, page };
     return data(
       { post, comments, page },
-      { headers: cacheHeaders(cacheSeconds) }
+      { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
     throw newValiError(error)

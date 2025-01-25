@@ -39,7 +39,7 @@ export function Nav({
     }
     window.addEventListener("keydown", close)
     return () => window.removeEventListener("keydown", close)
-  }, [navigate])
+  }, [])
 
   useEffect(() => {
     if (hash === "#main-search") {

@@ -8,9 +8,9 @@ import {
 } from "react-router"
 
 import type { Route } from "./+types/root"
-import { SkipToNav } from "./components/skip-to-nav"
 import { Footer } from "./components/footer"
 import { Screensaver } from "./components/screensaver"
+import { SkipToNav } from "./components/skip-to-nav"
 
 const screensaverLazyStartSeconds = import.meta.env
   .VITE_SCREENSAVER_LAZY_START_SECONDS

@@ -43,7 +43,7 @@ export default function ConfettiScreensaver() {
     return () => {
       window.clearTimeout(timer)
     }
-  }, [run, stopForever])
+  }, [stopForever])
 
   useEffect(() => {
     function noticeScroll() {
@@ -69,7 +69,7 @@ export default function ConfettiScreensaver() {
       window.removeEventListener("mouseover", noticeMouseOver)
       window.removeEventListener("input", noticeAnyEvent)
     }
-  }, [run])
+  }, [])
 
   return (
     <div>
@@ -104,7 +104,7 @@ function AboutScreensaver({
     return () => {
       clearInterval(interval)
     }
-  }, [])
+  }, [opacity])
 
   const [colors] = useState(getLetterRandomColors("Screensaver Activated"))
 
