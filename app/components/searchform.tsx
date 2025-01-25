@@ -33,7 +33,7 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
       // Using a useRef didn't work. Perhaps the downshift library
       // props overrides it.
       const input = document.querySelector<HTMLInputElement>(
-        '.downshift-wrapper input[type="search"]',
+        '.downshift-wrapper input[type="search"]'
       )
       if (input) {
         input.focus()
@@ -69,7 +69,7 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
     {
       revalidateOnFocus: false,
       keepPreviousData: true,
-    },
+    }
   )
   const debouncedError = useDebounceValue<Error | undefined>(error, 500)
 
@@ -80,8 +80,8 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
   if (input.trim() && data?.results) {
     items.push(
       ...data.results.filter(
-        (result) => !items.find((item) => item.term === result.term),
-      ),
+        (result) => !items.find((item) => item.term === result.term)
+      )
     )
   }
 
@@ -133,7 +133,7 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
     onSelectedItemChange: ({ selectedItem }) => {
       if (selectedItem) {
         goTo(
-          `/search?${new URLSearchParams({ q: selectedItem.term }).toString()}`,
+          `/search?${new URLSearchParams({ q: selectedItem.term }).toString()}`
         )
       }
     },
@@ -155,7 +155,8 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
         <label className="visually-hidden" {...getLabelProps()}>
           Search terms:
         </label>
-        <fieldset>
+        {/* biome-ignore lint/a11y/useSemanticElements: what picocss recommended */}
+        <fieldset role="search">
           <input
             placeholder="Search anything on this blog"
             type="search"
@@ -222,7 +223,7 @@ function escapeRegex(value: string) {
 
 function recentSearchesToTypeaheadResults(
   input: string,
-  recentSearches: RememberedSearch[],
+  recentSearches: RememberedSearch[]
 ) {
   const results: TypeaheadResult[] = []
   const rex = new RegExp(`\\b(${escapeRegex(input)})`, "gi")

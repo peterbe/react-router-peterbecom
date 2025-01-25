@@ -8,6 +8,14 @@ import {
 } from "react-router"
 
 import type { Route } from "./+types/root"
+import { SkipToNav } from "./components/skip-to-nav"
+import { Footer } from "./components/footer"
+import { Screensaver } from "./components/screensaver"
+
+const screensaverLazyStartSeconds = import.meta.env
+  .VITE_SCREENSAVER_LAZY_START_SECONDS
+  ? Number.parseInt(import.meta.env.VITE_SCREENSAVER_LAZY_START_SECONDS)
+  : 60 * 30 // 30 minutes by default
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -19,7 +27,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
+        <SkipToNav />
+        <main className="container">{children}</main>
+
+        <Footer />
+        <Screensaver lazyStartSeconds={screensaverLazyStartSeconds} />
+
         <ScrollRestoration />
         <Scripts />
       </body>
