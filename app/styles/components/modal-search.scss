@@ -1,0 +1,38 @@
+dialog {
+  align-items: start;
+  min-width: 390px;
+}
+@media (max-width: 575px) {
+  dialog article {
+    /* max-width: 510px; */
+    width: 100%;
+  }
+}
+@media (min-width: 576px) {
+  dialog article {
+    /* max-width: 510px; */
+    width: 510px;
+  }
+}
+@media (min-width: 768px) {
+  dialog article {
+    width: 700px;
+  }
+}
+
+dialog {
+  .autocomplete-search {
+    article {
+      position: fixed;
+      top: 50px;
+    }
+  }
+
+  /* The yellow was a bit too loud and noisy in the autocomplete search */
+  mark {
+    background-color: unset;
+    font-weight: bold;
+    color: unset;
+    padding: unset;
+  }
+}

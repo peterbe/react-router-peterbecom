@@ -7,16 +7,18 @@ import type { Route } from "./+types/lyrics-search"
 import { LyricsSearch } from "~/components/lyrics-search"
 import { LyricsSearchError } from "~/components/lyrics-search-error"
 import { get } from "~/lib/get-data"
-// import global from "~/styles/build/global-lyricspost.css";
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSearchData } from "~/valibot-types"
 
 export { ErrorBoundary } from "../root"
 
+import stylesheet from "../styles/lyrics-search.css?url"
+
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+]
+
 const OID = "/plog/blogitem-040601-1"
-// export function links() {
-//   return [{ rel: "stylesheet", href: global }];
-// }
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const { pathname } = new URL(request.url)
@@ -86,7 +88,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     // return { results, metadata, page };
     return data(
       { results, metadata, page },
-      { headers: cacheHeaders(cacheSeconds) },
+      { headers: cacheHeaders(cacheSeconds) }
     )
   } catch (error) {
     throw newValiError(error)

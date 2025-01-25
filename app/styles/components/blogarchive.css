@@ -1,0 +1,12 @@
+dl dt {
+  font-weight: bold;
+}
+
+dl dd span {
+  color: var(--muted-color);
+}
+
+dd small {
+  float: right;
+  color: var(--muted-color);
+}

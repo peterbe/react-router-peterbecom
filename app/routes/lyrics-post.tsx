@@ -11,9 +11,11 @@ import { ServerData } from "~/valibot-types"
 
 export { ErrorBoundary } from "../root"
 
-// export function links() {
-//   return [{ rel: "stylesheet", href: global }];
-// }
+import stylesheet from "../styles/lyrics-post.css?url"
+
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+]
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const { pathname } = new URL(request.url)
@@ -62,7 +64,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     // return { post, comments, page };
     return data(
       { post, comments, page },
-      { headers: cacheHeaders(cacheSeconds) },
+      { headers: cacheHeaders(cacheSeconds) }
     )
   } catch (error) {
     throw newValiError(error)

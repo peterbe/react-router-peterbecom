@@ -6,6 +6,12 @@ import { absoluteURL } from "~/utils/utils"
 import { IndexServerData } from "~/valibot-types"
 import type { Route } from "./+types/plog-index"
 
+import stylesheet from "../styles/plog-index.css?url"
+
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+]
+
 export function meta({ location }: Route.MetaArgs) {
   return [
     {
@@ -26,17 +32,6 @@ export function headers() {
   }
 }
 
-type LoaderDataType = {
-  groups: {
-    posts: {
-      title: string
-      categories: string[]
-      oid: string
-      comments: number
-    }[]
-    date: string
-  }[]
-}
 export async function loader({ params, request }: Route.LoaderArgs) {
   const { pathname } = new URL(request.url)
   if (pathname.endsWith("/")) {
@@ -55,7 +50,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       const issue = error.issues[0]
       if (issue.path)
         console.error(
-          `Validation issue in ${issue.path.map((p) => p.key).join(".")}`,
+          `Validation issue in ${issue.path.map((p) => p.key).join(".")}`
         )
     }
     throw error

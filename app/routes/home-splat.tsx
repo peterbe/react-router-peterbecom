@@ -6,6 +6,12 @@ import { absoluteURL, newValiError } from "~/utils/utils"
 import { HomepageServerData } from "~/valibot-types"
 import type { Route } from "./+types/home-splat"
 
+import stylesheet from "../styles/home.css?url"
+
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+]
+
 export function meta({ location, data }: Route.MetaArgs) {
   let title = "Peterbe.com"
   if (data.categories.length) {

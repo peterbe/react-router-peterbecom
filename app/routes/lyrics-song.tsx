@@ -11,9 +11,11 @@ import { ServerSongData } from "~/valibot-types"
 import type { Route } from "./+types/lyrics-song"
 export { ErrorBoundary } from "../root"
 
-// export function links() {
-//   return [{ rel: "stylesheet", href: global }]
-// }
+import stylesheet from "../styles/lyrics-song.css?url"
+
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+]
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const { pathname } = new URL(request.url)
@@ -55,7 +57,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     const cacheSeconds = 60 * 60 * 12
     return data(
       { song, error: undefined },
-      { headers: cacheHeaders(cacheSeconds) },
+      { headers: cacheHeaders(cacheSeconds) }
     )
   } catch (error) {
     throw newValiError(error)

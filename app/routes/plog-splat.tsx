@@ -7,6 +7,12 @@ import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerData } from "~/valibot-types"
 import type { Route } from "./+types/plog-splat"
 
+import stylesheet from "../styles/plog.css?url"
+
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+]
+
 export async function loader({ params }: Route.LoaderArgs) {
   let page = 1
   const oid = params.oid
@@ -36,7 +42,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
     return data(
       { post, comments, page },
-      { headers: cacheHeaders(cacheSeconds) },
+      { headers: cacheHeaders(cacheSeconds) }
     )
   } catch (error) {
     throw newValiError(error)

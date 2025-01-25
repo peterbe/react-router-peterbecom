@@ -1,17 +1,3 @@
-.search-result {
-  margin-bottom: 40px;
-}
+@import "./app.css";
 
-.search-result mark {
-  background-color: unset;
-  font-weight: bold;
-  color: unset;
-  padding: unset;
-}
-.search-result b mark {
-  font-weight: 900;
-}
-
-.search-result-url {
-  color: green;
-}
+@import "./components/search.css";
