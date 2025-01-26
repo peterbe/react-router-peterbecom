@@ -69,18 +69,16 @@ export function meta({ params, location, data }: Route.MetaArgs) {
 
   let pageTitle = ""
 
-  const d = data
+  pageTitle = data.post.title
 
-  pageTitle = d.post.title
-
-  if (d.page > 1) {
-    pageTitle += ` (page ${d.page})`
+  if (data.page > 1) {
+    pageTitle += ` (page ${data.page})`
   }
   pageTitle += " - Peterbe.com"
 
-  const summary = d.post.summary || undefined
-  const openGraphImage = d.post.open_graph_image
-    ? absoluteURL(d.post.open_graph_image)
+  const summary = data.post.summary || undefined
+  const openGraphImage = data.post.open_graph_image
+    ? absoluteURL(data.post.open_graph_image)
     : undefined
   const tags = [
     { title: pageTitle },
