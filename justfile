@@ -24,7 +24,7 @@ lint:
     npm run typecheck
 
 lintfix:
-    npm run pretty:fix
+    npm run lint:fix
 
 test:
     npm run test
