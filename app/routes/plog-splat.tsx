@@ -69,7 +69,6 @@ export function meta({ params, location, data }: Route.MetaArgs) {
 
   let pageTitle = ""
 
-  //   const d = data as ServerDataType;
   const d = data
 
   pageTitle = d.post.title
@@ -117,17 +116,7 @@ export function meta({ params, location, data }: Route.MetaArgs) {
   return tags.filter((o) => Object.values(o).every((x) => x !== undefined))
 }
 
-// export function headers(args: Route.HeadersArgs) {
-//   console.log("ARGS:", args);
-//   // XXX This sould vary depending on isNotPublished
-//   const seconds = 60 * 60;
-//   return {
-//     "cache-control": `public, max-age=${seconds}`,
-//   };
-// }
-
 export default function Component({ loaderData }: Route.ComponentProps) {
-  const { post, comments, page } = loaderData //useLoaderData<typeof loader>();
-  //   const { post, comments, page } = loaderData as LoaderDataType;
+  const { post, comments, page } = loaderData
   return <Blogpost post={post} comments={comments} page={page} />
 }

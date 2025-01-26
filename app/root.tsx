@@ -6,11 +6,13 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
 } from "react-router"
+import Rollbar from "rollbar"
 
 import type { Route } from "./+types/root"
 import { Footer } from "./components/footer"
 import { Screensaver } from "./components/screensaver"
 import { SkipToNav } from "./components/skip-to-nav"
+import stylesheet from "./styles/root.css?url"
 
 const screensaverLazyStartSeconds = import.meta.env
   .VITE_SCREENSAVER_LAZY_START_SECONDS
@@ -43,11 +45,23 @@ export function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
+export const links: Route.LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+]
+
 export default function App() {
   return <Outlet />
 }
 
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+export async function loader({ request }: Route.LoaderArgs) {
+  return { url: request.url }
+}
+
+export function ErrorBoundary({
+  error,
+  loaderData,
+  params,
+}: Route.ErrorBoundaryProps) {
   let message = "Oops!"
   let details = "An unexpected error occurred."
   let stack: string | undefined
@@ -63,15 +77,44 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     stack = error.stack
   }
 
+  // This'll be true on the server and false on the client
+  if (process.env.ROLLBAR_ACCESS_TOKEN) {
+    const rollbar = new Rollbar({
+      accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+    })
+    const context = {
+      params,
+      url: "",
+    }
+    if (loaderData) {
+      const { url } = loaderData
+      context.url = url
+    }
+
+    const { uuid } = rollbar.error(
+      error instanceof Error ? error : new Error("Unknown error"),
+      {
+        context,
+      },
+    )
+    if (uuid) {
+      console.warn(
+        `ErrorBoundary: Sent Rollbar error https://rollbar.com/occurrence/uuid/?uuid=${uuid}`,
+      )
+    }
+  } else {
+    // console.log("ERROR HAPPENEDD IN THE CLIENT")
+  }
+
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <div>
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre>
           <code>{stack}</code>
         </pre>
       )}
-    </main>
+    </div>
   )
 }

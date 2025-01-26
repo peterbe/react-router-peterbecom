@@ -1,11 +1,10 @@
 {
-  "name": "remix-peterbecom",
+  "name": "react-router-peterbecom",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_ENV=production react-router build",
     "dev": "react-router dev",
-    "#start": "cross-env NODE_ENV=production react-router-serve ./build/server/index.js",
     "start": "cross-env NODE_ENV=production node --experimental-strip-types --no-warnings start-server.ts ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint": "biome check server app tests vite.config.ts server.ts start-server.ts",
