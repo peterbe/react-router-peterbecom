@@ -20,7 +20,7 @@ tsc:
     npm run tsc
 
 lint:
-    npm run pretty
+    npm run lint
     npm run typecheck
 
 lintfix:

@@ -19,12 +19,12 @@ import morgan from "morgan"
 dotenv.config()
 
 const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
-const BUILD_DIR = path.resolve("build")
+// const BUILD_DIR = path.resolve("build")
 const USE_COMPRESSION = Boolean(
   JSON.parse(process.env.USE_COMPRESSION || "false"),
 )
 
-const buildPathArg = process.argv[2]
+const buildPathArg = process.env.BUILD_PATH || process.argv[2]
 
 if (!buildPathArg) {
   console.error(`
@@ -109,22 +109,6 @@ app.post("*", (req: Request, res: Response) => {
   res.sendStatus(405)
 })
 
-// app.all(
-//   "*",
-//   process.env.NODE_ENV === "development"
-//     ? (req, res, next) => {
-//         purgeRequireCache();
-
-//         return createRequestHandler({
-//           build: require(BUILD_DIR),
-//           mode: process.env.NODE_ENV,
-//         })(req, res, next);
-//       }
-//     : createRequestHandler({
-//         build: require(BUILD_DIR),
-//         mode: process.env.NODE_ENV,
-//       })
-// );
 app.all(
   "*",
   createRequestHandler({
@@ -139,16 +123,3 @@ export async function main() {
     console.log(`Express server listening on port ${port}`)
   })
 }
-
-// function purgeRequireCache() {
-//   // purge require cache on requests for "server side HMR" this won't let
-//   // you have in-memory objects between requests in development,
-//   // alternatively you can set up nodemon/pm2-dev to restart the server on
-//   // file changes, but then you'll have to reconnect to databases/etc on each
-//   // change. We prefer the DX of this, so we've included it for you by default
-//   for (const key in require.cache) {
-//     if (key.startsWith(BUILD_DIR)) {
-//       delete require.cache[key];
-//     }
-//   }
-// }

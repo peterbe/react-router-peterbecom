@@ -1,4 +1,4 @@
-import { redirect } from "react-router"
+import { data, redirect } from "react-router"
 import * as v from "valibot"
 import { Homepage } from "~/components/homepage"
 import { get } from "~/lib/get-data"
@@ -12,7 +12,10 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ]
 
-export function meta({ location, data }: Route.MetaArgs) {
+export function meta(args: Route.MetaArgs) {
+  const { location, data } = args
+  if (!data) return // When returning a 404
+
   let title = "Peterbe.com"
   if (data.categories.length) {
     title = `${data.categories.join(", ")} only on Peterbe.com`
@@ -44,11 +47,8 @@ export function meta({ location, data }: Route.MetaArgs) {
   ]
 }
 
-export function headers() {
-  const seconds = 60 * 60
-  return {
-    "cache-control": `public, max-age=${seconds}`,
-  }
+export function headers({ loaderHeaders }: Route.HeadersArgs) {
+  return loaderHeaders
 }
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -88,7 +88,10 @@ export async function loader({ params }: Route.LoaderArgs) {
   const response = await get(url, { followRedirect: false })
 
   if (response.status === 404 || response.status === 400) {
-    throw new Response("Not Found", { status: 404 })
+    const headers = new Headers({
+      "cache-control": "public, max-age=300",
+    })
+    return new Response(null, { status: 404, headers })
   }
   if (response.status === 301 && response.headers.location) {
     return redirect(response.headers.location, 308)
@@ -102,13 +105,23 @@ export async function loader({ params }: Route.LoaderArgs) {
       next_page: nextPage,
       previous_page: previousPage,
     } = v.parse(HomepageServerData, response.data)
-    return { categories, posts, nextPage, previousPage, page }
+    return data(
+      { categories, posts, nextPage, previousPage, page },
+      { headers: cacheHeaders(60 * 60) },
+    )
   } catch (error) {
     throw newValiError(error)
   }
 }
+function cacheHeaders(seconds: number) {
+  return {
+    "cache-control": `public, max-age=${seconds}`,
+  }
+}
 
 export default function Component({ loaderData }: Route.ComponentProps) {
+  if (!loaderData) return // When returning a 404
+
   if (loaderData instanceof Response) {
     return loaderData
   }

@@ -18,12 +18,12 @@ export const links: Route.LinksFunction = () => [
 ]
 
 export async function loader({ params, request }: Route.LoaderArgs) {
-  const { pathname } = new URL(request.url)
-  if (pathname.endsWith("/")) {
-    return redirect(pathname.slice(0, -1))
+  const url = new URL(request.url, "https://www.peterbe.com")
+  if (url.pathname.endsWith("/")) {
+    return redirect(url.pathname.slice(0, -1) + url.search, { status: 302 })
   }
-  if (pathname.endsWith("/p1")) {
-    return redirect(pathname.slice(0, -3))
+  if (url.pathname.endsWith("/p1")) {
+    return redirect(url.pathname.slice(0, -3) + url.search, { status: 302 })
   }
 
   const dynamicPage = params["*"] || ""
@@ -61,7 +61,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
     const cacheSeconds = 60 * 60 * 12
 
-    // return { post, comments, page };
     return data(
       { post, comments, page },
       { headers: cacheHeaders(cacheSeconds) },
@@ -71,20 +70,14 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
 }
 function cacheHeaders(seconds: number) {
-  return { "cache-control": `public, max-age=${seconds}` }
+  return {
+    "cache-control": `public, max-age=${seconds}`,
+  }
 }
 
-// export function headers() {
-//   // XXX This sould vary depending on loader data
-//   const seconds = 60 * 60;
-//   return {
-//     "cache-control": `public, max-age=${seconds}`,
-//   };
-// }
-
-// function cacheHeaders(seconds: number) {
-//   return { "cache-control": `public, max-age=${seconds}` };
-// }
+export function headers({ loaderHeaders }: Route.HeadersArgs) {
+  return loaderHeaders
+}
 
 export function meta({ location, data }: Route.MetaArgs) {
   const pageTitle = "Find song by lyrics"

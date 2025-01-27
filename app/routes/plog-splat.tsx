@@ -1,4 +1,4 @@
-import { data } from "react-router"
+import { data, redirect } from "react-router"
 
 import * as v from "valibot"
 import { Blogpost } from "~/components/blogpost"
@@ -13,8 +13,16 @@ export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ]
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, request }: Route.LoaderArgs) {
   let page = 1
+  const url = new URL(request.url, "https://www.peterbe.com")
+  if (url.pathname.endsWith("/")) {
+    return redirect(url.pathname.slice(0, -1) + url.search, { status: 302 })
+  }
+  if (url.pathname.endsWith("/p1")) {
+    return redirect(url.pathname.slice(0, -3) + url.search, { status: 302 })
+  }
+
   const oid = params.oid
   const p = params["*"]
   if (p && /^p\d+$/.test(p)) {
@@ -56,6 +64,10 @@ function isNotPublished(date: string) {
 
 function cacheHeaders(seconds: number) {
   return { "cache-control": `public, max-age=${seconds}` }
+}
+
+export function headers({ loaderHeaders }: Route.HeadersArgs) {
+  return loaderHeaders
 }
 
 export function meta({ params, location, data }: Route.MetaArgs) {
