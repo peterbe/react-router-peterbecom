@@ -37,6 +37,8 @@ jobs:
         run: npm run lint
 
       - name: Build (and lint)
+        env:
+          VITE_API_BASE: https://www.peterbe.com
         run: npm run build
 
       - name: Compress build assets
