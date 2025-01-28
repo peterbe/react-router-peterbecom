@@ -40,8 +40,6 @@ export async function get<T>(
     throw new Error(`uri parameter should start with / (not: ${uri})`)
   }
   const t0 = new Date()
-  console.log({ API_BASE, URL: API_BASE + uri })
-
   try {
     const response = await axios.get<T>(API_BASE + uri, {
       maxRedirects: followRedirect ? 10 : 0,
