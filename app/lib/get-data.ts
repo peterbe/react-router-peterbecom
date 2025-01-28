@@ -11,7 +11,9 @@ axiosRetry(axios, {
   retries: RETRIES,
   retryDelay: (retryCount, error) => {
     console.log(
-      `get:Retry ${retryCount} for ${error.request?._currentUrl || "unknown"} msg: ${error}`,
+      `get:Retry ${retryCount} for ${
+        error.request?._currentUrl || "unknown"
+      } msg: ${error}`,
     )
     return retryCount * 1000
   },
@@ -38,6 +40,8 @@ export async function get<T>(
     throw new Error(`uri parameter should start with / (not: ${uri})`)
   }
   const t0 = new Date()
+  console.log({ API_BASE, URL: API_BASE + uri })
+
   try {
     const response = await axios.get<T>(API_BASE + uri, {
       maxRedirects: followRedirect ? 10 : 0,

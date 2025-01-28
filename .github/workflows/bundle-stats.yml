@@ -6,9 +6,6 @@ on:
       - main
   pull_request:
 
-# env:
-#   GA_TRACKING_ID: G-1234ABC
-
 permissions:
   contents: read
   pull-requests: write
@@ -23,7 +20,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Cache node_modules
@@ -69,12 +66,12 @@ jobs:
         run: |
 
           echo "This PR (size):"
-          du -sh public/build
+          du -sh build/client
           echo "Main (size):"
-          du -sh main/public/build
+          du -sh main/build/client
 
           echo ""
-          markdown=$(node scripts/compare-build-dirs.mjs main/public/build public/build)
+          markdown=$(npm run compare-build-dirs -- main/build/client build/client)
           echo "::set-output name=markdown::${markdown//$'\n'/%0A}"
 
       - name: Find Comment
