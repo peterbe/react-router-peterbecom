@@ -49,3 +49,34 @@ jobs:
           API_BASE: https://www.peterbe.com
           SERVER_URL: http://localhost:3000
         run: npm run test
+
+      - name: End-to-end test the server
+        env:
+          VITE_API_BASE: https://www.peterbe.com
+          SERVER_URL: http://localhost:3000
+        run: npm run start > /tmp/stdout.log 2> /tmp/stderr.log &
+
+      - name: Check that the server runs
+        run: |
+          sleep 2
+          curl --retry-connrefused --retry 3 http://localhost:3000
+
+      - name: Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 10
+
+      - name: Debug any server outputs
+        if: failure()
+        run: |
+          echo "___NETSTAT___"
+          netstat -nplt
+          echo "____STDOUT____"
+          cat /tmp/stdout.log
+          echo "____STDERR____"
+          cat /tmp/stderr.log
