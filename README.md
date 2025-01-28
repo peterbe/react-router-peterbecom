@@ -23,3 +23,7 @@ export API_BASE=https://www.peterbe.com
 ```bash
 npm run test
 ```
+
+### Linting
+
+All linting and code formatting is done using [Biome](https://biomejs.dev/).
