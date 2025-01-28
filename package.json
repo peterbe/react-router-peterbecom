@@ -55,7 +55,7 @@
     "cheerio": "^1.0.0",
     "cross-env": "^7.0.3",
     "husky": "^9.1.7",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.1",
     "sass-embedded": "^1.83.4",
     "typescript": "^5.7.2",
     "vite": "^6.0.11",
