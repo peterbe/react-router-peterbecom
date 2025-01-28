@@ -1,0 +1,52 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: cached-node_modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ hashFiles('package*.json') }}-${{ hashFiles('.github/workflows/test.yml') }}
+
+      - name: Install
+        if: steps.cached-node_modules.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Pretty
+        run: npm run prettier:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build (and lint)
+        run: npm run build
+
+      - name: Compress build assets
+        run: npm run build:compress
+
+      - name: End-to-end test the server
+        env:
+          API_BASE: https://www.peterbe.com
+          SERVER_URL: http://localhost:3000
+        run: npm run test
