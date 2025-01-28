@@ -6,9 +6,6 @@ on:
       - main
   pull_request:
 
-# env:
-#   GA_TRACKING_ID: G-1234ABC
-
 permissions:
   contents: read
   pull-requests: write
@@ -74,7 +71,7 @@ jobs:
           du -sh main/public/build
 
           echo ""
-          markdown=$(node scripts/compare-build-dirs.mjs main/public/build public/build)
+          markdown=$(npm run compare-build-dirs -- main/public/build public/build)
           echo "::set-output name=markdown::${markdown//$'\n'/%0A}"
 
       - name: Find Comment
