@@ -68,10 +68,10 @@ jobs:
           echo "This PR (size):"
           du -sh build/client
           echo "Main (size):"
-          du -sh main/build/build
+          du -sh main/build/client
 
           echo ""
-          markdown=$(npm run compare-build-dirs -- main/public/build public/build)
+          markdown=$(npm run compare-build-dirs -- main/build/client build/client)
           echo "::set-output name=markdown::${markdown//$'\n'/%0A}"
 
       - name: Find Comment
