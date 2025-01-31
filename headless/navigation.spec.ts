@@ -20,12 +20,28 @@ test("navigate main nav options", async ({ page }) => {
   await expect(page).toHaveTitle(/Peterbe\.com/)
 })
 
-// test('get started link', async ({ page }) => {
-//   await page.goto('https://playwright.dev/');
+test("navigation focus and scroll restoration", async ({ page }) => {
+  // consider: await page.keyboard.press('End');
+  await page.goto("/")
+  const aboutLinkAtBottom = page
+    .locator("footer")
+    .getByRole("link", { name: "About" })
+  await aboutLinkAtBottom.scrollIntoViewIfNeeded()
 
-//   // Click the get started link.
-//   await page.getByRole('link', { name: 'Get started' }).click();
+  const scrollPosition = await page.evaluate(() => window.scrollY)
+  expect(scrollPosition).toBeGreaterThanOrEqual(3000)
 
-//   // Expects page to have a heading with the name of Installation.
-//   await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-// });
+  await aboutLinkAtBottom.click()
+  await expect(page).toHaveTitle(/About Peterbe.com/)
+
+  const newScrollPosition = await page.evaluate(() => window.scrollY)
+  expect(newScrollPosition).toBe(0)
+
+  await page.goBack()
+  await expect(page).toHaveURL("/")
+
+  // this seems to make scroll restoration have a chance to work
+  await page.waitForTimeout(100)
+  const returnScrollPosition = await page.evaluate(() => window.scrollY)
+  expect(returnScrollPosition).toBeGreaterThanOrEqual(3000)
+})
