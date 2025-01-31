@@ -72,13 +72,7 @@ test("comment on lyrics post", async ({ page }) => {
   await page
     .getByText("Playwright *testing*")
     .fill("Playwright *testing*.\nActually.")
-  // await page.getByText('Playwright *testing*').press('ArrowRight');
-  // await page.getByText('Playwright *testing*').press('ControlOrMeta+a');
-  // await page.getByText('Playwright *testing*').press('ArrowRight');
-  // await page.getByText('Playwright *testing*').fill('Playwright *testing*.\nActually.');
-  // await page.getByText('Playwright *testing*').press('ArrowLeft');
   await page.getByRole("button", { name: "Save changes" }).click()
-  // await page.getByText('Playwright *testing*.Actually.').click();
 
   await expect(
     page.getByText("All comments have to be approved first"),
