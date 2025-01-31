@@ -7,13 +7,7 @@ dev:
 build:
     npm run build
 
-build-fast:
-    npm run build:remix
-
 start: build
-    npm run start
-
-start-fast: build-fast
     npm run start
 
 tsc:
