@@ -40,7 +40,7 @@ test("navigation focus and scroll restoration", async ({ page }) => {
   await expect(page).toHaveURL("/")
 
   // this seems to make scroll restoration have a chance to work
-  await page.waitForTimeout(100)
+  await page.waitForTimeout(500)
 
   const returnScrollPosition = await page.evaluate(() => window.scrollY)
   expect(returnScrollPosition).toBeGreaterThanOrEqual(3000)
