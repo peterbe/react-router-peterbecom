@@ -21,7 +21,6 @@ test("navigate main nav options", async ({ page }) => {
 })
 
 test("navigation focus and scroll restoration", async ({ page }) => {
-  // consider: await page.keyboard.press('End');
   await page.goto("/")
   const aboutLinkAtBottom = page
     .locator("footer")
@@ -42,6 +41,8 @@ test("navigation focus and scroll restoration", async ({ page }) => {
 
   // this seems to make scroll restoration have a chance to work
   await page.waitForTimeout(100)
+
   const returnScrollPosition = await page.evaluate(() => window.scrollY)
   expect(returnScrollPosition).toBeGreaterThanOrEqual(3000)
+  expect(Math.floor(scrollPosition)).toBe(Math.floor(returnScrollPosition))
 })
