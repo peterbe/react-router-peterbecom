@@ -18,7 +18,7 @@ import morgan from "morgan"
 
 dotenv.config()
 
-const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
+const BACKEND_BASE_URL = process.env.VITE_API_BASE || "http://127.0.0.1:8000"
 // const BUILD_DIR = path.resolve("build")
 const USE_COMPRESSION = Boolean(
   JSON.parse(process.env.USE_COMPRESSION || "false"),
@@ -73,10 +73,16 @@ app.use(asyncHandler(dynamicImages))
 
 app.use(shrinkRay())
 
+console.log({ BACKEND_BASE_URL })
+
 const backendProxy = createProxyMiddleware({
   target: BACKEND_BASE_URL,
   changeOrigin: true,
   pathRewrite: (path, req) => (req as Request).originalUrl as string,
+  headers: {
+    origin: "https://www.peterbe.com",
+    host: "https://www.peterbe.com",
+  },
   // pathRewrite: (path, req) => {
   //   return (req as Request).originalUrl
   // },
