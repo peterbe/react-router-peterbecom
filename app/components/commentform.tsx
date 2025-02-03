@@ -323,6 +323,7 @@ export function CommentForm({
             aria-label="Your full name"
             placeholder="Your full name"
             title="Your full name"
+            maxLength={100}
             value={name}
             onChange={(event) => setName(event.target.value)}
             onBlur={rememberName}
@@ -333,6 +334,7 @@ export function CommentForm({
             aria-label="Your email"
             placeholder="Your email (never shown, never shared)"
             title="Your email"
+            maxLength={100}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             onBlur={rememberName}
