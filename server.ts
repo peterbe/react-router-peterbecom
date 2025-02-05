@@ -15,8 +15,17 @@ import dotenv from "dotenv"
 import express from "express"
 import asyncHandler from "express-async-handler"
 import morgan from "morgan"
+import Rollbar from "rollbar"
 
 dotenv.config()
+
+const rollbar =
+  process.env.ROLLBAR_ACCESS_TOKEN &&
+  new Rollbar({
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  })
 
 const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
 // const BUILD_DIR = path.resolve("build")
@@ -116,6 +125,10 @@ app.all(
     mode: process.env.NODE_ENV,
   }),
 )
+if (rollbar) {
+  app.use(rollbar.errorHandler())
+}
+
 const port = process.env.PORT || 3000
 
 export async function main() {

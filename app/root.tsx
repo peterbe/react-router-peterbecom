@@ -12,7 +12,7 @@ import type { Route } from "./+types/root"
 import { Footer } from "./components/footer"
 import { Screensaver } from "./components/screensaver"
 import { SkipToNav } from "./components/skip-to-nav"
-import stylesheet from "./styles/root.css?url"
+// import stylesheet from "./styles/root.css?url"
 
 const screensaverLazyStartSeconds = import.meta.env
   .VITE_SCREENSAVER_LAZY_START_SECONDS
@@ -45,9 +45,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
-export const links: Route.LinksFunction = () => [
-  { rel: "stylesheet", href: stylesheet },
-]
+// export const links: Route.LinksFunction = () => {
+//   return [{ rel: "stylesheet", href: stylesheet },]
+// }
 
 export default function App() {
   return <Outlet />
@@ -66,7 +66,9 @@ export function ErrorBoundary({
   let details = "An unexpected error occurred."
   let stack: string | undefined
 
+  let is404 = false
   if (isRouteErrorResponse(error)) {
+    is404 = error.status === 404
     message = error.status === 404 ? "404" : "Error"
     details =
       error.status === 404
@@ -77,8 +79,15 @@ export function ErrorBoundary({
     stack = error.stack
   }
 
-  // This'll be true on the server and false on the client
-  if (process.env.ROLLBAR_ACCESS_TOKEN) {
+  if (
+    !is404 &&
+    typeof process !== "undefined" &&
+    import.meta.env.PROD &&
+    process.env.ROLLBAR_ACCESS_TOKEN &&
+    !JSON.parse(process.env.CI || "false")
+  ) {
+    console.warn("Sending error (%s) to Rollbar", message)
+
     const rollbar = new Rollbar({
       accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
     })
@@ -102,8 +111,6 @@ export function ErrorBoundary({
         `ErrorBoundary: Sent Rollbar error https://rollbar.com/occurrence/uuid/?uuid=${uuid}`,
       )
     }
-  } else {
-    // console.log("ERROR HAPPENEDD IN THE CLIENT")
   }
 
   return (
