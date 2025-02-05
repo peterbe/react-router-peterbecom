@@ -1,5 +1,4 @@
 @import "@picocss/pico";
-/* @import "@picocss/pico/scss/pico"; */
 
 @import "./components/globals.css";
 @import "./components/message.css";
