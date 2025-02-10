@@ -12,7 +12,7 @@ import type { Route } from "./+types/root"
 import { Footer } from "./components/footer"
 import { Screensaver } from "./components/screensaver"
 import { SkipToNav } from "./components/skip-to-nav"
-// import stylesheet from "./styles/root.css?url"
+import stylesheet from "./styles/error.css?url"
 
 const screensaverLazyStartSeconds = import.meta.env
   .VITE_SCREENSAVER_LAZY_START_SECONDS
@@ -45,16 +45,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
   )
 }
 
-// export const links: Route.LinksFunction = () => {
-//   return [{ rel: "stylesheet", href: stylesheet },]
-// }
-
 export default function App() {
   return <Outlet />
 }
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader(args: Route.LoaderArgs) {
+  const { request } = args
   return { url: request.url }
+}
+
+export function meta(args: Route.MetaArgs) {
+  const { error } = args
+
+  // At this point, `isRouteErrorResponse(error)` could be used to figure
+  // out if it was a 404 or a 5xx. At the time of writing, it's the same
+  // CSS for either error.
+  if (error) {
+    return [{ tagName: "link", rel: "stylesheet", href: stylesheet }]
+  }
+  return []
 }
 
 export function ErrorBoundary({
@@ -62,14 +71,14 @@ export function ErrorBoundary({
   loaderData,
   params,
 }: Route.ErrorBoundaryProps) {
-  let message = "Oops!"
+  let message = "Internal Server Error"
   let details = "An unexpected error occurred."
   let stack: string | undefined
 
   let is404 = false
   if (isRouteErrorResponse(error)) {
     is404 = error.status === 404
-    message = error.status === 404 ? "404" : "Error"
+    message = error.status === 404 ? "404 Page Not Found" : "Error"
     details =
       error.status === 404
         ? "The requested page could not be found."
@@ -112,16 +121,31 @@ export function ErrorBoundary({
       )
     }
   }
+  const lyricsPage = Boolean(
+    loaderData?.url &&
+      new URL(loaderData.url).pathname.startsWith("/plog/blogitem-040601-1"),
+  )
 
   return (
     <div>
-      <h1>{message}</h1>
-      <p>{details}</p>
+      <hgroup>
+        <h1>{message}</h1>
+        <p>{details}</p>
+      </hgroup>
       {stack && (
         <pre>
           <code>{stack}</code>
         </pre>
       )}
+      <p>
+        {lyricsPage ? (
+          <a href="/plog/blogitem-040601-1">
+            Go back to the <b>Find song by lyrics</b> page
+          </a>
+        ) : (
+          <a href="/">Go back to the home page</a>
+        )}
+      </p>
     </div>
   )
 }
