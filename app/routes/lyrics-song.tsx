@@ -4,12 +4,11 @@ import * as v from "valibot"
 import { LyricsSong } from "~/components/lyrics-song"
 import { LyricsSongError } from "~/components/lyrics-song-error"
 import { get } from "~/lib/get-data"
-// import global from "~/styles/build/global-lyricspost.css"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSongData } from "~/valibot-types"
 
 import type { Route } from "./+types/lyrics-song"
-export { ErrorBoundary } from "../root"
+// export { ErrorBoundary } from "../root"
 
 import stylesheet from "../styles/lyrics-song.css?url"
 
@@ -68,20 +67,18 @@ function cacheHeaders(seconds: number) {
   return { "cache-control": `public, max-age=${seconds}` }
 }
 
-export function meta({ location, data }: Route.MetaArgs) {
-  if (data.error) {
-    return [{ title: data.error || "Page not found" }]
-  }
-  // if (!data || "error" in data) {
-  //   return [{ title: (data && data.error) || "Page not found" }]
-  // }
+export function meta(args: Route.MetaArgs) {
+  const { location, data, error } = args
+  console.log("IN META", error)
+
   if (!data.song) {
-    throw new Error("weird")
+    return []
   }
 
   const { song } = data
   const title = `"${song.name}" by "${song.artist.name}" - Find song by lyrics`
   const description = `Lyrics for "${song.name}" by "${song.artist.name}"`
+
   return [
     { title },
     {

@@ -10,7 +10,7 @@ import { get } from "~/lib/get-data"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSearchData } from "~/valibot-types"
 
-export { ErrorBoundary } from "../root"
+// export { ErrorBoundary } from "../root"
 
 import stylesheet from "../styles/lyrics-search.css?url"
 
