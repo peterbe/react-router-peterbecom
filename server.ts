@@ -1,5 +1,4 @@
 import url from "node:url"
-// import shrinkRay from "@nitedani/shrink-ray-current"
 import compression from "compression"
 import type { Request, Response } from "express"
 import { createProxyMiddleware } from "http-proxy-middleware"
@@ -28,9 +27,6 @@ const rollbar =
   })
 
 const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
-// const USE_COMPRESSION = Boolean(
-//   JSON.parse(process.env.USE_COMPRESSION || "false")
-// )
 
 const buildPathArg = process.env.BUILD_PATH || process.argv[2]
 
@@ -45,10 +41,6 @@ const buildPath = path.resolve(buildPathArg)
 const build: ServerBuild = await import(url.pathToFileURL(buildPath).href)
 
 export const app = express()
-
-// if (USE_COMPRESSION) {
-//   app.use(compression())
-// }
 
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable("x-powered-by")
@@ -79,7 +71,6 @@ app.use(express.static("build/client", { maxAge: "1d" }))
 
 app.use(asyncHandler(dynamicImages))
 
-// app.use(shrinkRay())
 app.use(compression())
 
 const backendProxy = createProxyMiddleware({
