@@ -298,37 +298,12 @@ type CommentsBlock = {
 }
 
 function generateTree(comments: Comment[], depth = 0): CommentWithDepth[] {
-  const c: CommentWithDepth[] = []
-  for (const comment of comments) {
+  return comments.map((comment) => {
     const replies = generateTree(comment.comments || [], depth + 1)
-    c.push({
+    return {
       ...comment,
       depth,
       replies,
-    })
-  }
-  return c
+    }
+  })
 }
-
-/**
- *
- *   "comments": {
-    "truncated": 85,
-    "count": 27048,
-    "total_pages": 20,
-    "tree": [
-      {
-        "id": 39502,
-        "oid": "cd30d5a",
-        "add_date": "2025-01-17T17:45:44.242Z",
-        "name": "Random",
-        "comment": "I'm looking for a song that sounds like the chick's. I only remember one line. I think it says \"let me show you where im gonna be\". Any ideas?",
-        "approved": true,
-        "depth": 0
-      },
-
-      ...
-    ],
-    "next_page": 2,
-    "previous_page": null
- */

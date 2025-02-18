@@ -7,8 +7,6 @@ export type Comment = {
   hash?: string
   add_date?: string
   comments?: Comment[]
-
-  // ???
 }
 
 type Blogitem = {
@@ -57,8 +55,6 @@ export const blogitems: Blogitem[] = [
     comments: [],
     html: "<p>My <i>first</i> post</p>",
     disallow_comments: false,
-    // split: null,
-    // url: null,
     open_graph_image: undefined,
     summary: "",
   },
@@ -93,12 +89,8 @@ export const blogitems: Blogitem[] = [
     html: '<div id="root">  \n<form  \nstyle="margin:40px 0"  \naction="https://songsear.ch/q/"  \nonsubmit="document.location.href=\'https://songsear.ch/q/\'+ this.term.value; return false">  \n<div class="ui action fluid input">  \n  <input type="search" name="term" class="form-control x-large" placeholder="Type your lyrics search here..."\n     maxlength="150" aria-label="Lyrics search" />\n  <button class="ui button">Search</button>\n</div>\n\n</form>  \n</div>\n\n<p style="margin-bottom: 60px;text-align:center">  \nGo to <a href="https://songsear.ch/"  \ntitle="Search for song by lyrics"><b>Songsear.ch</b></a> to search for songs from lyrics.  \n</p>',
     url: "https://songsear.ch",
     disallow_comments: false,
-    // split: null,
-    // url: null,
     open_graph_image: undefined,
     summary: "",
-    // previous_post: null,
-    // next_post: null,
   },
 ]
 
