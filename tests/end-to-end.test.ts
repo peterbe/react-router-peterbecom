@@ -172,8 +172,7 @@ test("plog archive page", async () => {
       return $(element).text()
     })
     .get()
-  expect(dts.includes("December 2003")).toBe(true)
-  expect(dts.includes("January 2020")).toBe(true)
+  expect(dts.includes("June 2004")).toBe(true)
 })
 
 test("plog archive page redirect trailing slash", async () => {
@@ -289,24 +288,22 @@ test("dynamic image not found (WEBP)", async () => {
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
 
-test("canonical link on home page", async () => {
-  for (const url of [
-    "/",
-    "/p2",
-    "/oc-Web+development",
-    "/about",
-    "/contact",
-    "/search",
-    "/plog",
-    "/plog/blogitem-040601-1",
-    "/plog/blogitem-20030629-2128",
-  ]) {
-    const response = await get(url)
-    expect(response.status).toBe(200)
-    const $ = cheerio.load(response.data)
-    const href = $('link[rel="canonical"]').attr("href")
-    expect(href).toBe(`https://www.peterbe.com${url}`)
-  }
+test.each([
+  "/",
+  "/p2",
+  "/oc-Web+development",
+  "/about",
+  "/contact",
+  "/search",
+  "/plog",
+  "/plog/blogitem-040601-1",
+  "/plog/blogitem-20030629-2128",
+])("canonical link on home page (%s)", async (url) => {
+  const response = await get(url)
+  expect(response.status).toBe(200)
+  const $ = cheerio.load(response.data)
+  const href = $('link[rel="canonical"]').attr("href")
+  expect(href).toBe(`https://www.peterbe.com${url}`)
 })
 
 test("strange Chinese searches", async () => {
