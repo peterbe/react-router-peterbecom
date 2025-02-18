@@ -118,7 +118,10 @@ function generateBlogItems(howmany: number, categories: string[]): Blogitem[] {
         new Date().getTime() - 1000 * 60 * 60 * 24 * uuid,
       ).toISOString(),
       comments: [],
-      html: `<p>Blog post number ${uuid} for ${categories}</p>`,
+      html: `
+        <p>Blog post number ${uuid} for ${categories}</p>\n
+        ${`<p>Sentence ${uuid} x ${i}</p>`.repeat(i + 2)}
+      `.trim(),
       disallow_comments: false,
       open_graph_image: undefined,
       summary: "",
