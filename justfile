@@ -31,8 +31,10 @@ test:
     npm run test
     npx playwright test
 
-
 format: lintfix
 
 install:
     npm install
+
+upgrade:
+    npx npm-check-updates --interactive
