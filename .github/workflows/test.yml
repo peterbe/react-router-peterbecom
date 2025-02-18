@@ -38,7 +38,7 @@ jobs:
 
       - name: Build (and lint)
         env:
-          VITE_API_BASE: https://www.peterbe.com
+          VITE_API_BASE: http://localhost:8000
         run: npm run build
 
       - name: Compress build assets
@@ -46,7 +46,7 @@ jobs:
 
       - name: End-to-end test the server
         env:
-          API_BASE: https://www.peterbe.com
+          API_BASE: http://localhost:8000
           SERVER_URL: http://localhost:3000
         run: npm run test
 
