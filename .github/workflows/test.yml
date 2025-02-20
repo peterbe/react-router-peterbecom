@@ -38,7 +38,7 @@ jobs:
 
       - name: Build (and lint)
         env:
-          VITE_API_BASE: http://localhost:8000
+          API_BASE: http://localhost:8000
         run: npm run build
 
       - name: Compress build assets

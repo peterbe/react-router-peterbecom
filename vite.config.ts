@@ -4,7 +4,7 @@ import { defineConfig } from "vite"
 import tsconfigPaths from "vite-tsconfig-paths"
 import { dynamicImagesPlugin } from "./app/dynamic-images-vite-plugin"
 
-const BACKEND_BASE_URL = process.env.VITE_API_BASE || "http://127.0.0.1:8000"
+const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
 
 const backendProxy = {
   target: BACKEND_BASE_URL,
