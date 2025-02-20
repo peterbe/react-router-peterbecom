@@ -28,7 +28,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   if (p && /^p\d+$/.test(p)) {
     page = Number.parseInt(p.replace("p", ""))
     if (Number.isNaN(page)) {
-      throw new Response("Not Found (page not valid)", { status: 404 })
+      throw data("Not Found (page not valid)", { status: 404 })
     }
   }
 
@@ -37,6 +37,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const response = await get(fetchURL)
   if (response.status === 404) {
+    // throw data("Not Found (oid not found)", { status: 404 })
     throw new Response("Not Found (oid not found)", { status: 404 })
   }
   if (response.status >= 500) {

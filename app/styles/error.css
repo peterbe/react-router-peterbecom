@@ -1,0 +1,9 @@
+@import "./app.css";
+
+p,
+hgroup {
+  text-align: center;
+}
+hgroup {
+  margin: 100px 0;
+}

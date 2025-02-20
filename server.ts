@@ -1,5 +1,4 @@
 import url from "node:url"
-import shrinkRay from "@nitedani/shrink-ray-current"
 import compression from "compression"
 import type { Request, Response } from "express"
 import { createProxyMiddleware } from "http-proxy-middleware"
@@ -15,14 +14,19 @@ import dotenv from "dotenv"
 import express from "express"
 import asyncHandler from "express-async-handler"
 import morgan from "morgan"
+import Rollbar from "rollbar"
 
 dotenv.config()
 
-const BACKEND_BASE_URL = process.env.VITE_API_BASE || "http://127.0.0.1:8000"
-// const BUILD_DIR = path.resolve("build")
-const USE_COMPRESSION = Boolean(
-  JSON.parse(process.env.USE_COMPRESSION || "false"),
-)
+const rollbar =
+  process.env.ROLLBAR_ACCESS_TOKEN &&
+  new Rollbar({
+    accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+    captureUncaught: true,
+    captureUnhandledRejections: true,
+  })
+
+const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
 
 const buildPathArg = process.env.BUILD_PATH || process.argv[2]
 
@@ -37,10 +41,6 @@ const buildPath = path.resolve(buildPathArg)
 const build: ServerBuild = await import(url.pathToFileURL(buildPath).href)
 
 export const app = express()
-
-if (USE_COMPRESSION) {
-  app.use(compression())
-}
 
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable("x-powered-by")
@@ -71,7 +71,7 @@ app.use(express.static("build/client", { maxAge: "1d" }))
 
 app.use(asyncHandler(dynamicImages))
 
-app.use(shrinkRay())
+app.use(compression())
 
 console.log({ BACKEND_BASE_URL })
 
@@ -122,6 +122,10 @@ app.all(
     mode: process.env.NODE_ENV,
   }),
 )
+if (rollbar) {
+  app.use(rollbar.errorHandler())
+}
+
 const port = process.env.PORT || 3000
 
 export async function main() {
