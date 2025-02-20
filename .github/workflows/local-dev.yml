@@ -27,7 +27,7 @@ jobs:
 
       - name: End-to-end test the server
         env:
-          VITE_API_BASE: https://www.peterbe.com
+          API_BASE: https://www.peterbe.com
           SERVER_URL: http://localhost:3000
         run: npm run dev > /tmp/stdout.log 2> /tmp/stderr.log &
 

@@ -27,7 +27,6 @@ lintfix:
     npm run lint:fix
 
 test:
-    # If this fails, did you run `VITE_API_BASE=https://www.peterbe.com npm run build` ?
     npm run test
     npx playwright test
 
