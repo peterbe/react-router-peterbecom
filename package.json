@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_ENV=production react-router build",
+    "build:witholdbuildpreserved": "rm -fr /tmp/_old_build && tsx scripts/backup-old-build.ts && npm run build && tsx scripts/restore-old-build.ts",
     "dev": "react-router dev",
     "start": "cross-env NODE_ENV=production node --experimental-strip-types --no-warnings start-server.ts ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",

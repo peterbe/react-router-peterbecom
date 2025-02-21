@@ -22,12 +22,15 @@ function copyDirectory(src: string, dest: string) {
     } else {
       // If it is a file, copy the file to the destination
       fs.copyFileSync(srcPath, destPath)
-      console.log("COPY", srcPath, "-->", destPath)
+      console.log("COPY", ljust(srcPath, 70), "-->", destPath)
     }
   })
 }
+function ljust(s: string, n: number) {
+  return s + " ".repeat(n - s.length)
+}
 
-const ROOT = "public/build"
+const ROOT = "build/client"
 const DESTINATION = "/tmp/_old_build"
 if (fs.existsSync(DESTINATION)) fs.rmdirSync(DESTINATION, { recursive: true })
 

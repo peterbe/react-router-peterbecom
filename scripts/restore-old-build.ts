@@ -24,15 +24,28 @@ function copyDirectory(src: string, dest: string) {
       fs.copyFileSync(srcPath, destPath)
       const ageSeconds =
         (new Date().getTime() - fs.statSync(srcPath).mtimeMs) / 1000
-      console.log("COPY", srcPath, "-->", destPath, formatSeconds(ageSeconds))
+      console.log(
+        "COPY",
+        srcPath,
+        "-->",
+        destPath,
+        formatSeconds(ageSeconds),
+        "old",
+      )
     }
   })
 }
 
+function deleteTempRoot(root: string) {
+  if (fs.existsSync(root)) fs.rmSync(root, { recursive: true })
+}
+
 const ROOT = "/tmp/_old_build"
-const DESTINATION = "public/build"
+const DESTINATION = "build/client"
 
 copyDirectory(ROOT, DESTINATION)
+
+deleteTempRoot(ROOT)
 
 function formatSeconds(seconds: number) {
   const minutes = seconds / 60
