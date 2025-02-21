@@ -26,6 +26,7 @@ function copyDirectory(src: string, dest: string) {
     }
   })
 }
+
 function ljust(s: string, n: number) {
   return s + " ".repeat(n - s.length)
 }

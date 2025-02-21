@@ -26,7 +26,7 @@ function copyDirectory(src: string, dest: string) {
         (new Date().getTime() - fs.statSync(srcPath).mtimeMs) / 1000
       console.log(
         "COPY",
-        srcPath,
+        ljust(srcPath, 70),
         "-->",
         destPath,
         formatSeconds(ageSeconds),
@@ -34,6 +34,10 @@ function copyDirectory(src: string, dest: string) {
       )
     }
   })
+}
+
+function ljust(s: string, n: number) {
+  return s + " ".repeat(n - s.length)
 }
 
 function deleteTempRoot(root: string) {
