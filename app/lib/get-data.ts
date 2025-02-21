@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios"
 import axiosRetry from "axios-retry"
 import Rollbar from "rollbar"
 
-import { API_BASE } from "./_constants"
+const API_BASE = process.env.API_BASE || "http://127.0.0.1:8000"
 
 const RETRIES = process.env.NODE_ENV === "development" ? 1 : 4
 const TIMEOUT = 1000
