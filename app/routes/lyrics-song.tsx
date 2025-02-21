@@ -69,7 +69,6 @@ function cacheHeaders(seconds: number) {
 
 export function meta(args: Route.MetaArgs) {
   const { location, data, error } = args
-  console.log("IN META", error)
 
   if (!data.song) {
     return []
