@@ -73,16 +73,10 @@ app.use(asyncHandler(dynamicImages))
 
 app.use(compression())
 
-console.log({ BACKEND_BASE_URL })
-
 const backendProxy = createProxyMiddleware({
   target: BACKEND_BASE_URL,
   changeOrigin: true,
   pathRewrite: (path, req) => (req as Request).originalUrl as string,
-  headers: {
-    origin: "https://www.peterbe.com",
-    host: "https://www.peterbe.com",
-  },
   // pathRewrite: (path, req) => {
   //   return (req as Request).originalUrl
   // },
