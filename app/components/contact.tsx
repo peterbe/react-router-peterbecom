@@ -19,13 +19,17 @@ export function Contact() {
           <a href="https://github.com/peterbe">@peterbe</a>
         </p>
 
+        <h3>Bluesky</h3>
+        <p>
+          <a href="https://bsky.app/profile/peppebe.bsky.social">
+            @peppebe.bsky.social
+          </a>
+        </p>
+
         <h3>Threads</h3>
         <p>
           <a href="https://www.threads.net/@peppebe">@peppebe</a>
         </p>
-
-        <h3>Telegram</h3>
-        <p>@peppebe</p>
 
         <h3>LinkedIn</h3>
         <p>
