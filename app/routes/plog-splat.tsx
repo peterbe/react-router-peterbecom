@@ -108,15 +108,7 @@ export function meta({ params, location, data }: Route.MetaArgs) {
       content: pageTitle,
     },
     { property: "og:description", content: summary },
-
-    // Twitter uses 'name', OpenGraph uses 'property'
-    { name: "twitter:creator", content: "@peterbe" },
-    { name: "twitter:card", content: "summary_large_image" },
-    { name: "twitter:title", content: pageTitle },
-    { name: "twitter:description", content: summary },
-
     { name: "description", content: summary },
-    { name: "twitter:image", content: openGraphImage },
     { property: "og:image", content: openGraphImage },
     {
       tagName: "link",

@@ -8,7 +8,6 @@ import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSongData } from "~/valibot-types"
 
 import type { Route } from "./+types/lyrics-song"
-// export { ErrorBoundary } from "../root"
 
 import stylesheet from "../styles/lyrics-song.css?url"
 
