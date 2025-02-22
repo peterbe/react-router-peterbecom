@@ -38,6 +38,15 @@ export function junkBlock(
     return
   }
 
+  try {
+    decodeURIComponent(req.path)
+  } catch (errr) {
+    if (errr instanceof URIError) {
+      res.status(400).type("text").send("undecodable path")
+      return
+    }
+  }
+
   next()
 }
 
