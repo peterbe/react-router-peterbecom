@@ -447,3 +447,10 @@ test("redirect to blog post song page", async () => {
   expect(response.status).toBe(308)
   expect(response.headers.location).toBe(`/plog/blogitem-040601-1${url}`)
 })
+
+test("undecodeable paths", async () => {
+  const url = "/plog/%c0%ae%c0%ae%c0%bb%c0%af%c0%8ahealth"
+  const response = await get(url)
+  expect(response.status).toBe(400)
+  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+})
