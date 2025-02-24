@@ -45,11 +45,7 @@ export const app = express()
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable("x-powered-by")
 
-// Remix fingerprints its assets so we can cache forever.
-app.use(
-  "/build",
-  express.static("public/build", { immutable: true, maxAge: "1y" }),
-)
+app.use(compression())
 
 // Move to belong the express.static(...) uses if you don't want to see
 // log lines for static assets.
@@ -64,14 +60,10 @@ app.use(
   ),
 )
 
-// Everything else (like favicon.ico) is cached for an hour. You may want to be
-// more aggressive with this caching.
-app.use(express.static("public", { maxAge: "1d" }))
-app.use(express.static("build/client", { maxAge: "1d" }))
+app.use(express.static("build/client", { maxAge: "14d" }))
+app.use(express.static("public", { maxAge: "3d" }))
 
 app.use(asyncHandler(dynamicImages))
-
-app.use(compression())
 
 const backendProxy = createProxyMiddleware({
   target: BACKEND_BASE_URL,
