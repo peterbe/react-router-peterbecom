@@ -18,6 +18,28 @@ type SideProject = {
 export const sideProjects: SideProject[] = []
 
 sideProjects.push({
+  id: "spot-the-difference",
+  title: "Spot the Difference",
+  image: {
+    url: "/images/about/spot-the-difference-scr.png",
+    width: 120,
+    height: 120,
+  },
+  url: "https://spot-the-difference.peterbe.com",
+  body: (
+    <p>
+      Spot the Difference is a web app where you're shown two snippets of code
+      and then you're supposed to find the one difference. If you get it right,
+      you get showered in confetti.
+      <br />
+      <Link to="/plog/announcing-spot-the-difference">
+        Blog post about it here
+      </Link>
+      .
+    </p>
+  ),
+})
+sideProjects.push({
   id: "youshouldwatch",
   title: "You Should Watch",
   image: {
