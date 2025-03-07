@@ -30,7 +30,14 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const sp = new URLSearchParams({ id: parts[2] })
   const fetchURL = `/api/v1/lyrics/song?${sp}`
-  const response = await get(fetchURL)
+  const response = await get(fetchURL, { followRedirect: false })
+
+  if (
+    (response.status === 301 || response.status === 302) &&
+    response.headers.location
+  ) {
+    return redirect(response.headers.location, 308)
+  }
 
   if (response.status === 404) {
     const error = "Song not found"
