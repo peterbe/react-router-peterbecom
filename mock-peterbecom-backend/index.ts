@@ -3,7 +3,6 @@ import morgan from "morgan"
 import { router } from "./api.ts"
 
 export const app = express()
-// app.use(formidableMiddleware())
 
 app.disable("x-powered-by")
 app.use(
