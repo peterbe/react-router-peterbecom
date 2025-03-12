@@ -31,3 +31,6 @@ install:
 
 upgrade:
     npx npm-check-updates --interactive
+
+start-mock-peterbecom-backend:
+    npm run mock-peterbecom-backend

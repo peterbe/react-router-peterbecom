@@ -31,8 +31,14 @@ export function Footer() {
       <p>&copy; peterbe.com 2003 - {THIS_YEAR}</p>
       <p>
         Check out my side project:{" "}
-        <a href="https://thatsgroce.web.app" title="That's Groce!">
+        {/* <a href="https://thatsgroce.web.app" title="That's Groce!">
           That&apos;s Groce!
+        </a> */}
+        <a
+          href="https://spot-the-difference.peterbe.com"
+          title="Spot the Difference"
+        >
+          Spot the Difference
         </a>
       </p>
     </footer>
