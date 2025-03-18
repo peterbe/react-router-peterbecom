@@ -29,7 +29,7 @@
     "compression": "^1.8.0",
     "cursor-effects": "^1.0.17",
     "dotenv": "^16.4.7",
-    "downshift": "^9.0.8",
+    "downshift": "^9.0.9",
     "express-async-handler": "^1.2.0",
     "formidable": "^3.5.2",
     "http-proxy-middleware": "^3.0.3",
