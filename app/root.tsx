@@ -51,7 +51,7 @@ export default function App() {
 
 export async function loader(args: Route.LoaderArgs) {
   const { request } = args
-  return { url: request.url }
+  return { url: request.url, method: request.method }
 }
 
 export function meta(args: Route.MetaArgs) {
@@ -76,7 +76,9 @@ export function ErrorBoundary({
   let stack: string | undefined
 
   let is404 = false
+  let is405 = false
   if (isRouteErrorResponse(error)) {
+    is405 = error.status === 405
     is404 = error.status === 404
     message = error.status === 404 ? "404 Page Not Found" : "Error"
     details =
@@ -89,7 +91,7 @@ export function ErrorBoundary({
   }
 
   if (
-    !is404 &&
+    !(is404 || is405) &&
     typeof process !== "undefined" &&
     import.meta.env.PROD &&
     process.env.ROLLBAR_ACCESS_TOKEN &&
@@ -103,10 +105,12 @@ export function ErrorBoundary({
     const context = {
       params,
       url: "",
+      method: "",
     }
     if (loaderData) {
-      const { url } = loaderData
+      const { url, method } = loaderData
       context.url = url
+      context.method = method
     }
 
     const { uuid } = rollbar.error(
