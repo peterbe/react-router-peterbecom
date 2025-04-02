@@ -75,11 +75,9 @@ export function ErrorBoundary({
   let details = "An unexpected error occurred."
   let stack: string | undefined
 
-  let is404 = false
-  let is405 = false
+  let is4xx = false
   if (isRouteErrorResponse(error)) {
-    is405 = error.status === 405
-    is404 = error.status === 404
+    is4xx = error.status >= 404 && error.status < 500
     message = error.status === 404 ? "404 Page Not Found" : "Error"
     details =
       error.status === 404
@@ -91,7 +89,7 @@ export function ErrorBoundary({
   }
 
   if (
-    !(is404 || is405) &&
+    !is4xx &&
     typeof process !== "undefined" &&
     import.meta.env.PROD &&
     process.env.ROLLBAR_ACCESS_TOKEN &&
