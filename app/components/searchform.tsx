@@ -6,10 +6,6 @@ import { useDebounceValue, useMediaQuery } from "usehooks-ts"
 
 import type { RememberedSearch } from "./remember-search"
 
-type SearchMeta = {
-  found: number
-}
-
 type TypeaheadResult = {
   term: string
   highlights: string[]
@@ -18,7 +14,6 @@ type TypeaheadResult = {
 
 type ServerData = {
   results: TypeaheadResult[]
-  meta: SearchMeta
 }
 
 type Props = {
