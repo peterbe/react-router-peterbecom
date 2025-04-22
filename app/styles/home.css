@@ -2,3 +2,6 @@
 
 @import "./components/homepage.css";
 @import "./components/post.css";
+
+/* This makes the assumption that all blog posts will benefit from highlight.js.css */
+@import "./components/highlight.js.css";
