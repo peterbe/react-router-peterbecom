@@ -97,9 +97,13 @@ function RelatedPosts({ post }: { post: Post }) {
 
   return (
     <>
-      <h2 className="ui dividing header">Related posts</h2>
+      <h2 className="header" id="related-posts">
+        <a href="#related-posts" className="toclink">
+          Related posts
+        </a>
+      </h2>
 
-      <dl className="related-posts">
+      <dl>
         {previousPost && (
           <>
             <dt>Previous:</dt>
@@ -128,7 +132,7 @@ function RelatedPosts({ post }: { post: Post }) {
       </dl>
 
       {relatedByCategory.length > 0 && (
-        <dl className="related-posts">
+        <dl>
           <dt>Related by category:</dt>
           {relatedByCategory.map((related) => (
             <dd key={related.oid}>
@@ -143,7 +147,7 @@ function RelatedPosts({ post }: { post: Post }) {
       )}
 
       {relatedByKeyword.length > 0 && (
-        <dl className="related-posts">
+        <dl>
           <dt>Related by keyword:</dt>
           {relatedByKeyword.map((related) => (
             <dd key={related.oid}>

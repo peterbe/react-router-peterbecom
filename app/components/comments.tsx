@@ -111,13 +111,24 @@ function Heading({
   nextPage: number | null
   prevPage: number | null
 }) {
-  if (totalPages === 1) return <h2 style={{ marginBottom: 5 }}>Comments</h2>
+  if (totalPages === 1)
+    return (
+      <h2 style={{ marginBottom: 5 }}>
+        <a href="#comments" className="toclink">
+          Comments
+        </a>
+      </h2>
+    )
 
   return (
     <div className="grid">
       <div>
         <hgroup style={{ marginBottom: 5 }}>
-          <h2>Comments</h2>
+          <h2>
+            <a href="#comments" className="toclink">
+              Comments
+            </a>
+          </h2>
           <h3>
             Page {page} <span>of {totalPages}</span>
           </h3>
