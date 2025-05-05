@@ -1,0 +1,7 @@
+a.toclink {
+  color: unset;
+  text-decoration: none;
+}
+a.toclink:hover {
+  text-decoration: underline;
+}
