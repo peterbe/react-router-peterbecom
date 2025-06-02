@@ -21,7 +21,7 @@
   "dependencies": {
     "@picocss/pico": "^2.1.1",
     "@react-router/node": "^7.3.0",
-    "@react-router/serve": "^7.3.0",
+    "@react-router/serve": "^7.6.1",
     "@types/compression": "^1.8.0",
     "@types/morgan": "^1.9.9",
     "axios": "^1.9.0",
