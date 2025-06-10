@@ -25,10 +25,19 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const oid = params.oid
   const p = params["*"]
-  if (p && /^p\d+$/.test(p)) {
-    page = Number.parseInt(p.replace("p", ""))
-    if (Number.isNaN(page)) {
-      throw data("Not Found (page not valid)", { status: 404 })
+  if (p) {
+    if (/^p\d+$/.test(p)) {
+      page = Number.parseInt(p.replace("p", ""))
+      if (Number.isNaN(page)) {
+        throw data("Not Found (page not valid)", { status: 404 })
+      }
+    } else {
+      throw new Response(`Unrecognized excess splat ('${p}')`, {
+        status: 404,
+        statusText: "Not found",
+        // This does not appear to work annoyingly!
+        headers: cacheHeaders(60),
+      })
     }
   }
 
@@ -37,7 +46,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const response = await get(fetchURL)
   if (response.status === 404) {
-    // throw data("Not Found (oid not found)", { status: 404 })
     throw new Response("Not Found (oid not found)", { status: 404 })
   }
   if (response.status >= 500) {

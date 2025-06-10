@@ -6,6 +6,10 @@ const JUNK_PATH_BASENAME = new Set([
   "xmlrpc.php",
 ])
 
+const BAD_STARTS = [
+  "/plog/script-tags-type-in-html5/application_javascript.html/",
+]
+
 export function junkBlock(
   req: Request,
   res: Response,
@@ -28,7 +32,14 @@ export function junkBlock(
 
   const last = req.path.split("/").at(-1)
   if (last && JUNK_PATH_BASENAME.has(last)) {
+    res.set("Cache-Control", "public, max-age=60")
     res.status(400).type("text").send("Junk path basename")
+    return
+  }
+  const badStart = BAD_STARTS.find((start) => req.path.startsWith(start))
+  if (badStart) {
+    res.set("Cache-Control", "public, max-age=60")
+    res.status(400).type("text").send("Bad path start")
     return
   }
 

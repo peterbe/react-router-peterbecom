@@ -315,6 +315,17 @@ test("strange Chinese searches", async () => {
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
 
+test("strange splats", async () => {
+  const randInt = Math.floor(Math.random() * 10)
+  console.log({ randInt })
+  const response = await get(
+    `/plog/script-tags-type-in-html5/application_javascript.html/javascript${randInt}.js/no_type.html/javascript4.js/javascript3.js/txt_javascript.html/javascript2.js/javascript4.js/text_javascript.html/javascript4.js/text_javascript.html/text_javascript.html/no_type.html/no_type.html/text_jvassscrippt.html/txt_javascript.html/javascript3.js/javascript3.js/javascript2.js/txt_javascript.html/text_jvassscrippt.html`,
+  )
+  expect(response.status).toBe(400)
+  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+  expect(isCached(response)).toBe(true)
+})
+
 test("ok Chinese searches", async () => {
   const sp = new URLSearchParams({
     q: "彼得",
@@ -351,6 +362,11 @@ test("go to blog post with trailing /p1 (with query string)", async () => {
   const response = await get("/plog/blogitem-20030629-2128/p1?foo=bar")
   expect(response.status).toBe(302)
   expect(response.headers.location).toBe("/plog/blogitem-20030629-2128?foo=bar")
+})
+
+test("blog post with excess after the splat", async () => {
+  const response = await get("/plog/blogitem-20030629-2128/foo/bar")
+  expect(response.status).toBe(404)
 })
 
 test("redirect from trailing slash with Unicode (w/o query string)", async () => {
