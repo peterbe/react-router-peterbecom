@@ -315,13 +315,12 @@ test("strange Chinese searches", async () => {
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
 
-test("strange splats", async () => {
-  const randInt = Math.floor(Math.random() * 10)
-  console.log({ randInt })
-  const response = await get(
-    `/plog/script-tags-type-in-html5/application_javascript.html/javascript${randInt}.js/no_type.html/javascript4.js/javascript3.js/txt_javascript.html/javascript2.js/javascript4.js/text_javascript.html/javascript4.js/text_javascript.html/text_javascript.html/no_type.html/no_type.html/text_jvassscrippt.html/txt_javascript.html/javascript3.js/javascript3.js/javascript2.js/txt_javascript.html/text_jvassscrippt.html`,
-  )
-  expect(response.status).toBe(400)
+test.each([
+  "/plog/script-tags-type-in-html5/no_type.html/javascript3.js/application_javascript.html/javascript2.js/javascript1.js/txt_javascript.html/javascript3.js/javascript2.js/text_javascript.html/javascript1.js/text_javascript.html/text_javascript.html/no_type.html/no_type.html/txt_javascript.html/text_jvassscrippt.html/javascript4.js/javascript4.js/application_javascript.html/txt_javascript.html",
+  "/plog/script-tags-type-in-html5/application_javascript.html/javascript9.js/no_type.html/javascript4.js/javascript3.js/txt_javascript.html/javascript2.js/javascript4.js/text_javascript.html/javascript4.js/text_javascript.html/text_javascript.html/no_type.html/no_type.html/text_jvassscrippt.html/txt_javascript.html/javascript3.js/javascript3.js/javascript2.js/txt_javascript.html/text_jvassscrippt.html",
+])("strange splats (%s)", async (pathname) => {
+  const response = await get(pathname)
+  expect(response.status).toBe(404)
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
   expect(isCached(response)).toBe(true)
 })

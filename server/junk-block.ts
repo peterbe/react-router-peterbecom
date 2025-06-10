@@ -8,6 +8,7 @@ const JUNK_PATH_BASENAME = new Set([
 
 const BAD_STARTS = [
   "/plog/script-tags-type-in-html5/application_javascript.html/",
+  "/plog/script-tags-type-in-html5/no_type.html/",
 ]
 
 export function junkBlock(
@@ -39,7 +40,8 @@ export function junkBlock(
   const badStart = BAD_STARTS.find((start) => req.path.startsWith(start))
   if (badStart) {
     res.set("Cache-Control", "public, max-age=60")
-    res.status(400).type("text").send("Bad path start")
+    // I think it has to be 404 for the CDN to have a chance to cache it
+    res.status(404).type("text").send("Bad path start")
     return
   }
 
