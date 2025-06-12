@@ -38,7 +38,7 @@ async function get(
   uri: string,
   followRedirect = false,
   throwHttpErrors = false,
-  { timeout = TIMEOUT, decompress = true, method = "get" } = {},
+  { timeout = TIMEOUT, decompress = true, method = "get", headers = {} } = {},
 ) {
   try {
     const response = await axios(SERVER_URL + uri, {
@@ -50,6 +50,7 @@ async function get(
         if (throwHttpErrors) return status >= 200 && status < 300 // default
         return true
       },
+      headers,
     })
     return response
   } catch (err) {
@@ -340,6 +341,20 @@ test.each([
   expect(response.status).toBe(404)
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
   expect(isCached(response)).toBe(true)
+})
+test.each([
+  "/plog/script-tags-type-in-html5/no_type.html/javascript3.js",
+  "/search?search=bla%5C",
+  "/plog/blogitem-040601-1/q/Since%20yo5C%5C",
+])("strange queries and bad user agent (%s)", async (pathname) => {
+  const response = await get(pathname, false, false, {
+    headers: {
+      "User-Agent": "Gecko; compatible; GPTBot/1.2; +https://openai.com/gptbot",
+    },
+  })
+  expect(response.status).toBe(302)
+  expect(isCached(response)).toBe(true)
+  expect(response.headers.location).toBe("/")
 })
 
 test("ok Chinese searches", async () => {
