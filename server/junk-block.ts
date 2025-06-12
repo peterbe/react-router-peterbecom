@@ -16,6 +16,23 @@ export function junkBlock(
   res: Response,
   next: NextFunction,
 ): void {
+  if (req.path.endsWith("%5C%5C%5C%5C%5C%5C%5C%5C%5C")) {
+    res.set("Cache-Control", "public, max-age=60")
+    res.status(400).type("text").send("Bad path end")
+    return
+  }
+
+  const search = req.query.search
+  const searchStr =
+    (search &&
+      (Array.isArray(search) ? search[0].toString() : search.toString())) ||
+    ""
+  if (searchStr.endsWith("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\")) {
+    res.set("Cache-Control", "public, max-age=60")
+    res.status(400).type("text").send("Bad search query")
+    return
+  }
+
   const q = req.query.q
   if (q) {
     if (Array.isArray(q)) {
@@ -25,6 +42,7 @@ export function junkBlock(
     const query = q as string
     if (query.length > 10) {
       if (countChineseCharacters(query) > 10) {
+        res.set("Cache-Control", "public, max-age=60")
         res.status(400).type("text").send("Too many Chinese characters")
         return
       }
