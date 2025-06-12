@@ -315,9 +315,25 @@ test("strange Chinese searches", async () => {
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
 
+test("excess trailing slashes (query)", async () => {
+  const sp = new URLSearchParams({
+    search: "blabla\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\",
+  })
+  const response = await get(`/search?${sp}`)
+  expect(response.status).toBe(400)
+  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+})
+
+test("excess trailing slashes (path)", async () => {
+  const response = await get(
+    "/plog/blogitem-040601-1/q/Since%20yo5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C",
+  )
+  expect(response.status).toBe(400)
+  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+})
+
 test("strange splats", async () => {
   const randInt = Math.floor(Math.random() * 10)
-  console.log({ randInt })
   const response = await get(
     `/plog/script-tags-type-in-html5/application_javascript.html/javascript${randInt}.js/no_type.html/javascript4.js/javascript3.js/txt_javascript.html/javascript2.js/javascript4.js/text_javascript.html/javascript4.js/text_javascript.html/text_javascript.html/no_type.html/no_type.html/text_jvassscrippt.html/txt_javascript.html/javascript3.js/javascript3.js/javascript2.js/txt_javascript.html/text_jvassscrippt.html`,
   )
