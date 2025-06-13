@@ -1,13 +1,25 @@
+import asyncHandler from "express-async-handler"
 import { isbot } from "isbot"
 import onFinished from "on-finished"
+import postgres from "postgres"
 
 import type { NextFunction, Request, Response } from "express"
 
-export function requestLogger() {
-  return function logger(req: Request, res: Response, next: NextFunction) {
+export function requestLogger(databaseUrl?: string) {
+  const sql = databaseUrl ? postgres(databaseUrl) : null
+  if (!sql) {
+    console.warn(
+      "No valid DATABASE_URL set so not logging requests to Postgres",
+    )
+  }
+  return asyncHandler(function logger(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     const _startAt = process.hrtime()
 
-    function logRequest() {
+    async function logRequest() {
       // time elapsed from request start
       const elapsed = process.hrtime(_startAt)
 
@@ -50,7 +62,19 @@ export function requestLogger() {
           contentLengthSize: contentLength ? Number(contentLength) : 0,
         },
       }
-      console.log(data)
+      if (sql) {
+        // @ts-ignore
+        await sql`
+          insert into base_requestlog
+           (url, status_code, created, request, response, meta)
+          values (
+            ${data.request.url.slice(0, 500)}, ${data.response.statusCode}, NOW(),
+            ${data.request}, 
+            ${data.response}, 
+            ${data.meta}
+          )
+        `
+      }
     }
 
     function logRequestTried() {
@@ -64,5 +88,5 @@ export function requestLogger() {
     onFinished(res, logRequestTried)
 
     next()
-  }
+  })
 }

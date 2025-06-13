@@ -28,6 +28,7 @@ const rollbar =
   })
 
 const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
+const DATABASE_URL = process.env.DATABASE_URL
 
 const buildPathArg = process.env.BUILD_PATH || process.argv[2]
 
@@ -60,7 +61,7 @@ app.use(
       : "tiny",
   ),
 )
-app.use(requestLogger())
+app.use(requestLogger(DATABASE_URL))
 
 app.use(express.static("build/client", { maxAge: "14d" }))
 app.use(express.static("public", { maxAge: "3d" }))
