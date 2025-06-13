@@ -7,6 +7,7 @@ import { dynamicImages } from "./server/dynamic-images.ts"
 import { ip } from "./server/ip.ts"
 import { junkBlock } from "./server/junk-block.ts"
 import { legacyRedirects } from "./server/legacy-redirects.ts"
+import { requestLogger } from "./server/requestLogger.ts"
 
 import path from "node:path"
 import { createRequestHandler } from "@react-router/express"
@@ -59,6 +60,7 @@ app.use(
       : "tiny",
   ),
 )
+app.use(requestLogger())
 
 app.use(express.static("build/client", { maxAge: "14d" }))
 app.use(express.static("public", { maxAge: "3d" }))
@@ -108,6 +110,7 @@ app.all(
     mode: process.env.NODE_ENV,
   }),
 )
+
 if (rollbar) {
   app.use(rollbar.errorHandler())
 }
