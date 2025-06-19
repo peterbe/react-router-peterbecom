@@ -27,12 +27,9 @@ export function requestLogger(databaseUrl?: string) {
       const userAgent = req.headers["user-agent"] || ""
 
       const isbot_ = isbot(userAgent)
-      let botUrl: null | string = null
+      let botAgent: null | string = null
       if (isbot_ && userAgent) {
-        const match = userAgent.match(/\+(http.*)\)/)
-        if (match) {
-          botUrl = match[1]
-        }
+        botAgent = getBotAgent(userAgent)
       }
       const referer = req.headers.referer || null
       const contentType = res.getHeader("content-type") ?? null
@@ -58,7 +55,7 @@ export function requestLogger(databaseUrl?: string) {
         meta: {
           elapsedMs: ms,
           isbot: isbot_,
-          botUrl,
+          botAgent,
           contentLengthSize: contentLength ? Number(contentLength) : 0,
         },
       }
@@ -89,4 +86,24 @@ export function requestLogger(databaseUrl?: string) {
 
     next()
   })
+}
+
+const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
+const urlRegex =
+  /https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(?:\/[^\s\)]*)?/g
+
+function getBotAgent(userAgent: string): string | null {
+  for (let url of userAgent.match(urlRegex) || []) {
+    if (url.startsWith("+")) {
+      url = url.slice(1)
+    }
+    return url
+  }
+  for (let email of userAgent.match(emailRegex) || []) {
+    if (email.startsWith("+")) {
+      email = email.slice(1)
+    }
+    return email
+  }
+  return null
 }
