@@ -14,6 +14,7 @@
     "test": "BUILD_PATH=./build/server/index.js vitest --run",
     "build:compress": "node --experimental-strip-types --no-warnings scripts/compress-build.ts",
     "compare-build-dirs": "node --experimental-strip-types --no-warnings scripts/compare-build-dirs.ts",
+    "bot-agent-backfill": "node --experimental-strip-types --no-warnings scripts/bot-agent-backfill.ts",
     "test:watch": "BUILD_PATH=./build/server/index.js vitest",
     "mock-peterbecom-backend": "tsx mock-peterbecom-backend/index.ts",
     "mock-peterbecom-backend:watch": "tsx watch mock-peterbecom-backend/index.ts"
