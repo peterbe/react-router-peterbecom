@@ -30,10 +30,11 @@ export function About() {
           <li>Moved to Californa, then South Carolina for the last decade</li>
         </ul>
         <p>
-          I work at <a href="https://github.com">GitHub</a> on the{" "}
-          <b>React Platform</b> team. Prior to that, to that{" "}
-          <a href="https://www.mozilla.org">Mozilla</a> and{" "}
-          <a href="https://developer.mozilla.org">MDN Web Docs</a>.
+          I work at <a href="https://www.cap-rx.com/">Capital Rx</a> as a
+          full-stack developer. Prior to that{" "}
+          <a href="https://github.com">GitHub</a>,{" "}
+          <a href="https://developer.mozilla.org">MDN Web Docs</a> and{" "}
+          <a href="https://www.mozilla.org">Mozilla</a>.
         </p>
         <p>
           The{" "}
