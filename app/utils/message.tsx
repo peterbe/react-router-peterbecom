@@ -34,13 +34,7 @@ export function Message({
         &times;
       </i>
       <div className="header">
-        {typeof header === "string" ? (
-          <p>
-            <b>{header}</b>
-          </p>
-        ) : (
-          header
-        )}
+        {typeof header === "string" ? <h3>{header}</h3> : header}
       </div>
       <div className="body">
         {body && typeof body === "string" ? <p>{body}</p> : body ? body : null}

@@ -163,9 +163,9 @@ export const SubmitData = v.object({
   comment: v.string(),
 })
 
-export const PreviewData = v.object({
-  comment: v.string(),
-})
+// export const PreviewData = v.object({
+//   comment: v.string(),
+// })
 
 export const PrepareData = v.object({
   csrfmiddlewaretoken: v.string(),

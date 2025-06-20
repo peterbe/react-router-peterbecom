@@ -6,7 +6,7 @@ import type { AddOwnCommentProps } from "~/types"
 import { Message } from "~/utils/message"
 import { newValiError } from "~/utils/utils"
 import type { Post } from "~/valibot-types"
-import { PrepareData, PreviewData, SubmitData } from "~/valibot-types"
+import { PrepareData, SubmitData } from "~/valibot-types"
 
 import { DisplayComment } from "./comment"
 
@@ -96,10 +96,10 @@ export function CommentForm({
   const [csrfmiddlewaretokenTimestamp, setCsrfmiddlewaretokenTimestamp] =
     useState<Date | null>(null)
 
-  const [previewing, setPreviewing] = useState(false)
+  // const [previewing, setPreviewing] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [renderedComment, setRenderedComment] = useState("")
-  const [previewError, setPreviewError] = useState<Error | null>(null)
+  // const [previewError, setPreviewError] = useState<Error | null>(null)
   const [prepareError, setPrepareError] = useState<Error | null>(null)
   const [submitError, setSubmitError] = useState<Error | null>(null)
 
@@ -126,29 +126,29 @@ export function CommentForm({
     }
   }
 
-  async function preview() {
-    const body = new FormData()
-    body.append("comment", comment)
-    const response = await fetch("/api/v1/plog/comments/preview", {
-      method: "POST",
-      body,
-      headers: {
-        "X-CSRFToken": csrfmiddlewaretoken,
-      },
-    })
-    if (!response.ok) {
-      setPreviewError(new Error(`${response.status}`))
-    } else {
-      const posted = await response.json()
-      try {
-        const { comment } = v.parse(PreviewData, posted)
-        setRenderedComment(comment)
-        setPreviewError(null)
-      } catch (error) {
-        throw newValiError(error)
-      }
-    }
-  }
+  // async function preview() {
+  //   const body = new FormData()
+  //   body.append("comment", comment)
+  //   const response = await fetch("/api/v1/plog/comments/preview", {
+  //     method: "POST",
+  //     body,
+  //     headers: {
+  //       "X-CSRFToken": csrfmiddlewaretoken,
+  //     },
+  //   })
+  //   if (!response.ok) {
+  //     setPreviewError(new Error(`${response.status}`))
+  //   } else {
+  //     const posted = await response.json()
+  //     try {
+  //       const { comment } = v.parse(PreviewData, posted)
+  //       setRenderedComment(comment)
+  //       setPreviewError(null)
+  //     } catch (error) {
+  //       throw newValiError(error)
+  //     }
+  //   }
+  // }
 
   async function submit() {
     await prepare() // idempotent and fast
@@ -257,7 +257,7 @@ export function CommentForm({
         />
       )}
 
-      {previewError && (
+      {/* {previewError && (
         <Message
           onClose={() => setPreviewError(null)}
           negative={true}
@@ -271,7 +271,7 @@ export function CommentForm({
             </>
           }
         />
-      )}
+      )} */}
 
       <form
         onSubmit={async (event) => {
@@ -339,7 +339,7 @@ export function CommentForm({
             onChange={(event) => setEmail(event.target.value)}
             onBlur={rememberName}
           />
-          <button
+          {/* <button
             type="button"
             className={!renderedComment ? "primary" : undefined}
             disabled={previewing || !comment.trim()}
@@ -356,7 +356,7 @@ export function CommentForm({
             }}
           >
             {renderedComment ? "Preview again" : "Preview first"}
-          </button>
+          </button> */}
           <button
             type="submit"
             className={`post ${renderedComment ? "primary" : ""}`}
