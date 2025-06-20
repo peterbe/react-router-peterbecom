@@ -55,7 +55,7 @@
     "@playwright/test": "^1.53.0",
     "@react-router/dev": "^7.6.1",
     "@types/formidable": "^3.4.5",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/on-finished": "^2.3.5",
     "@types/on-headers": "^1.0.4",
     "@types/react": "^19.1.8",
