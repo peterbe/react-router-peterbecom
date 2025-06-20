@@ -1,6 +1,6 @@
 import {
-  type CursorEffectResult,
   bubbleCursor,
+  type CursorEffectResult,
   characterCursor,
   emojiCursor,
   fairyDustCursor,

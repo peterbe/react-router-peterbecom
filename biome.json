@@ -1,8 +1,6 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
     "rules": {
@@ -22,6 +20,21 @@
       "a11y": {
         "useSemanticElements": "error",
         "useValidAnchor": "off"
+      },
+       "nursery": {
+        "useUniqueElementIds": "off"
+      },
+      "style": {
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       }
     }
   },
@@ -30,7 +43,7 @@
     "indentStyle": "space"
   },
   "files": {
-    "ignore": ["src/components/blogitem/highlight.js.css"]
+    "includes": ["**", "!**/src/components/blogitem/highlight.js.css", "!app/styles/components/highlight.js.css"]
   },
   "javascript": {
     "formatter": {

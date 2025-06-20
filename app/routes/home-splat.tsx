@@ -4,9 +4,8 @@ import { Homepage } from "~/components/homepage"
 import { get } from "~/lib/get-data"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { HomepageServerData } from "~/valibot-types"
-import type { Route } from "./+types/home-splat"
-
 import stylesheet from "../styles/home.css?url"
+import type { Route } from "./+types/home-splat"
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -72,7 +71,7 @@ export async function loader({ params }: Route.LoaderArgs) {
       continue
     }
     if (/oc-[\w+]+/.test(part)) {
-      const matched = part.match(/oc-([\w\.\+]+)/)
+      const matched = part.match(/oc-([\w.+]+)/)
       if (matched) {
         const category = matched[1].replace(/\+/g, " ")
         categories.push(category)

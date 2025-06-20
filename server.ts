@@ -1,21 +1,20 @@
+import path from "node:path"
 import url from "node:url"
+import { createRequestHandler } from "@react-router/express"
 import compression from "compression"
+import dotenv from "dotenv"
 import type { Request, Response } from "express"
+import express from "express"
+import asyncHandler from "express-async-handler"
 import { createProxyMiddleware } from "http-proxy-middleware"
+import morgan from "morgan"
 import type { ServerBuild } from "react-router"
+import Rollbar from "rollbar"
 import { dynamicImages } from "./server/dynamic-images.ts"
 import { ip } from "./server/ip.ts"
 import { junkBlock } from "./server/junk-block.ts"
 import { legacyRedirects } from "./server/legacy-redirects.ts"
 import { requestLogger } from "./server/requestLogger.ts"
-
-import path from "node:path"
-import { createRequestHandler } from "@react-router/express"
-import dotenv from "dotenv"
-import express from "express"
-import asyncHandler from "express-async-handler"
-import morgan from "morgan"
-import Rollbar from "rollbar"
 
 dotenv.config()
 
@@ -71,10 +70,7 @@ app.use(asyncHandler(dynamicImages))
 const backendProxy = createProxyMiddleware({
   target: BACKEND_BASE_URL,
   changeOrigin: true,
-  pathRewrite: (path, req) => (req as Request).originalUrl as string,
-  // pathRewrite: (path, req) => {
-  //   return (req as Request).originalUrl
-  // },
+  pathRewrite: (_path, req) => (req as Request).originalUrl as string,
 })
 app.use("*/rss.xml", backendProxy)
 app.use("/robots.txt", backendProxy)
@@ -100,7 +96,7 @@ app.post(
     pathRewrite: () => "/api/v1/events",
   }),
 )
-app.post("*", (req: Request, res: Response) => {
+app.post("*", (_req: Request, res: Response) => {
   res.sendStatus(405)
 })
 

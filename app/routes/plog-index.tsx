@@ -4,9 +4,8 @@ import { BlogArchive } from "~/components/blogarchive"
 import { get } from "~/lib/get-data"
 import { absoluteURL } from "~/utils/utils"
 import { IndexServerData } from "~/valibot-types"
-import type { Route } from "./+types/plog-index"
-
 import stylesheet from "../styles/plog-index.css?url"
+import type { Route } from "./+types/plog-index"
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -32,7 +31,7 @@ export function headers() {
   }
 }
 
-export async function loader({ params, request }: Route.LoaderArgs) {
+export async function loader({ request }: Route.LoaderArgs) {
   const { pathname } = new URL(request.url)
   if (pathname.endsWith("/")) {
     return redirect(pathname.slice(0, -1))

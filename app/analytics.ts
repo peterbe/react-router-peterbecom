@@ -6,7 +6,7 @@ import { parseUserAgent } from "./user-agent"
 function uuidv4(): string {
   try {
     return crypto.randomUUID()
-  } catch (err) {
+  } catch {
     // https://stackoverflow.com/a/2117523
     // biome-ignore lint/suspicious/noExplicitAny: doesn't really matter
     return (<any>[1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(
@@ -21,25 +21,6 @@ function uuidv4(): string {
 }
 
 type Data = Record<string, string | number>
-
-// function round(value: number, decimals = 2) {
-//   return Number(value.toFixed(decimals));
-// }
-
-// function getPerformance() {
-//   const paint = performance
-//     ?.getEntriesByType("paint")
-//     ?.find(({ name }) => name === "first-contentful-paint");
-//   const nav = performance?.getEntriesByType("navigation")?.[0] as
-//     | PerformanceNavigationTiming
-//     | undefined;
-//   return {
-//     firstContentfulPaint: paint ? round(paint.startTime) : undefined,
-//     domInteractive: nav ? round(nav.domInteractive) : undefined,
-//     domComplete: nav ? round(nav.domComplete) : undefined,
-//     render: nav ? round(nav.responseEnd - nav.requestStart) : undefined,
-//   };
-// }
 
 let previousReferrer = ""
 function getReferrer(documentReferrer: string) {

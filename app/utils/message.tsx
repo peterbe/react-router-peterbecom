@@ -25,6 +25,7 @@ export function Message({
 
   return (
     <article className={cls}>
+      {/* biome-ignore lint/a11y/noStaticElementInteractions: I don't care */}
       <i
         className="close icon"
         onClick={() => onClose()}

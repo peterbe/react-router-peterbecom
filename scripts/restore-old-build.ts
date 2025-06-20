@@ -22,8 +22,7 @@ function copyDirectory(src: string, dest: string) {
     } else if (!fs.existsSync(destPath)) {
       // If it is a file, copy the file to the destination
       fs.copyFileSync(srcPath, destPath)
-      const ageSeconds =
-        (new Date().getTime() - fs.statSync(srcPath).mtimeMs) / 1000
+      const ageSeconds = (Date.now() - fs.statSync(srcPath).mtimeMs) / 1000
       console.log(
         "COPY",
         ljust(srcPath, 70),

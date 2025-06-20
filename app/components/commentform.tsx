@@ -33,7 +33,7 @@ function getRememberedName(): RememberedName {
       }
     }
   } catch (error) {
-    console.warn("Unable to read from localStorage")
+    console.warn("Unable to read from localStorage", error)
   }
   return res
 }
@@ -106,7 +106,7 @@ export function CommentForm({
   async function prepare() {
     if (csrfmiddlewaretoken && csrfmiddlewaretokenTimestamp) {
       const ageSeconds =
-        (new Date().getTime() - csrfmiddlewaretokenTimestamp.getTime()) / 1000
+        (Date.now() - csrfmiddlewaretokenTimestamp.getTime()) / 1000
       if (ageSeconds < 60) {
         return
       }
@@ -202,13 +202,13 @@ export function CommentForm({
           JSON.stringify({ name, email }),
         )
       } catch (error) {
-        console.warn("Unable to save in localStorage")
+        console.warn("Unable to save in localStorage", error)
       }
     } else {
       try {
         localStorage.removeItem(LOCALESTORAGE_NAME_KEY)
       } catch (error) {
-        console.warn("Unable to save in localStorage")
+        console.warn("Unable to save in localStorage", error)
       }
     }
   }

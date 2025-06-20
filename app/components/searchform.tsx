@@ -195,7 +195,7 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
                   key={`${item.term}${item.faux}`}
                   {...getItemProps({ item, index })}
                 >
-                  {item.highlights.map((highlight, i) => {
+                  {item.highlights.map((highlight) => {
                     return (
                       <span
                         key={highlight}

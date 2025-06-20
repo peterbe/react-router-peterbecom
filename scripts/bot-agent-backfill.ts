@@ -1,4 +1,5 @@
 import postgres from "postgres"
+
 const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) throw new Error("DATABASE_URL not set")
 
@@ -25,7 +26,7 @@ async function countBackfillables() {
 }
 const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
 const urlRegex =
-  /https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(?:\/[^\s\)]*)?/g
+  /https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(?:\/[^\s)]*)?/g
 
 const mem: Record<string, string | null> = {}
 function getBotAgent(userAgent: string): string | null {

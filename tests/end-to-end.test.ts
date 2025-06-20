@@ -53,7 +53,7 @@ async function get(
       headers,
     })
     return response
-  } catch (err) {
+  } catch {
     throw new Error(
       `Axios network error on ${method.toUpperCase()} ${uri} (${JSON.stringify({
         followRedirect,
@@ -83,7 +83,7 @@ function skipToNavWorks(body: string | CheerioAPI) {
   const $ = typeof body === "string" ? cheerio.load(body) : body
 
   const links = $("ul.skip-to-nav a[href]")
-    .map((i, element) => $(element).attr("href"))
+    .map((_i, element) => $(element).attr("href"))
     .get()
   for (const href of links) {
     if (!$(href).length) {
@@ -169,7 +169,7 @@ test("plog archive page", async () => {
   expect(isCached(response)).toBe
   const $ = cheerio.load(response.data)
   const dts = $("dt")
-    .map((i, element) => {
+    .map((_i, element) => {
       return $(element).text()
     })
     .get()
