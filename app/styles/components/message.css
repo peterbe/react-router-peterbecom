@@ -16,7 +16,7 @@
   color: #ff6f00;
 }
 .message.positive {
-  background-color: #e8f5e9;
+  border: 1px solid #e8f5e9;
   color: #1b5e20;
 }
 .close.icon {
@@ -24,4 +24,5 @@
   font-style: normal;
   cursor: pointer;
   color: var(--color);
+  margin-right: 10px;
 }
