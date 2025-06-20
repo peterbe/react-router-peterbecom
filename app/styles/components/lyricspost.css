@@ -43,6 +43,7 @@ input[type="search"] {
 .autocomplete ul li {
   border-bottom: 1px solid #efefef;
   padding: 6px;
+  cursor: pointer;
 }
 .autocomplete ul li:hover {
   /* background-color: #ececec; */
@@ -57,9 +58,6 @@ input[type="search"] {
   background-color: var(--pico-blockquote-border-color);
 }
 
-.autocomplete li {
-  cursor: pointer;
-}
 .autocomplete li .artist-name {
   margin: 0;
 }

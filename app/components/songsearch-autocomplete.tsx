@@ -190,6 +190,18 @@ export default function SongSearchAutocomplete() {
     }, 300)
   }
 
+  const fetchAutocompleteSuggestionsDebounced = debounce(
+    800,
+    fetchAutocompleteSuggestions,
+  )
+  const fetchAutocompleteSuggestionsDebouncedLong = debounce(
+    1800,
+    fetchAutocompleteSuggestions,
+  )
+  const fetchAutocompleteSuggestionsThrottled = throttle(
+    1100,
+    fetchAutocompleteSuggestions,
+  )
   useEffect(() => {
     const length = q.length
     if (length > MAX_LENGTH - 10) {
@@ -229,20 +241,14 @@ export default function SongSearchAutocomplete() {
       setRedirectingSearch("")
       setShowAutocompleteSuggestions(true)
     }
-  }, [q, searchMaxLength, waitingFor])
-
-  const fetchAutocompleteSuggestionsDebounced = debounce(
-    800,
-    fetchAutocompleteSuggestions,
-  )
-  const fetchAutocompleteSuggestionsDebouncedLong = debounce(
-    1800,
-    fetchAutocompleteSuggestions,
-  )
-  const fetchAutocompleteSuggestionsThrottled = throttle(
-    1100,
-    fetchAutocompleteSuggestions,
-  )
+  }, [
+    q,
+    searchMaxLength,
+    waitingFor,
+    fetchAutocompleteSuggestionsDebounced,
+    fetchAutocompleteSuggestionsDebouncedLong,
+    fetchAutocompleteSuggestionsThrottled,
+  ])
 
   function fetchAutocompleteSuggestions() {
     const url = `${SERVER}/api/search/autocomplete?q=${encodeURIComponent(q)}`
@@ -343,7 +349,6 @@ export default function SongSearchAutocomplete() {
           autocompleteSuggestions.length > 0 &&
           showAutocompleteSuggestions && (
             <ShowAutocompleteSuggestions
-              q={q}
               onSelectSuggestion={onSelectSuggestion}
               highlight={autocompleteHighlight}
               suggestions={autocompleteSuggestions}
@@ -387,19 +392,13 @@ function ShowMaxlengthWarning({
 }
 
 function ShowAutocompleteSuggestions({
-  q,
   highlight,
   suggestions,
-  // searchSuggestions,
   onSelectSuggestion,
-}: // onSelectSuggestionAll,
-{
-  q: string
+}: {
   highlight: number
   suggestions: Suggestion[]
-  // searchSuggestions,
   onSelectSuggestion: (song: Suggestion) => void
-  // onSelectSuggestionAll;
 }) {
   return (
     <div className="autocomplete">

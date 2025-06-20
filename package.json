@@ -51,7 +51,7 @@
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.0.0",
     "@playwright/test": "^1.53.0",
     "@react-router/dev": "^7.6.1",
     "@types/formidable": "^3.4.5",

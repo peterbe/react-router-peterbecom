@@ -76,8 +76,8 @@ export function PostComments({ post, comments, page }: Props) {
 function PostOwnComment() {
   return (
     <a
-      // biome-ignore lint/a11y/useSemanticElements: I don't care
       href="#commentsform"
+      // biome-ignore lint/a11y/useSemanticElements: I don't care
       role="button"
       className="mini"
       style={{ marginLeft: 0 }}

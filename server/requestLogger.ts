@@ -1,9 +1,8 @@
+import type { NextFunction, Request, Response } from "express"
 import asyncHandler from "express-async-handler"
 import { isbot } from "isbot"
 import onFinished from "on-finished"
 import postgres from "postgres"
-
-import type { NextFunction, Request, Response } from "express"
 
 export function requestLogger(databaseUrl?: string) {
   const sql = databaseUrl ? postgres(databaseUrl) : null
@@ -90,7 +89,7 @@ export function requestLogger(databaseUrl?: string) {
 
 const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
 const urlRegex =
-  /https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(?:\/[^\s\)]*)?/g
+  /https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(?:\/[^\s)]*)?/g
 
 function getBotAgent(userAgent: string): string | null {
   for (let url of userAgent.match(urlRegex) || []) {

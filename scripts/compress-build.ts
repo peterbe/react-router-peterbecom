@@ -1,5 +1,6 @@
-import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs"
-import { constants, brotliCompressSync } from "node:zlib"
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs"
+import { brotliCompressSync, constants } from "node:zlib"
+
 const DIRECTORIES = ["build/client/assets"]
 
 const MIN_SIZE = 100 // bytes

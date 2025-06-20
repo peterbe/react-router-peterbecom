@@ -13,7 +13,7 @@ type Props = {
   results: LyricsSearchResult[]
   page: number
 }
-export function LyricsSearch({ metadata, results, page }: Props) {
+export function LyricsSearch({ metadata, results }: Props) {
   useSendPageview()
 
   const pageTitle = `"${metadata.search}"`
@@ -112,7 +112,7 @@ function Results({
                 />
               </a>
             ) : null}
-            {result.fragments.map((fragment, i) => (
+            {result.fragments.map((fragment) => (
               <p
                 className="fragment"
                 key={fragment}

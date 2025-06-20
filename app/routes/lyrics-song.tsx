@@ -6,10 +6,8 @@ import { LyricsSongError } from "~/components/lyrics-song-error"
 import { get } from "~/lib/get-data"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSongData } from "~/valibot-types"
-
-import type { Route } from "./+types/lyrics-song"
-
 import stylesheet from "../styles/lyrics-song.css?url"
+import type { Route } from "./+types/lyrics-song"
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -74,9 +72,9 @@ function cacheHeaders(seconds: number) {
 }
 
 export function meta(args: Route.MetaArgs) {
-  const { location, data, error } = args
+  const { location, data } = args
 
-  if (!data.song) {
+  if (!data?.song) {
     return []
   }
 

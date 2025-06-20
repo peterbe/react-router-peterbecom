@@ -6,7 +6,6 @@ const RelatedPost = v.object({
   pub_date: v.string(),
   categories: v.optional(v.array(v.string())),
 })
-type RelatedPost = v.InferInput<typeof RelatedPost>
 
 export const Post = v.object({
   oid: v.string(),

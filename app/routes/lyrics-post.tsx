@@ -1,13 +1,11 @@
 import { data, redirect } from "react-router"
 import * as v from "valibot"
-
-import type { Route } from "./+types/lyrics-post"
-
 import { Lyricspost } from "~/components/lyricspost"
 import { get } from "~/lib/get-data"
 // import global from "~/styles/build/global-lyricspost.css";
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerData } from "~/valibot-types"
+import type { Route } from "./+types/lyrics-post"
 
 export { ErrorBoundary } from "../root"
 

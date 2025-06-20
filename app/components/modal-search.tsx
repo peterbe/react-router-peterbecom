@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from "react"
+import { lazy, Suspense, useEffect } from "react"
 
 const AutocompleteSearch = lazy(
   // @ts-ignore

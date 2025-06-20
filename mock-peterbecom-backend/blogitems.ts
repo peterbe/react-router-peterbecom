@@ -106,9 +106,7 @@ function generateBlogItems(howmany: number, categories: string[]): Blogitem[] {
       oid: `generated-${uuid++}`,
       title: `Title of blog item ${uuid}`,
       categories,
-      pub_date: new Date(
-        new Date().getTime() - 1000 * 60 * 60 * 24 * uuid,
-      ).toISOString(),
+      pub_date: new Date(Date.now() - 1000 * 60 * 60 * 24 * uuid).toISOString(),
       comments: [],
       html: `
         <p>Blog post number ${uuid} for ${categories}</p>\n

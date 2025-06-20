@@ -96,7 +96,7 @@ function RecentSearches({
   return (
     <RecentWrapper>
       <RecentHeading text="Recent searches" />
-      {searches.map((search, i) => {
+      {searches.map((search) => {
         const url = `/search?${new URLSearchParams({
           q: search.term,
         }).toString()}`
