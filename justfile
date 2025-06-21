@@ -4,6 +4,9 @@
 dev:
     npm run dev
 
+dev-with-proxy:
+    API_BASE=https://www.peterbe.com npm run dev
+
 build:
     npm run build
 
