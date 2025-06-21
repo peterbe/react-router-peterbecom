@@ -18,6 +18,27 @@ type SideProject = {
 export const sideProjects: SideProject[] = []
 
 sideProjects.push({
+  id: "video-to-screenshots",
+  title: "Video to Screenshots",
+  image: {
+    url: "/images/about/video-to-screenshots-scr.png",
+    width: 140,
+    height: 97,
+  },
+  url: "https://video-to-screenshots.peterbe.com",
+  body: (
+    <p>
+      A web app to turn a video file into screenshots without a server. You
+      select a video file from your computer and it extracts screenshots from
+      various time points of the video. It all happens locally in your browser
+      and there's no uploading to a server.
+      <br />
+      <Link to="/plog/video-to-screenshots-app">Blog post about it here</Link>.
+    </p>
+  ),
+})
+
+sideProjects.push({
   id: "spot-the-difference",
   title: "Spot the Difference",
   image: {
