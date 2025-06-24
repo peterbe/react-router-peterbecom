@@ -25,6 +25,7 @@ export function getBotAgent(userAgent: string): string | null {
     Site24x7: "Site24x7",
     YisouSpider: "YisouSpider",
     Brightbot: "Brightbot",
+    "search.marginalia.nu": "search.marginalia.nu",
   }
   for (const [needle, replacement] of Object.entries(transforms)) {
     if (userAgent.includes(needle)) {
