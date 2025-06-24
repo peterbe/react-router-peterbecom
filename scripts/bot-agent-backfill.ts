@@ -1,4 +1,5 @@
 import postgres from "postgres"
+import { getBotAgent } from "../server/get-bot-agent"
 
 const DATABASE_URL = process.env.DATABASE_URL
 if (!DATABASE_URL) throw new Error("DATABASE_URL not set")
@@ -24,33 +25,15 @@ async function countBackfillables() {
   `
   return results ? Number(results[0].count) : 0
 }
-const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
-const urlRegex =
-  /https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(?:\/[^\s)]*)?/g
 
 const mem: Record<string, string | null> = {}
-function getBotAgent(userAgent: string): string | null {
+function getBotAgent_mem(userAgent: string): string | null {
   if (!(userAgent in mem)) {
     console.log("MISS", userAgent)
 
-    mem[userAgent] = _getBotAgent(userAgent)
+    mem[userAgent] = getBotAgent(userAgent)
   }
   return mem[userAgent] || null
-}
-function _getBotAgent(userAgent: string): string | null {
-  for (let url of userAgent.match(urlRegex) || []) {
-    if (url.startsWith("+")) {
-      url = url.slice(1)
-    }
-    return url
-  }
-  for (let email of userAgent.match(emailRegex) || []) {
-    if (email.startsWith("+")) {
-      email = email.slice(1)
-    }
-    return email
-  }
-  return null
 }
 
 async function main() {
@@ -63,7 +46,7 @@ async function main() {
     } = row
     if (meta.botAgent) continue
     // console.log(id, meta)
-    const botAgent = getBotAgent(userAgent)
+    const botAgent = getBotAgent_mem(userAgent)
     console.log(id, { userAgent, botAgent })
     meta.botAgent = botAgent
     meta.botUrl = undefined

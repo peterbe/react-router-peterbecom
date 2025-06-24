@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler"
 import { isbot } from "isbot"
 import onFinished from "on-finished"
 import postgres from "postgres"
+import { getBotAgent } from "./get-bot-agent"
 
 export function requestLogger(databaseUrl?: string) {
   const sql = databaseUrl ? postgres(databaseUrl) : null
@@ -28,7 +29,7 @@ export function requestLogger(databaseUrl?: string) {
       const isbot_ = isbot(userAgent)
       let botAgent: null | string = null
       if (isbot_ && userAgent) {
-        botAgent = getBotAgent(userAgent)
+        botAgent = getBotAgent(userAgent) || userAgent
       }
       const referer = req.headers.referer || null
       const contentType = res.getHeader("content-type") ?? null
@@ -65,8 +66,8 @@ export function requestLogger(databaseUrl?: string) {
            (url, status_code, created, request, response, meta)
           values (
             ${data.request.url.slice(0, 500)}, ${data.response.statusCode}, NOW(),
-            ${data.request}, 
-            ${data.response}, 
+            ${data.request},
+            ${data.response},
             ${data.meta}
           )
         `
@@ -85,24 +86,4 @@ export function requestLogger(databaseUrl?: string) {
 
     next()
   })
-}
-
-const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g
-const urlRegex =
-  /https?:\/\/(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(?:\/[^\s)]*)?/g
-
-function getBotAgent(userAgent: string): string | null {
-  for (let url of userAgent.match(urlRegex) || []) {
-    if (url.startsWith("+")) {
-      url = url.slice(1)
-    }
-    return url
-  }
-  for (let email of userAgent.match(emailRegex) || []) {
-    if (email.startsWith("+")) {
-      email = email.slice(1)
-    }
-    return email
-  }
-  return null
 }
