@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
   "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "linter": {
     "enabled": true,
@@ -21,7 +21,7 @@
         "useSemanticElements": "error",
         "useValidAnchor": "off"
       },
-       "nursery": {
+      "nursery": {
         "useUniqueElementIds": "off"
       },
       "style": {
@@ -43,7 +43,10 @@
     "indentStyle": "space"
   },
   "files": {
-    "includes": ["**", "!**/src/components/blogitem/highlight.js.css", "!app/styles/components/highlight.js.css"]
+    "includes": [
+      "**",
+      "!app/styles/components/highlight.js.css"
+    ]
   },
   "javascript": {
     "formatter": {
