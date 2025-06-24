@@ -12,7 +12,7 @@ async function getBackfillables() {
     select
       id, meta, request
     from base_requestlog
-    where (meta->'isbot')::boolean and meta->'botAgent' is null
+    where (meta->>'isbot')::boolean and (meta->>'botAgent') IS NULL
     order by created
     limit ${LIMIT}
   `
@@ -21,7 +21,7 @@ async function countBackfillables() {
   const results = await sql`
     select count(*)
     from base_requestlog
-    where (meta->'isbot')::boolean and meta->'botAgent' is null
+    where (meta->>'isbot')::boolean and (meta->>'botAgent') IS NULL
   `
   return results ? Number(results[0].count) : 0
 }

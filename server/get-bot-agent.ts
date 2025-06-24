@@ -17,10 +17,19 @@ export function getBotAgent(userAgent: string): string | null {
   }
 
   // Exceptions abound!
-  if (userAgent.includes("+imagesift.com")) return "imagesift.com"
-  if (userAgent.includes("zoominfobot at zoominfo dot com"))
-    return "zoominfobot@zoominfo.com"
-  if (userAgent.includes("Twitterbot/")) return "Twitterbot"
-  if (userAgent.includes("HeadlessChrome")) return "HeadlessChrome"
+  const transforms = {
+    "+imagesift.com": "imagesift.com",
+    "zoominfobot at zoominfo dot com": "zoominfobot@zoominfo.com",
+    "Twitterbot/": "Twitterbot",
+    HeadlessChrome: "HeadlessChrome",
+    Site24x7: "Site24x7",
+    YisouSpider: "YisouSpider",
+    Brightbot: "Brightbot",
+  }
+  for (const [needle, replacement] of Object.entries(transforms)) {
+    if (userAgent.includes(needle)) {
+      return replacement
+    }
+  }
   return null
 }
