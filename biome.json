@@ -45,7 +45,9 @@
   "files": {
     "includes": [
       "**",
-      "!app/styles/components/highlight.js.css"
+      "!app/styles/components/highlight.js.css",
+      "!.react-router",
+      "!build"
     ]
   },
   "javascript": {
