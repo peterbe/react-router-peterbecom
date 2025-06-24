@@ -14,7 +14,7 @@
     "test": "BUILD_PATH=./build/server/index.js vitest --run",
     "build:compress": "node --experimental-strip-types --no-warnings scripts/compress-build.ts",
     "compare-build-dirs": "node --experimental-strip-types --no-warnings scripts/compare-build-dirs.ts",
-    "bot-agent-backfill": "node --experimental-strip-types --no-warnings scripts/bot-agent-backfill.ts",
+    "bot-agent-backfill": "tsx scripts/bot-agent-backfill.ts",
     "test:watch": "BUILD_PATH=./build/server/index.js vitest",
     "mock-peterbecom-backend": "tsx mock-peterbecom-backend/index.ts",
     "mock-peterbecom-backend:watch": "tsx watch mock-peterbecom-backend/index.ts"
@@ -25,7 +25,7 @@
     "@react-router/serve": "^7.3.0",
     "@types/compression": "^1.8.1",
     "@types/morgan": "^1.9.10",
-    "axios": "^1.9.0",
+    "axios": "^1.10.0",
     "axios-retry": "^4.5.0",
     "compression": "^1.8.0",
     "cursor-effects": "^1.0.17",
@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.0",
-    "@playwright/test": "^1.53.0",
+    "@playwright/test": "^1.53.1",
     "@react-router/dev": "^7.6.1",
     "@types/formidable": "^3.4.5",
     "@types/node": "^22",
@@ -71,7 +71,7 @@
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.3"
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "usehooks-ts": {
