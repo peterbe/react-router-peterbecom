@@ -26,6 +26,9 @@ export function getBotAgent(userAgent: string): string | null {
     YisouSpider: "YisouSpider",
     Brightbot: "Brightbot",
     "search.marginalia.nu": "search.marginalia.nu",
+    "Googlebot-Image/": "Googlebot-Image",
+    "Chrome Privacy Preserving Prefetch Proxy":
+      "Chrome Privacy Preserving Prefetch Proxy",
   }
   for (const [needle, replacement] of Object.entries(transforms)) {
     if (userAgent.includes(needle)) {

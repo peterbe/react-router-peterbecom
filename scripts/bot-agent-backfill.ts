@@ -17,6 +17,17 @@ async function getBackfillables() {
     limit ${LIMIT}
   `
 }
+async function getBackfillablesCounts(limit = 10) {
+  return await sql`
+    select
+      request->>'userAgent' as userAgent, count(request->>'userAgent') as count
+    from base_requestlog
+    where (meta->>'isbot')::boolean and (meta->>'botAgent') IS NULL
+    group by request->>'userAgent'
+    order by 2 desc
+    limit ${limit}
+  `
+}
 async function countBackfillables() {
   const results = await sql`
     select count(*)
@@ -59,5 +70,12 @@ async function main() {
   const countAfter = await countBackfillables()
   console.log({ countBefore })
   console.log({ countAfter })
+  const common = await getBackfillablesCounts()
+  if (common.length) {
+    console.log(`${common.length} most common unmatched`)
+    common.forEach(({ useragent, count }, i) => {
+      console.log(`${i + 1}`.padEnd(3), `${count}`.padEnd(3), useragent)
+    })
+  }
 }
 main().then(() => process.exit(0))
