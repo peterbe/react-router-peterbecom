@@ -17,10 +17,6 @@ export function junkBlock(
   next: NextFunction,
 ): void {
   const search = req.query.search
-  const searchStr =
-    (search &&
-      (Array.isArray(search) ? search[0].toString() : search.toString())) ||
-    ""
   const url = req.url
   if (url.endsWith("%5C") || url.endsWith("%5") || url.endsWith("5C")) {
     let betterUrl = url
@@ -44,6 +40,10 @@ export function junkBlock(
 
   const userAgent = req.headers["user-agent"]
   if (userAgent?.includes("GPTBot/1.2")) {
+    const searchStr =
+      (search &&
+        (Array.isArray(search) ? search[0].toString() : search.toString())) ||
+      ""
     if (
       searchStr.endsWith("\\") ||
       req.path.endsWith("%5C") ||
@@ -79,6 +79,10 @@ export function junkBlock(
       if (countChineseCharacters(query) > 10) {
         res.set("Cache-Control", "public, max-age=60")
         res.status(400).type("text").send("Too many Chinese characters")
+        return
+      }
+      if (query.length > 100) {
+        res.status(400).type("text").send("Query too long")
         return
       }
     }
