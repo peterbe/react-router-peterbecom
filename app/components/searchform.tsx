@@ -150,7 +150,6 @@ export function SearchForm({ goTo, autofocus, recentSearches }: Props) {
         <label className="visually-hidden" {...getLabelProps()}>
           Search terms:
         </label>
-        {/* biome-ignore lint/a11y/useSemanticElements: what picocss recommended */}
         <fieldset role="search">
           <input
             placeholder="Search anything on this blog"

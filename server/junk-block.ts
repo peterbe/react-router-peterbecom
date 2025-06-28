@@ -16,24 +16,34 @@ export function junkBlock(
   res: Response,
   next: NextFunction,
 ): void {
-  if (req.path.endsWith("%5C%5C%5C%5C%5C%5C%5C")) {
-    res.set("Cache-Control", "public, max-age=60")
-    res.status(400).type("text").send("Bad path end")
+  const search = req.query.search
+  const url = req.url
+  if (url.endsWith("%5C") || url.endsWith("%5") || url.endsWith("5C")) {
+    let betterUrl = url
+    if (betterUrl.endsWith("%5")) {
+      betterUrl = betterUrl.slice(0, -"%5".length)
+    }
+    while (betterUrl.endsWith("%5C")) {
+      betterUrl = betterUrl.slice(0, -"%5C".length)
+    }
+    if (betterUrl.endsWith("5C")) {
+      betterUrl = betterUrl.slice(0, -"5C".length)
+    }
+    while (betterUrl.endsWith("%")) {
+      betterUrl = betterUrl.slice(0, -1)
+    }
+    // In KeyCDN, a 400 can't be cached
+    res.set("Cache-Control", "public, max-age=3600")
+    res.redirect(302, betterUrl)
     return
   }
 
-  const search = req.query.search
-  const searchStr =
-    (search &&
-      (Array.isArray(search) ? search[0].toString() : search.toString())) ||
-    ""
-  if (searchStr.endsWith("\\\\\\\\")) {
-    res.set("Cache-Control", "public, max-age=60")
-    res.status(400).type("text").send("Bad search query")
-    return
-  }
   const userAgent = req.headers["user-agent"]
   if (userAgent?.includes("GPTBot/1.2")) {
+    const searchStr =
+      (search &&
+        (Array.isArray(search) ? search[0].toString() : search.toString())) ||
+      ""
     if (
       searchStr.endsWith("\\") ||
       req.path.endsWith("%5C") ||
@@ -43,6 +53,26 @@ export function junkBlock(
       res.set("Cache-Control", "public, max-age=3600")
       res.redirect(302, "/")
       return
+    }
+  }
+
+  const { query } = req
+  if (query) {
+    // E.g. ?0=%3C%2Fscript%3E%3Cw7cyr5%3E&2=ppt07&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&
+    if (query["0"] || query["2"]) {
+      if (Object.keys(query).length > 3) {
+        res.set("Cache-Control", "public, max-age=3600")
+        res.redirect(302, req.path)
+        return
+      }
+    } else if (req.method === "GET" && (query["name"] || query["email"])) {
+      const name = `${query.name}`
+      const email = `${query.email}`
+      if (name.length > 50 || email.length > 50) {
+        res.set("Cache-Control", "public, max-age=3600")
+        res.redirect(302, req.path)
+        return
+      }
     }
   }
 
@@ -57,6 +87,10 @@ export function junkBlock(
       if (countChineseCharacters(query) > 10) {
         res.set("Cache-Control", "public, max-age=60")
         res.status(400).type("text").send("Too many Chinese characters")
+        return
+      }
+      if (query.length > 100) {
+        res.status(400).type("text").send("Query too long")
         return
       }
     }
