@@ -65,6 +65,14 @@ export function junkBlock(
         res.redirect(302, req.path)
         return
       }
+    } else if (req.method === "GET" && (query["name"] || query["email"])) {
+      const name = `${query.name}`
+      const email = `${query.email}`
+      if (name.length > 50 || email.length > 50) {
+        res.set("Cache-Control", "public, max-age=3600")
+        res.redirect(302, req.path)
+        return
+      }
     }
   }
 

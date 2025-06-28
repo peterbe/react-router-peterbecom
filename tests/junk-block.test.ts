@@ -53,22 +53,30 @@ test("ok Chinese searches", async () => {
   expect(response.status).toBe(200)
 })
 
-test("junk URLs", async () => {
-  for (const url of [
-    "/xmlrpc.php",
-    "/blog/wp-login.php",
-    "/about/wp-login.php",
-  ]) {
+test.each(["/xmlrpc.php", "/blog/wp-login.php", "/about/wp-login.php"])(
+  "junk URLs",
+  async (url) => {
     const response = await get(url)
     expect(response.status).toBe(400)
     expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
-  }
-})
+  },
+)
 
 test.each([
   "/plog?0=xsrf4&2=%22-cwxyn6-%22&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&future=i1zd1&id=mm508&index=zwc02&item=tm8q3&lang=csi63&list_type=ie7x9&month=pyib1&name=qh1r1&parentId=osnl2&positions=shs71&root=lup28&s=uw9z3&ssr=amov1&terms=nwju2",
 ])("too many strange query keys (%s)", async (pathname) => {
   const response = await get(pathname)
+  expect(response.status).toBe(302)
+  expect(isCached(response)).toBe(true)
+  expect(response.headers.location).toBe("/plog")
+})
+
+test("long name and/or email", async () => {
+  const sp = new URLSearchParams({
+    name: "bla",
+    email: "ble".repeat(20),
+  })
+  const response = await get(`/plog?${sp}`)
   expect(response.status).toBe(302)
   expect(isCached(response)).toBe(true)
   expect(response.headers.location).toBe("/plog")
