@@ -77,7 +77,6 @@ function PostOwnComment() {
   return (
     <a
       href="#commentsform"
-      // biome-ignore lint/a11y/useSemanticElements: I don't care
       role="button"
       className="mini"
       style={{ marginLeft: 0 }}

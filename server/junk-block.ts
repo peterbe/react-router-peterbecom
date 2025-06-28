@@ -16,7 +16,7 @@ export function junkBlock(
   res: Response,
   next: NextFunction,
 ): void {
-  if (req.path.endsWith("%5C%5C%5C%5C%5C%5C%5C")) {
+  if (req.path.endsWith("%5C%5C%5C%5C")) {
     res.set("Cache-Control", "public, max-age=60")
     res.status(400).type("text").send("Bad path end")
     return
@@ -43,6 +43,18 @@ export function junkBlock(
       res.set("Cache-Control", "public, max-age=3600")
       res.redirect(302, "/")
       return
+    }
+  }
+
+  const { query } = req
+  if (query) {
+    // E.g. ?0=%3C%2Fscript%3E%3Cw7cyr5%3E&2=ppt07&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&
+    if (query["0"] || query["2"]) {
+      if (Object.keys(query).length > 3) {
+        res.set("Cache-Control", "public, max-age=3600")
+        res.redirect(302, req.path)
+        return
+      }
     }
   }
 
