@@ -13,23 +13,6 @@ test("strange Chinese searches", async () => {
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
 
-test("excess trailing slashes (query)", async () => {
-  const sp = new URLSearchParams({
-    search: "blabla\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\",
-  })
-  const response = await get(`/search?${sp}`)
-  expect(response.status).toBe(400)
-  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
-})
-
-test("excess trailing slashes (path)", async () => {
-  const response = await get(
-    "/plog/blogitem-040601-1/q/Since%20yo5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C%5C",
-  )
-  expect(response.status).toBe(400)
-  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
-})
-
 test.each([
   "/plog/script-tags-type-in-html5/no_type.html/javascript3.js/application_javascript.html/javascript2.js/javascript1.js/txt_javascript.html/javascript3.js/javascript2.js/text_javascript.html/javascript1.js/text_javascript.html/text_javascript.html/no_type.html/no_type.html/txt_javascript.html/text_jvassscrippt.html/javascript4.js/javascript4.js/application_javascript.html/txt_javascript.html",
   "/plog/script-tags-type-in-html5/application_javascript.html/javascript9.js/no_type.html/javascript4.js/javascript3.js/txt_javascript.html/javascript2.js/javascript4.js/text_javascript.html/javascript4.js/text_javascript.html/text_javascript.html/no_type.html/no_type.html/text_jvassscrippt.html/txt_javascript.html/javascript3.js/javascript3.js/javascript2.js/txt_javascript.html/text_jvassscrippt.html",
@@ -39,19 +22,18 @@ test.each([
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
   expect(isCached(response)).toBe(true)
 })
+
 test.each([
-  "/plog/script-tags-type-in-html5/no_type.html/javascript3.js",
-  "/search?search=bla%5C",
-  "/plog/blogitem-040601-1/q/Since%20yo5C%5C",
-])("strange queries and bad user agent (%s)", async (pathname) => {
-  const response = await get(pathname, false, false, {
-    headers: {
-      "User-Agent": "Gecko; compatible; GPTBot/1.2; +https://openai.com/gptbot",
-    },
-  })
+  "/plog%5C",
+  "/plog%5C%5C%5C%5C%5C",
+  "/plog5C",
+  "/plog%5C%5C%5C%5C%5",
+  "/plog%5C%5C%5C%5C%5C",
+])("any url ending with %5C (%s)", async (url) => {
+  const response = await get(url)
   expect(response.status).toBe(302)
   expect(isCached(response)).toBe(true)
-  expect(response.headers.location).toBe("/")
+  expect(response.headers.location).toBe("/plog")
 })
 
 test("ok Chinese searches", async () => {

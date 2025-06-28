@@ -16,22 +16,32 @@ export function junkBlock(
   res: Response,
   next: NextFunction,
 ): void {
-  if (req.path.endsWith("%5C%5C%5C%5C")) {
-    res.set("Cache-Control", "public, max-age=60")
-    res.status(400).type("text").send("Bad path end")
-    return
-  }
-
   const search = req.query.search
   const searchStr =
     (search &&
       (Array.isArray(search) ? search[0].toString() : search.toString())) ||
     ""
-  if (searchStr.endsWith("\\\\\\\\")) {
-    res.set("Cache-Control", "public, max-age=60")
-    res.status(400).type("text").send("Bad search query")
+  const url = req.url
+  if (url.endsWith("%5C") || url.endsWith("%5") || url.endsWith("5C")) {
+    let betterUrl = url
+    if (betterUrl.endsWith("%5")) {
+      betterUrl = betterUrl.slice(0, -"%5".length)
+    }
+    while (betterUrl.endsWith("%5C")) {
+      betterUrl = betterUrl.slice(0, -"%5C".length)
+    }
+    if (betterUrl.endsWith("5C")) {
+      betterUrl = betterUrl.slice(0, -"5C".length)
+    }
+    while (betterUrl.endsWith("%")) {
+      betterUrl = betterUrl.slice(0, -1)
+    }
+    // In KeyCDN, a 400 can't be cached
+    res.set("Cache-Control", "public, max-age=3600")
+    res.redirect(302, betterUrl)
     return
   }
+
   const userAgent = req.headers["user-agent"]
   if (userAgent?.includes("GPTBot/1.2")) {
     if (
