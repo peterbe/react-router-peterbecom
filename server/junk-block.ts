@@ -59,13 +59,16 @@ export function junkBlock(
   const { query } = req
   if (query) {
     // E.g. ?0=%3C%2Fscript%3E%3Cw7cyr5%3E&2=ppt07&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&
-    if (query["0"] || query["2"]) {
+    // or ?AuthState=w7uq28&DirectTo=r82s5&c=ac8s5&d=qmjb3&domain_url=na2z5&file_url=w3x81&folder=bfpj4&
+    const needles = ["0", "2"]
+    const fives = Object.values(query).filter((value) => value?.length === 5)
+    if (needles.some((needle) => needle in query) || fives.length > 3) {
       if (Object.keys(query).length > 3) {
         res.set("Cache-Control", "public, max-age=3600")
         res.redirect(302, req.path)
         return
       }
-    } else if (req.method === "GET" && (query["name"] || query["email"])) {
+    } else if (req.method === "GET" && (query.name || query.email)) {
       const name = `${query.name}`
       const email = `${query.email}`
       if (name.length > 50 || email.length > 50) {
