@@ -16,15 +16,6 @@ type Props = {
   page: number
 }
 
-function chunks<T>(arr: T[], size: number): T[][] {
-  return arr.reduce((acc, _, i, arr) => {
-    if (i % size === 0) {
-      acc.push(arr.slice(i, i + size))
-    }
-    return acc
-  }, [] as T[][])
-}
-
 export function Homepage({
   posts,
   categories,
@@ -49,12 +40,8 @@ export function Homepage({
             <p>Or you can click on the categories to filter by topic</p>
           </hgroup>
         )}
-        {chunks(posts, 2).map((chunkPosts, i) => (
-          <div className="grid" key={i}>
-            {chunkPosts.map((post, j) => (
-              <Post key={post.oid} post={post} index={i + j} />
-            ))}
-          </div>
+        {posts.map((post, i) => (
+          <Post key={post.oid} post={post} index={i} />
         ))}
       </div>
 
@@ -109,49 +96,32 @@ function Post({ post, index }: { post: HomepagePost; index: number }) {
   const first = index < 1
   return (
     <article className="homepage-post">
-      <header>
-        <hgroup>
-          <h3>
-            <LinkWithPrefetching to={url} instant={first}>
-              {post.title}
-            </LinkWithPrefetching>
-          </h3>
-          <h4>
-            <b>{formatDateBasic(post.pub_date)}</b>
-            <br />
-            <span>
-              {`${post.comments} comment${post.comments === 1 ? "" : "s"}`}
-            </span>{" "}
-            <span>
-              {post.categories.map((category, i, arr) => {
-                return (
-                  <Fragment key={category}>
-                    <Link to={categoryURL(category)} rel="nofollow">
-                      {category}
-                    </Link>
-                    {i < arr.length - 1 ? ", " : ""}
-                  </Fragment>
-                )
-              })}
-            </span>
-          </h4>
-        </hgroup>
-      </header>
-
-      <div
-        className="post-body overflow-auto"
-        dangerouslySetInnerHTML={{ __html: post.html }}
-      />
-      {post.split && (
-        <p className="split-rest">
-          Truncated! Read the rest by clicking the link below.
-        </p>
-      )}
-      <footer>
-        <p>
-          <LinkWithPrefetching to={url}>Go to blog post</LinkWithPrefetching>
-        </p>
-      </footer>
+      <hgroup>
+        <h3>
+          <LinkWithPrefetching to={url} instant={first}>
+            {post.title}
+          </LinkWithPrefetching>
+        </h3>
+        <h4>
+          <b>{formatDateBasic(post.pub_date)}</b>
+        </h4>
+      </hgroup>
+      <p
+        style={{ color: "var(--pico-color)" }}
+      >{`${post.comments} comment${post.comments === 1 ? "" : "s"}`}</p>
+      <p>
+        {post.categories.length === 1 ? "Category: " : "Categories: "}
+        {post.categories.map((category, i, arr) => {
+          return (
+            <Fragment key={category}>
+              <Link to={categoryURL(category)} rel="nofollow">
+                {category}
+              </Link>
+              {i < arr.length - 1 ? ", " : ""}
+            </Fragment>
+          )
+        })}
+      </p>
     </article>
   )
 }

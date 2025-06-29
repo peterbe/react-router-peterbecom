@@ -16,7 +16,7 @@ import { junkBlock } from "./server/junk-block.ts"
 import { legacyRedirects } from "./server/legacy-redirects.ts"
 import { requestLogger } from "./server/requestLogger.ts"
 
-dotenv.config()
+dotenv.config({ quiet: true })
 
 const rollbar =
   process.env.ROLLBAR_ACCESS_TOKEN &&

@@ -11,6 +11,8 @@ const BAD_STARTS = [
   "/plog/script-tags-type-in-html5/no_type.html/",
 ]
 
+const warn = (...args: string[]) => console.warn("JUNK-BLOCK:", ...args)
+
 export function junkBlock(
   req: Request,
   res: Response,
@@ -33,6 +35,7 @@ export function junkBlock(
       betterUrl = betterUrl.slice(0, -1)
     }
     // In KeyCDN, a 400 can't be cached
+    warn("too many trailing %5C")
     res.set("Cache-Control", "public, max-age=3600")
     res.redirect(302, betterUrl)
     return
@@ -64,6 +67,7 @@ export function junkBlock(
     const fives = Object.values(query).filter((value) => value?.length === 5)
     if (needles.some((needle) => needle in query) || fives.length > 3) {
       if (Object.keys(query).length > 3) {
+        warn(">3 query keys")
         res.set("Cache-Control", "public, max-age=3600")
         res.redirect(302, req.path)
         return
@@ -72,6 +76,7 @@ export function junkBlock(
       const name = `${query.name}`
       const email = `${query.email}`
       if (name.length > 50 || email.length > 50) {
+        warn("name or email longer than 50")
         res.set("Cache-Control", "public, max-age=3600")
         res.redirect(302, req.path)
         return
@@ -82,6 +87,7 @@ export function junkBlock(
   const q = req.query.q
   if (q) {
     if (Array.isArray(q)) {
+      warn("array of 'q'")
       res.status(400).type("text").send("Array of q")
       return
     }

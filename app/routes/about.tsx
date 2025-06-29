@@ -1,6 +1,8 @@
+import { redirect } from "react-router"
 import { About } from "~/components/about"
 import styles from "~/styles/about.css?url"
 import { absoluteURL } from "~/utils/utils"
+import type { Route } from "./+types/plog-index"
 
 export function links() {
   return [
@@ -8,7 +10,12 @@ export function links() {
     { rel: "canonical", href: absoluteURL("/about") },
   ]
 }
-
+export async function loader({ request }: Route.LoaderArgs) {
+  const { pathname } = new URL(request.url)
+  if (pathname.endsWith("/")) {
+    return redirect(pathname.slice(0, -1))
+  }
+}
 export function meta() {
   return [
     {
