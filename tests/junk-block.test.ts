@@ -64,6 +64,7 @@ test.each(["/xmlrpc.php", "/blog/wp-login.php", "/about/wp-login.php"])(
 
 test.each([
   "/plog?0=xsrf4&2=%22-cwxyn6-%22&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&future=i1zd1&id=mm508&index=zwc02&item=tm8q3&lang=csi63&list_type=ie7x9&month=pyib1&name=qh1r1&parentId=osnl2&positions=shs71&root=lup28&s=uw9z3&ssr=amov1&terms=nwju2",
+  "/plog?foo=abcde&bar=41245&url=qwerty&action=gerta&URL=a9aj0",
 ])("too many strange query keys (%s)", async (pathname) => {
   const response = await get(pathname)
   expect(response.status).toBe(302)
