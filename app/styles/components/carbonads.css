@@ -1,4 +1,18 @@
 #carbonads {
+  float: right;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 759px) {
+  #carbonads {
+    float: none;
+    margin: 0 auto;
+    max-width: 330px;
+  }
+}
+
+#carbonads {
   --width: 200px;
   --font-size: 14px;
 }

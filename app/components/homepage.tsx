@@ -4,7 +4,7 @@ import { Link } from "react-router"
 import { useSendPageview } from "~/analytics"
 import type { HomepagePost } from "~/types"
 import { categoryURL, formatDateBasic, postURL } from "~/utils/utils"
-
+import { CarbonAd } from "./carbonad"
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"
 
@@ -35,10 +35,15 @@ export function Homepage({
 
       <div id="main-content">
         {showSubtitle && (
-          <hgroup className="subtitle">
-            <h2>Most recent blog posts</h2>
-            <p>Or you can click on the categories to filter by topic</p>
-          </hgroup>
+          <div className="grid">
+            <hgroup className="subtitle">
+              <h2>Most recent blog posts</h2>
+              <p>Or you can click on the categories to filter by topic</p>
+            </hgroup>
+            <div>
+              <CarbonAd />
+            </div>
+          </div>
         )}
         {posts.map((post, i) => (
           <Post key={post.oid} post={post} index={i} />
