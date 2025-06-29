@@ -48,11 +48,11 @@ article.about-filters .grid div p {
   margin-bottom: 0;
 }
 article.homepage-post {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 @media (min-width: 576px) {
   article.homepage-post {
-    margin-bottom: 100px;
+    margin-bottom: 50px;
   }
 }
 article.homepage-post header {
