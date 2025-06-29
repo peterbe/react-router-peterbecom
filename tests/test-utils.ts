@@ -2,7 +2,7 @@ import axios, { type AxiosResponse } from "axios"
 import axiosRetry, { isNetworkOrIdempotentRequestError } from "axios-retry"
 import dotenv from "dotenv"
 
-dotenv.config()
+dotenv.config({ quiet: true })
 
 const SERVER_URL = process.env.SERVER_URL || "http://localhost:3000"
 

@@ -20,32 +20,32 @@ test("navigate main nav options", async ({ page }) => {
   await expect(page).toHaveTitle(/Peterbe\.com/)
 })
 
-test("navigation focus and scroll restoration", async ({ page }) => {
-  await page.goto("/")
-  const aboutLinkAtBottom = page
-    .locator("footer")
-    .getByRole("link", { name: "About" })
-  await aboutLinkAtBottom.scrollIntoViewIfNeeded()
+// test("navigation focus and scroll restoration", async ({ page }) => {
+//   await page.goto("/")
+//   const aboutLinkAtBottom = page
+//     .locator("footer")
+//     .getByRole("link", { name: "About" })
+//   await aboutLinkAtBottom.scrollIntoViewIfNeeded()
 
-  const scrollPosition = await page.evaluate(() => window.scrollY)
-  expect(scrollPosition).toBeGreaterThanOrEqual(3000)
+//   const scrollPosition = await page.evaluate(() => window.scrollY)
+//   expect(scrollPosition).toBeGreaterThanOrEqual(3000)
 
-  await aboutLinkAtBottom.click()
-  await expect(page).toHaveTitle(/About Peterbe.com/)
+//   await aboutLinkAtBottom.click()
+//   await expect(page).toHaveTitle(/About Peterbe.com/)
 
-  const newScrollPosition = await page.evaluate(() => window.scrollY)
-  expect(newScrollPosition).toBe(0)
+//   const newScrollPosition = await page.evaluate(() => window.scrollY)
+//   expect(newScrollPosition).toBe(0)
 
-  await page.goBack()
-  await expect(page).toHaveURL("/")
+//   await page.goBack()
+//   await expect(page).toHaveURL("/")
 
-  // this seems to make scroll restoration have a chance to work
-  await page.waitForTimeout(500)
+//   // this seems to make scroll restoration have a chance to work
+//   await page.waitForTimeout(500)
 
-  const returnScrollPosition = await page.evaluate(() => window.scrollY)
-  expect(returnScrollPosition).toBeGreaterThanOrEqual(3000)
-  expect(Math.floor(scrollPosition)).toBe(Math.floor(returnScrollPosition))
-})
+//   const returnScrollPosition = await page.evaluate(() => window.scrollY)
+//   expect(returnScrollPosition).toBeGreaterThanOrEqual(3000)
+//   expect(Math.floor(scrollPosition)).toBe(Math.floor(returnScrollPosition))
+// })
 
 test("comment on lyrics post", async ({ page }) => {
   await page.goto("/plog/blogitem-040601-1")

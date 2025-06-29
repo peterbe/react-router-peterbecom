@@ -1,8 +1,7 @@
-import dotenv from "dotenv"
 import { expect, test } from "vitest"
 import { get, isCached } from "./test-utils"
 
-dotenv.config()
+// dotenv.config()
 
 test("strange Chinese searches", async () => {
   const sp = new URLSearchParams({
