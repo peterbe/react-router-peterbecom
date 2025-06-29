@@ -1,5 +1,6 @@
 @import "./app.css";
 
+@import "./components/comments.css";
 @import "./components/post.css";
 @import "./components/header-permalinks.css";
 @import "./components/related-posts.css";
