@@ -10,6 +10,7 @@ import { createProxyMiddleware } from "http-proxy-middleware"
 import morgan from "morgan"
 import type { ServerBuild } from "react-router"
 import Rollbar from "rollbar"
+import { cdnByPassRedirect } from "./server/cdn-bypass-redirect.ts"
 import { dynamicImages } from "./server/dynamic-images.ts"
 import { ip } from "./server/ip.ts"
 import { junkBlock } from "./server/junk-block.ts"
@@ -85,6 +86,7 @@ app.use("/api/", backendProxy)
 app.use("/cache/", backendProxy)
 app.use("*/ping", backendProxy) // Legacy. Delete later in 2024
 
+app.use(cdnByPassRedirect)
 app.use(legacyRedirects)
 app.use(junkBlock)
 app.use("/_ip", ip)
