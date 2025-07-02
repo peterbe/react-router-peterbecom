@@ -355,3 +355,33 @@ test("undecodeable paths", async () => {
   expect(response.status).toBe(400)
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
+
+test("bypassing the CDN", async () => {
+  const url = "/plog?foo=bar"
+  // Correct x-forwarded-host
+  // And NOT bypassing
+  {
+    const response = await get(url, false, false, {
+      headers: {
+        "X-pull": "KeyCDN",
+        Host: "www.peterbe.com",
+        "X-Forwarded-Host": "www-origin.peterbe.com",
+      },
+    })
+    expect(response.status).toBe(200)
+    expect(isCached(response)).toBe(true)
+  }
+
+  // Correct x-forwarded-host
+  // And BYPASSING with incorrect X-Pull key
+  {
+    const response = await get(url, false, false, {
+      headers: {
+        Host: "www.peterbe.com",
+        "X-Forwarded-Host": "www-origin.peterbe.com",
+      },
+    })
+    expect(response.status).toBe(302)
+    expect(isCached(response)).toBe(true)
+  }
+})
