@@ -35,6 +35,8 @@ export function requestLogger(databaseUrl?: string) {
       const contentType = res.getHeader("content-type") ?? null
       const contentLength = res.getHeader("content-length") ?? null
       const contentEncoding = res.getHeader("content-encoding") ?? null
+      const forwardedHost = req.headers["x-forwarded-host"] ?? null
+      const xPullKey = req.headers["x-pull"] ?? null
       const data = {
         request: {
           method: req.method,
@@ -43,8 +45,9 @@ export function requestLogger(databaseUrl?: string) {
           url: req.url,
           userAgent,
           referer,
-          forwardedHost: req.headers["x-forwarded-host"] ?? null,
+          forwardedHost,
           host: req.headers.host ?? null,
+          xPullKey,
         },
         response: {
           statusCode: res.statusCode,
