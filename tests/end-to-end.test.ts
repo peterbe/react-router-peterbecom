@@ -364,7 +364,7 @@ test("bypassing the CDN", async () => {
     const response = await get(url, false, false, {
       headers: {
         "X-pull": "KeyCDN",
-        Host: "www.peterbe.com",
+        Host: "www-origin.peterbe.com",
         "X-Forwarded-Host": "www-origin.peterbe.com",
       },
     })
@@ -377,8 +377,8 @@ test("bypassing the CDN", async () => {
   {
     const response = await get(url, false, false, {
       headers: {
-        Host: "www.peterbe.com",
-        "X-Forwarded-Host": "www-origin.peterbe.com",
+        Host: "www-origin.peterbe.com",
+        "X-Forwarded-Host": null,
       },
     })
     expect(response.status).toBe(302)
