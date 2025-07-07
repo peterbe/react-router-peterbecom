@@ -11,6 +11,30 @@ export function legacyRedirects(
     return res.redirect(308, `/plog/blogitem-040601-1${req.path}`)
   }
 
+  // E.g. /?page=3&foo=bar should redirect to /p3?foo=bar
+  if (req.query.page && req.path === "/") {
+    const { page, ...rest } = req.query
+    const pageNumber = Number(Array.isArray(page) ? page[0] : page)
+    res.set("Cache-Control", "public, max-age=3600")
+    if (Number.isNaN(pageNumber) || pageNumber < 1) {
+      return res.redirect(302, req.path)
+    }
+    let newUrl = req.path
+    if (pageNumber !== 1) {
+      if (!newUrl.endsWith("/")) {
+        newUrl += "/"
+      }
+      newUrl += `p${pageNumber}`
+    }
+    if (rest) {
+      const sp = new URLSearchParams(rest as Record<string, string>)
+      if (sp.toString()) {
+        newUrl += `?${sp.toString()}`
+      }
+    }
+    return res.redirect(302, newUrl)
+  }
+
   if (req.query.comments === "all") {
     // All these legacy `?comments=all`, redirect those
     return res.redirect(301, req.path)
