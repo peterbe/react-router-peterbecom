@@ -11,7 +11,8 @@ export function CarbonAd() {
     s.async = true
     s.id = "_carbonads_js"
     s.src =
-      "https://cdn.carbonads.com/carbon.js?serve=CKYI52Q7&amp;placement=peterbecom"
+      // "https://cdn.carbonads.com/carbon.js?serve=CKYI52Q7&amp;placement=peterbecom"
+      "https://cdn.carbonads.com/carbon.js?serve=CW7ILKQN&placement=wwwpeterbecom&format=cover"
     script.appendChild(s)
     return () => {
       script.removeChild(s)
