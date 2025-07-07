@@ -1,5 +1,5 @@
-import { Fragment } from "react"
-import { useSearchParams } from "react-router"
+import { Fragment, useEffect, useState } from "react"
+import { useLocation } from "react-router"
 
 import type { LyricsSong as LyricsSongT } from "~/valibot-types"
 
@@ -79,24 +79,32 @@ function Credit() {
 }
 
 function Back() {
-  const [searchParams] = useSearchParams()
+  const location = useLocation()
+  const [search, setSearch] = useState("")
+  useEffect(() => {
+    if (location.hash.startsWith("#search=")) {
+      const search = new URLSearchParams(location.hash.slice(1)).get("search")
+      if (search) {
+        setSearch(search)
+      }
+    }
+  }, [location.hash])
 
-  const search = searchParams.get("search")
   return (
     <div style={{ padding: 20 }}>
-      {search && (
-        <p>
-          Go back to your search{" "}
-          <a
-            href={`${PREFIX}/q/${encodeURIComponent(search)}`}
-            style={{ fontStyle: "italic" }}
-          >
-            "{search}"
-          </a>
-        </p>
-      )}
       <p>
-        <a href={PREFIX}>Go back to main blog post</a>
+        <a href={PREFIX}>Go back to main blog post</a>{" "}
+        {search && (
+          <>
+            Go back to your search for:{" "}
+            <a
+              href={`${PREFIX}/q/${encodeURIComponent(search)}`}
+              style={{ fontStyle: "italic" }}
+            >
+              "{search}"
+            </a>
+          </>
+        )}
       </p>
       <p>
         Not the right song?{" "}

@@ -74,7 +74,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       }
     }
     return data({ search, error }, { headers: cacheHeaders(60) })
-    // return { search, error }; //, { headers: cacheHeaders(60) });
   }
   if (response.status !== 200) {
     console.warn(`UNEXPECTED STATUS (${response.status}) from ${fetchURL}`)
@@ -83,7 +82,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const { results, metadata } = v.parse(ServerSearchData, response.data)
     const cacheSeconds = 60 * 60 * 12
-    // return { results, metadata, page };
     return data(
       { results, metadata, page },
       { headers: cacheHeaders(cacheSeconds) },
