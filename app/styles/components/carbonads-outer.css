@@ -2,12 +2,12 @@
 .carbonads_outer {
   /* This is to avoid CLS */
   min-height: 145px;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 @media (min-width: 768px) {
   /* Desktop */
   .carbonads_outer {
     min-height: 0;
-    margin-bottom: 0;
+    margin-bottom: 10px;
   }
 }
