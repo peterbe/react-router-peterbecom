@@ -422,4 +422,11 @@ test("home page with 'page' query parameter", async () => {
     expect(response.headers.location).toBe("/")
     expect(isCached(response)).toBe(true)
   }
+  // oc page
+  {
+    const response = await get("/oc-Web+development?page=14")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/oc-Web+development/p14")
+    expect(isCached(response)).toBe(true)
+  }
 })

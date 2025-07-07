@@ -12,7 +12,7 @@ export function legacyRedirects(
   }
 
   // E.g. /?page=3&foo=bar should redirect to /p3?foo=bar
-  if (req.query.page && req.path === "/") {
+  if (req.query.page && (req.path === "/" || req.path.startsWith("/oc-"))) {
     const { page, ...rest } = req.query
     const pageNumber = Number(Array.isArray(page) ? page[0] : page)
     res.set("Cache-Control", "public, max-age=3600")
