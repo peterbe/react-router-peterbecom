@@ -72,7 +72,7 @@ function Results({
   function makeURL(url: string) {
     let u = url
     if (metadata.search) {
-      u += `?${new URLSearchParams({ search: metadata.search })}`
+      u += `#${new URLSearchParams({ search: metadata.search })}`
     }
     return `${PREFIX}${u}`
   }
