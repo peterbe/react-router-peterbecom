@@ -385,3 +385,48 @@ test("bypassing the CDN", async () => {
     expect(isCached(response)).toBe(true)
   }
 })
+
+test("home page with 'page' query parameter", async () => {
+  // Page 2
+  {
+    const response = await get("/?page=2")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/p2")
+    expect(isCached(response)).toBe(true)
+  }
+  // Page 1
+  {
+    const response = await get("/?page=1")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/")
+    expect(isCached(response)).toBe(true)
+  }
+  // Page 999
+  {
+    const response = await get("/?page=999&foo=bar")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/p999?foo=bar")
+    expect(isCached(response)).toBe(true)
+  }
+  // Page -123
+  {
+    const response = await get("/?page=-123")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/")
+    expect(isCached(response)).toBe(true)
+  }
+  // Page xyz
+  {
+    const response = await get("/?page=xyz")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/")
+    expect(isCached(response)).toBe(true)
+  }
+  // oc page
+  {
+    const response = await get("/oc-Web+development?page=14")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/oc-Web+development/p14")
+    expect(isCached(response)).toBe(true)
+  }
+})
