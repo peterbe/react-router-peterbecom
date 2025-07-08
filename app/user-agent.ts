@@ -29,5 +29,5 @@ export function parseUserAgent(userAgent = navigator.userAgent) {
     (browserRe && ua.match(browserRe)) || []
   if (browser === "opr") browser = "opera"
   if (browser === "edg") browser = "edge"
-  return { ua, os, os_version, browser, browser_version }
+  return { ua: userAgent, os, os_version, browser, browser_version }
 }
