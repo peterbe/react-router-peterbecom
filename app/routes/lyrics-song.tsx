@@ -14,7 +14,7 @@ export const links: Route.LinksFunction = () => [
 ]
 
 export async function loader({ params, request }: Route.LoaderArgs) {
-  const { pathname } = new URL(request.url)
+  const { pathname, searchParams } = new URL(request.url)
   if (pathname.endsWith("/")) {
     return redirect(pathname.slice(0, -1))
   }
@@ -35,6 +35,12 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     response.headers.location
   ) {
     return redirect(response.headers.location, 308)
+  }
+
+  const searchQuery = searchParams.get("search")
+  if (searchQuery) {
+    const newUrl = `${pathname}#search=${encodeURIComponent(searchQuery)}`
+    return redirect(newUrl, 308)
   }
 
   if (response.status === 404) {
