@@ -5,9 +5,11 @@ import onFinished from "on-finished"
 import postgres from "postgres"
 import { getBotAgent } from "./get-bot-agent"
 
+const IS_TEST = import.meta.env?.MODE === "test"
+
 export function requestLogger(databaseUrl?: string) {
   const sql = databaseUrl ? postgres(databaseUrl) : null
-  if (!sql) {
+  if (!sql && !IS_TEST) {
     console.warn(
       "No valid DATABASE_URL set so not logging requests to Postgres",
     )
@@ -62,13 +64,15 @@ export function requestLogger(databaseUrl?: string) {
           contentLengthSize: contentLength ? Number(contentLength) : 0,
         },
       }
-      if (sql) {
+      if (sql && !IS_TEST) {
         // @ts-ignore
         await sql`
           insert into base_requestlog
            (url, status_code, created, request, response, meta)
           values (
-            ${data.request.url.slice(0, 500)}, ${data.response.statusCode}, NOW(),
+            ${data.request.url.slice(0, 500)}, ${
+              data.response.statusCode
+            }, NOW(),
             ${data.request},
             ${data.response},
             ${data.meta}

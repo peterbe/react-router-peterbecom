@@ -81,3 +81,13 @@ test("long name and/or email", async () => {
   expect(isCached(response)).toBe(true)
   expect(response.headers.location).toBe("/plog")
 })
+
+test.each([["/plog?fbclid=IwZXh0bgNhZW0CMTEAblabla", "/plog"]])(
+  "remove certain query keys (%s - %s)",
+  async (uri, redirectLocation) => {
+    const response = await get(uri)
+    expect(response.status).toBe(302)
+    expect(isCached(response)).toBe(true)
+    expect(response.headers.location).toBe(redirectLocation)
+  },
+)

@@ -119,6 +119,17 @@ export function junkBlock(
     return
   }
 
+  // Add more as you find them. Consider making to just remove from the query
+  // string rather than resetting back to the pathname alone.
+  const bannedQueryKeys = new Set(["fbclid"])
+  for (const k of bannedQueryKeys) {
+    if (k in req.query) {
+      res.set("Cache-Control", "public, max-age=3600")
+      res.redirect(302, req.path)
+      return
+    }
+  }
+
   // Any request that uses & without a & is junk
   if (req.path.includes("&") && !req.path.includes("?")) {
     res.redirect(302, req.path.split("&")[0])
