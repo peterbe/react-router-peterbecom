@@ -1,14 +1,9 @@
 import type { NextFunction, Request, Response } from "express"
 
-const JUNK_PATH_BASENAME = new Set([
-  "wp-login.php",
-  "wp-admin.php",
-  "xmlrpc.php",
-])
-
 const BAD_STARTS = [
   "/plog/script-tags-type-in-html5/application_javascript.html/",
   "/plog/script-tags-type-in-html5/no_type.html/",
+  "/.env",
 ]
 
 const IS_TEST = import.meta.env?.MODE === "test"
@@ -108,16 +103,9 @@ export function junkBlock(
     }
   }
 
-  const last = req.path.split("/").at(-1)
-  if (last && JUNK_PATH_BASENAME.has(last)) {
-    res.set("Cache-Control", "public, max-age=60")
-    res.status(400).type("text").send("Junk path basename")
-    return
-  }
   const badStart = BAD_STARTS.find((start) => req.path.startsWith(start))
   if (badStart) {
     res.set("Cache-Control", "public, max-age=60")
-    // I think it has to be 404 for the CDN to have a chance to cache it
     res.status(404).type("text").send("Bad path start")
     return
   }
@@ -158,6 +146,20 @@ export function junkBlock(
     res.redirect(302, req.path)
     return
   }
+
+  const pathSplit = req.path.split("/")
+  if (
+    req.path.endsWith(".php") ||
+    ["wlwmanifest.xml", "wp-includes"].find((segment) =>
+      pathSplit.includes(segment),
+    )
+  ) {
+    res.set("Cache-Control", "public, max-age=60")
+    res.status(404).type("text").send("junk blocked")
+    return
+  }
+
+  console.log({ PATH: req.path, URL: req.url, SPLIT: req.path.split("/") })
 
   next()
 }

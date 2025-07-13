@@ -56,7 +56,7 @@ test.each(["/xmlrpc.php", "/blog/wp-login.php", "/about/wp-login.php"])(
   "junk URLs",
   async (url) => {
     const response = await get(url)
-    expect(response.status).toBe(400)
+    expect(response.status).toBe(404)
     expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
   },
 )
@@ -92,4 +92,19 @@ test.each([
   expect(response.status).toBe(302)
   expect(isCached(response)).toBe(true)
   expect(response.headers.location).toBe(redirectLocation)
+})
+
+test.each([
+  "//wordpress/wp-includes/wlwmanifest.xml",
+  "//web/wp-includes/wlwmanifest.xml",
+  "//blog/wp-includes/wlwmanifest.xml",
+  "/index.php?s=captcha",
+  "/simple.php",
+  "/1.php",
+  "/wp-config.php",
+  "//wp-config.php",
+])("reject all wordpress attempts (%s)", async (url) => {
+  const response = await get(url)
+  expect(response.status).toBe(404)
+  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
