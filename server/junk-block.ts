@@ -11,7 +11,10 @@ const BAD_STARTS = [
   "/plog/script-tags-type-in-html5/no_type.html/",
 ]
 
-const warn = (...args: string[]) => console.warn("JUNK-BLOCK:", ...args)
+const IS_TEST = import.meta.env?.MODE === "test"
+
+const warn = (...args: string[]) =>
+  !IS_TEST && console.warn("JUNK-BLOCK:", ...args)
 
 export function junkBlock(
   req: Request,
@@ -143,6 +146,17 @@ export function junkBlock(
       res.status(400).type("text").send("undecodable path")
       return
     }
+  }
+
+  if (
+    (req.query.tag && Array.isArray(req.query.tag)) ||
+    "tag/index" in req.query ||
+    ("c" in req.query && !req.query.c)
+  ) {
+    warn("bad query keys")
+    res.set("Cache-Control", "public, max-age=3600")
+    res.redirect(302, req.path)
+    return
   }
 
   next()
