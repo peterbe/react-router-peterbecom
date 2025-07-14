@@ -159,7 +159,12 @@ export function junkBlock(
     return
   }
 
-  console.log({ PATH: req.path, URL: req.url, SPLIT: req.path.split("/") })
+  if (req.query.comment && "email" in req.query && "name" in req.query) {
+    warn("GET posted comment")
+    res.set("Cache-Control", "public, max-age=3600")
+    res.redirect(302, req.path)
+    return
+  }
 
   next()
 }

@@ -108,3 +108,12 @@ test.each([
   expect(response.status).toBe(404)
   expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
 })
+
+test("GET posted comments", async () => {
+  const response = await get(
+    "/plog?comment=I+love+your+blog&name=Yetta&email=yetta",
+  )
+  expect(response.status).toBe(302)
+  expect(isCached(response)).toBe(true)
+  expect(response.headers.location).toBe("/plog")
+})
