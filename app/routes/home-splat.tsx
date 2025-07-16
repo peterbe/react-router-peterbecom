@@ -81,7 +81,7 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Response(`Invalid splat part (${part})`, { status: 404 })
   }
 
-  const sp = new URLSearchParams({ page: `${page}`, size: "10" })
+  const sp = new URLSearchParams({ page: `${page}`, size: "15" })
   categories.forEach((category) => sp.append("oc", category))
   const url = `/api/v1/plog/homepage?${sp}`
   const response = await get(url, { followRedirect: false })
