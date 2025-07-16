@@ -139,7 +139,8 @@ export function junkBlock(
   if (
     (req.query.tag && Array.isArray(req.query.tag)) ||
     "tag/index" in req.query ||
-    ("c" in req.query && !req.query.c)
+    ("c" in req.query && !req.query.c) ||
+    ("s" in req.query && "function" in req.query && "vars" in req.query)
   ) {
     warn("bad query keys")
     res.set("Cache-Control", "public, max-age=3600")
