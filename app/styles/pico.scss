@@ -1,0 +1,20 @@
+@use "@picocss/pico/scss/pico" with (
+  $modules: (
+    "content/code": true,
+    "forms/input-color": false,
+    "forms/input-date": false,
+    "forms/input-file": false,
+    "forms/input-range": false,
+    "forms/input-search": true,
+    "components/accordion": false,
+    "components/card": true,
+    "components/dropdown": false,
+    "components/loading": false,
+    "components/modal": true,
+    "components/nav": true,
+    "components/progress": false,
+    "components/tooltip": false,
+    "utilities/accessibility": true,
+    "utilities/reduce-motion": true,
+  )
+);

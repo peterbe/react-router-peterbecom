@@ -6,7 +6,7 @@ import { LyricsSongError } from "~/components/lyrics-song-error"
 import { get } from "~/lib/get-data"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSongData } from "~/valibot-types"
-import stylesheet from "../styles/lyrics-song.css?url"
+import stylesheet from "../styles/lyrics-song.scss?url"
 import type { Route } from "./+types/lyrics-song"
 
 export const links: Route.LinksFunction = () => [

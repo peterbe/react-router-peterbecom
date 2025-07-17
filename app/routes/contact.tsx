@@ -1,5 +1,5 @@
 import { Contact } from "~/components/contact"
-import styles from "~/styles/contact.css?url"
+import styles from "~/styles/contact.scss?url"
 import { absoluteURL } from "~/utils/utils"
 
 export function links() {

@@ -1,0 +1,9 @@
+@use "./app.scss";
+
+@use "./components/comments.scss";
+@use "./components/post.scss";
+@use "./components/header-permalinks.scss";
+@use "./components/related-posts.scss";
+
+/* This makes the assumption that all blog posts will benefit from highlight.js.css */
+@use "./components/highlight.js.css";

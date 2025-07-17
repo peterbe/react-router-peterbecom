@@ -1,5 +1,5 @@
 import { Search } from "~/components/search"
-import styles from "~/styles/search.css?url"
+import styles from "~/styles/search.scss?url"
 import { absoluteURL } from "~/utils/utils"
 import type { Route } from "./+types/search"
 

@@ -2,14 +2,13 @@ import { data, redirect } from "react-router"
 import * as v from "valibot"
 import { Lyricspost } from "~/components/lyricspost"
 import { get } from "~/lib/get-data"
-// import global from "~/styles/build/global-lyricspost.css";
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerData } from "~/valibot-types"
 import type { Route } from "./+types/lyrics-post"
 
 export { ErrorBoundary } from "../root"
 
-import stylesheet from "../styles/lyrics-post.css?url"
+import stylesheet from "../styles/lyrics-post.scss?url"
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
