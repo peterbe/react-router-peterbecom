@@ -1,6 +1,6 @@
 import { redirect } from "react-router"
 import { About } from "~/components/about"
-import styles from "~/styles/about.css?url"
+import styles from "~/styles/about.scss?url"
 import { absoluteURL } from "~/utils/utils"
 import type { Route } from "./+types/plog-index"
 

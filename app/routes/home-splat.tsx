@@ -4,7 +4,7 @@ import { Homepage } from "~/components/homepage"
 import { get } from "~/lib/get-data"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { HomepageServerData } from "~/valibot-types"
-import stylesheet from "../styles/home.css?url"
+import stylesheet from "../styles/home.scss?url"
 import type { Route } from "./+types/home-splat"
 
 export const links: Route.LinksFunction = () => [

@@ -10,7 +10,7 @@ import type { Route } from "./+types/lyrics-search"
 
 // export { ErrorBoundary } from "../root"
 
-import stylesheet from "../styles/lyrics-search.css?url"
+import stylesheet from "../styles/lyrics-search.scss?url"
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },

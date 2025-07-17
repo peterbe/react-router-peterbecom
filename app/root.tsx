@@ -12,7 +12,7 @@ import type { Route } from "./+types/root"
 import { Footer } from "./components/footer"
 import { Screensaver } from "./components/screensaver"
 import { SkipToNav } from "./components/skip-to-nav"
-import stylesheet from "./styles/error.css?url"
+import stylesheet from "./styles/error.scss?url"
 
 const screensaverLazyStartSeconds = import.meta.env
   .VITE_SCREENSAVER_LAZY_START_SECONDS

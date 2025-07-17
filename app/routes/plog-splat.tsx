@@ -5,7 +5,7 @@ import { Blogpost } from "~/components/blogpost"
 import { get } from "~/lib/get-data"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerData } from "~/valibot-types"
-import stylesheet from "../styles/plog.css?url"
+import stylesheet from "../styles/plog.scss?url"
 import type { Route } from "./+types/plog-splat"
 
 export const links: Route.LinksFunction = () => [
