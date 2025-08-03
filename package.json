@@ -38,7 +38,7 @@
     "js-confetti": "^0.12.0",
     "morgan": "^1.10.0",
     "on-finished": "^2.4.1",
-    "on-headers": "^1.0.2",
+    "on-headers": "^1.1.0",
     "postgres": "^3.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.1.0",
