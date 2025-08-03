@@ -29,6 +29,8 @@ export function getBotAgent(userAgent: string): string | null {
     "Googlebot-Image/": "Googlebot-Image",
     "Chrome Privacy Preserving Prefetch Proxy":
       "Chrome Privacy Preserving Prefetch Proxy",
+    "+In_the_test_phase,_if_the_Thinkbot_brings_you_trouble,_please_block_its_IP_address._Thank_you.":
+      "Thinkbot",
   }
   for (const [needle, replacement] of Object.entries(transforms)) {
     if (userAgent.includes(needle)) {
