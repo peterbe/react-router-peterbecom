@@ -6,11 +6,8 @@ import { LyricsSearchError } from "~/components/lyrics-search-error"
 import { get } from "~/lib/get-data"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerSearchData } from "~/valibot-types"
-import type { Route } from "./+types/lyrics-search"
-
-// export { ErrorBoundary } from "../root"
-
 import stylesheet from "../styles/lyrics-search.scss?url"
+import type { Route } from "./+types/lyrics-search"
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
