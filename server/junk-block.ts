@@ -18,6 +18,11 @@ export function junkBlock(
 ): void {
   const search = req.query.search
   const url = req.url
+
+  if (url === "/.well-known/appspecific/com.chrome.devtools.json") {
+    res.status(404).type("text").send("Not currently supported")
+    return
+  }
   if (url.endsWith("%5C") || url.endsWith("%5") || url.endsWith("5C")) {
     let betterUrl = url
     if (betterUrl.endsWith("%5")) {
