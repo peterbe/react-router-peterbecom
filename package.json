@@ -62,7 +62,7 @@
     "@types/react-dom": "^19.1.6",
     "@types/throttle-debounce": "^5.0.2",
     "autoprefixer": "^10.4.21",
-    "cheerio": "^1.1.0",
+    "cheerio": "^1.1.2",
     "cross-env": "^7.0.3",
     "husky": "^9.1.7",
     "postcss": "^8.5.6",
