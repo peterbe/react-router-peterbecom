@@ -40,6 +40,24 @@ export function legacyRedirects(
     return res.redirect(301, req.path)
   }
 
+  if (req.query.replypath) {
+    const replypath = Array.isArray(req.query.replypath)
+      ? `${req.query.replypath[0]}`
+      : `${req.query.replypath}`
+    const sp = new URLSearchParams(req.query as Record<string, string>)
+    sp.delete("replypath")
+    const suffix = sp.toString() ? `?${sp.toString()}` : ""
+    if (
+      replypath.includes("/") &&
+      replypath.split("/").length > 0 &&
+      replypath.split("/").at(-1)
+    ) {
+      const lastOid = replypath.split("/").at(-1)
+      return res.redirect(302, `${req.path}${suffix}#${lastOid}`)
+    }
+    return res.redirect(302, `${req.path}${suffix}`)
+  }
+
   // TODO: Consider to redirect all unknown query strings that aren't known.
   if (req.query.magmadomain || req.query.author) {
     // I don't know what these are or where they come from. But they
