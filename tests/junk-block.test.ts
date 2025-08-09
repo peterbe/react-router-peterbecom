@@ -117,3 +117,14 @@ test("GET posted comments", async () => {
   expect(isCached(response)).toBe(true)
   expect(response.headers.location).toBe("/plog")
 })
+
+test.each([
+  "/?action=../../../../wp-config.php",
+  "/?asset=../../../../WINDOWS/system32/config/SAM",
+  "/?api=http://",
+])("reject all wordpress attempts (%s)", async (url) => {
+  const response = await get(url)
+  expect(response.status).toBe(302)
+  expect(isCached(response)).toBe(true)
+  expect(response.headers.location).toBe("/")
+})

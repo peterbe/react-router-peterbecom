@@ -85,6 +85,20 @@ export function junkBlock(
         return
       }
     }
+
+    if (
+      // For example, /?action=../../../../wp-config.php", or "/?api=http://",
+      ["action", "asset", "api"].some(
+        (needle) =>
+          query[needle] &&
+          (String(query[needle]).match(/\//g) || []).length >= 2,
+      )
+    ) {
+      warn("bad query keys")
+      res.set("Cache-Control", "public, max-age=3600")
+      res.redirect(302, req.path)
+      return
+    }
   }
 
   const q = req.query.q
