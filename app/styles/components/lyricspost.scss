@@ -8,7 +8,7 @@ input[type="search"] {
 
 .autocomplete {
   position: absolute;
-  z-index: 2;
+  z-index: 10;
   width: 100%;
   background-color: var(--background-color);
   opacity: 0.97;
