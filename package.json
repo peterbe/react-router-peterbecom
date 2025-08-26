@@ -17,7 +17,8 @@
     "bot-agent-backfill": "tsx scripts/bot-agent-backfill.ts",
     "test:watch": "BUILD_PATH=./build/server/index.js vitest",
     "mock-peterbecom-backend": "tsx mock-peterbecom-backend/index.ts",
-    "mock-peterbecom-backend:watch": "tsx watch mock-peterbecom-backend/index.ts"
+    "mock-peterbecom-backend:watch": "tsx watch mock-peterbecom-backend/index.ts",
+    "test-user-agent": "tsx scripts/test-user-agent.ts"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",
