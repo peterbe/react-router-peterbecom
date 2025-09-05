@@ -35,7 +35,7 @@
     "express-async-handler": "^1.2.0",
     "formidable": "^3.5.4",
     "http-proxy-middleware": "^3.0.5",
-    "isbot": "^5.1.29",
+    "isbot": "^5.1.30",
     "js-confetti": "^0.12.0",
     "morgan": "^1.10.1",
     "on-finished": "^2.4.1",
