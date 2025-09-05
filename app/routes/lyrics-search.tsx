@@ -43,7 +43,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       continue
     }
     if (/^p\d+$/.test(part)) {
-      page = Number.parseInt(part.replace("p", ""))
+      page = Number.parseInt(part.replace("p", ""), 10)
       if (Number.isNaN(page)) {
         throw new Response("Not Found (page not valid)", { status: 404 })
       }
