@@ -39,6 +39,8 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       if (Number.isNaN(page)) {
         throw new Response("Not Found (page not valid)", { status: 404 })
       }
+    } else {
+      throw new Response("Not Found (extra path)", { status: 404 })
     }
   }
 
