@@ -26,7 +26,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const p = params["*"]
   if (p) {
     if (/^p\d+$/.test(p)) {
-      page = Number.parseInt(p.replace("p", ""))
+      page = Number.parseInt(p.replace("p", ""), 10)
       if (Number.isNaN(page)) {
         throw data("Not Found (page not valid)", { status: 404 })
       }

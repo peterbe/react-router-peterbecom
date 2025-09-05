@@ -64,7 +64,7 @@ export async function loader({ params }: Route.LoaderArgs) {
       continue
     }
     if (/^p\d+$/.test(part)) {
-      page = Number.parseInt(part.replace("p", ""))
+      page = Number.parseInt(part.replace("p", ""), 10)
       if (Number.isNaN(page)) {
         throw new Response("Not Found (page not valid)", { status: 404 })
       }
@@ -82,7 +82,9 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 
   const sp = new URLSearchParams({ page: `${page}`, size: "15" })
-  categories.forEach((category) => sp.append("oc", category))
+  categories.forEach((category) => {
+    sp.append("oc", category)
+  })
   const url = `/api/v1/plog/homepage?${sp}`
   const response = await get(url, { followRedirect: false })
 

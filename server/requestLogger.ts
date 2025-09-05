@@ -65,7 +65,7 @@ export function requestLogger(databaseUrl?: string) {
         },
       }
       if (sql && !IS_TEST) {
-        // @ts-ignore
+        // @ts-expect-error
         await sql`
           insert into base_requestlog
            (url, status_code, created, request, response, meta)

@@ -2,14 +2,8 @@ import { lazy, Suspense, useEffect, useState } from "react"
 import { ErrorBoundary } from "react-error-boundary"
 import { useLocation } from "react-router"
 
-const ConfettiLazy = lazy(
-  // @ts-ignore
-  () => import("~/components/confetti-screensaver"),
-)
-const CursorsLazy = lazy(
-  // @ts-ignore
-  () => import("~/components/cursors-screensaver"),
-)
+const ConfettiLazy = lazy(() => import("~/components/confetti-screensaver"))
+const CursorsLazy = lazy(() => import("~/components/cursors-screensaver"))
 
 type Props = {
   lazyStartSeconds: number
