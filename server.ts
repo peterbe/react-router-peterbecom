@@ -10,6 +10,7 @@ import { createProxyMiddleware } from "http-proxy-middleware"
 import morgan from "morgan"
 import type { ServerBuild } from "react-router"
 import Rollbar from "rollbar"
+import { limiter } from "server/rate-limiter.ts"
 import { cdnByPassRedirect } from "./server/cdn-bypass-redirect.ts"
 import { dynamicImages } from "./server/dynamic-images.ts"
 import { ip } from "./server/ip.ts"
@@ -62,6 +63,8 @@ app.use(
   ),
 )
 app.use(requestLogger(DATABASE_URL))
+
+app.use(limiter)
 
 app.use(express.static("build/client", { maxAge: "14d" }))
 app.use(express.static("public", { maxAge: "3d" }))
