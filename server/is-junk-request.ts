@@ -1,9 +1,15 @@
 import type { Request } from "express"
 
+const BAD_STARTS = [
+  "/plog/script-tags-type-in-html5/application_javascript.html/",
+  "/plog/script-tags-type-in-html5/no_type.html/",
+  "/.env",
+]
+
 type Verdict =
   | {
       redirect?: string
-      reason?: string
+      reason: string
       notFound?: boolean
     }
   | undefined
@@ -128,6 +134,48 @@ export function isJunkRequest(req: Request): Verdict {
     }
   }
 
+  try {
+    decodeURIComponent(req.path)
+  } catch (errr) {
+    if (errr instanceof URIError) {
+      return {
+        reason: "undecodable path",
+      }
+    }
+  }
+
+  if (
+    (req.query.tag && Array.isArray(req.query.tag)) ||
+    "tag/index" in req.query ||
+    ("c" in req.query && !req.query.c) ||
+    ("s" in req.query && "function" in req.query && "vars" in req.query)
+  ) {
+    return { reason: "bad query keys", redirect: req.path }
+  }
+
+  // Any request that uses & without a & is junk
+  if (req.path.includes("&") && !req.path.includes("?")) {
+    return { reason: "bare & in path", redirect: req.path.split("&")[0] }
+  }
+
+  // Add more as you find them. Consider making to just remove from the query
+  // string rather than resetting back to the pathname alone.
+  const bannedQueryKeys = new Set(["fbclid"])
+  for (const k of bannedQueryKeys) {
+    if (k in req.query) {
+      return {
+        reason: `banned query key: ${k}`,
+        redirect: req.path,
+      }
+    }
+  }
+
+  const badStart = BAD_STARTS.find((start) => req.path.startsWith(start))
+  if (badStart) {
+    return { notFound: true, reason: `Bad path start: ${badStart}` }
+  }
+
+  // Ultimately!
   return undefined // NOT junk
 }
 

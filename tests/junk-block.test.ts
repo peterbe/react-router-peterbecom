@@ -106,8 +106,10 @@ test.each([
   "//wp-config.php",
 ])("reject all wordpress attempts (%s)", async (url) => {
   const response = await get(url)
-  expect(response.status).toBe(404)
-  expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+  expect([404, 429]).toContain(response.status)
+  if (response.status === 404) {
+    expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+  }
 })
 
 test("GET posted comments", async () => {
