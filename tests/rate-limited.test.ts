@@ -26,3 +26,15 @@ test("eventually rate limited", async () => {
   })
   expect(response.status).toBe(429)
 })
+
+test("eventually rate limited if junk request", async () => {
+  const T = () => {
+    return get("/plog/blogitem-040601-1?email=x&name=y&comment=z")
+  }
+  for (const _ in [...Array(50).keys()]) {
+    const response = await T()
+    expect([200, 429]).toContain(response.status)
+  }
+  const response = await T()
+  expect(response.status).toBe(429)
+})
