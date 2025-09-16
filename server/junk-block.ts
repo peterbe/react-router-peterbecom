@@ -17,12 +17,11 @@ export function junkBlock(
   res: Response,
   next: NextFunction,
 ): void {
-  const search = req.query.search
   const url = req.url
 
   const junkVerdict = isJunkRequest(req)
   if (junkVerdict) {
-    const { redirect, reason } = junkVerdict
+    const { redirect, reason, notFound } = junkVerdict
     if (reason) {
       warn(reason)
     }
@@ -31,7 +30,7 @@ export function junkBlock(
       res.redirect(302, redirect)
     } else {
       res
-        .status(400)
+        .status(notFound ? 404 : 400)
         .type("text")
         .send(reason || "Junk request")
     }
@@ -41,66 +40,6 @@ export function junkBlock(
   if (url === "/.well-known/appspecific/com.chrome.devtools.json") {
     res.status(404).type("text").send("Not currently supported")
     return
-  }
-
-  const { query } = req
-  if (query) {
-    // E.g. ?0=%3C%2Fscript%3E%3Cw7cyr5%3E&2=ppt07&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&
-    // or ?AuthState=w7uq28&DirectTo=r82s5&c=ac8s5&d=qmjb3&domain_url=na2z5&file_url=w3x81&folder=bfpj4&
-    const needles = ["0", "2", "s"]
-    const fives = Object.values(query).filter((value) => value?.length === 5)
-    if (needles.some((needle) => needle in query) || fives.length > 3) {
-      if (Object.keys(query).length > 3) {
-        warn(">3 query keys")
-        res.set("Cache-Control", "public, max-age=3600")
-        res.redirect(302, req.path)
-        return
-      }
-    } else if (req.method === "GET" && (query.name || query.email)) {
-      const name = `${query.name}`
-      const email = `${query.email}`
-      if (name.length > 50 || email.length > 50) {
-        warn("name or email longer than 50")
-        res.set("Cache-Control", "public, max-age=3600")
-        res.redirect(302, req.path)
-        return
-      }
-    }
-
-    if (
-      // For example, /?action=../../../../wp-config.php", or "/?api=http://",
-      ["action", "asset", "api"].some(
-        (needle) =>
-          query[needle] &&
-          (String(query[needle]).match(/\//g) || []).length >= 2,
-      )
-    ) {
-      warn("bad query keys")
-      res.set("Cache-Control", "public, max-age=3600")
-      res.redirect(302, req.path)
-      return
-    }
-  }
-
-  const q = req.query.q
-  if (q) {
-    if (Array.isArray(q)) {
-      warn("array of 'q'")
-      res.status(400).type("text").send("Array of q")
-      return
-    }
-    const query = q as string
-    if (query.length > 10) {
-      if (countChineseCharacters(query) > 10) {
-        res.set("Cache-Control", "public, max-age=60")
-        res.status(400).type("text").send("Too many Chinese characters")
-        return
-      }
-      if (query.length > 100) {
-        res.status(400).type("text").send("Query too long")
-        return
-      }
-    }
   }
 
   const badStart = BAD_STARTS.find((start) => req.path.startsWith(start))
@@ -148,21 +87,5 @@ export function junkBlock(
     return
   }
 
-  const pathSplit = req.path.split("/")
-  if (
-    req.path.endsWith(".php") ||
-    ["wlwmanifest.xml", "wp-includes"].find((segment) =>
-      pathSplit.includes(segment),
-    )
-  ) {
-    res.set("Cache-Control", "public, max-age=60")
-    res.status(404).type("text").send("junk blocked")
-    return
-  }
-
   next()
-}
-
-function countChineseCharacters(str: string) {
-  return (str.match(/[\u00ff-\uffff]/g) || []).length
 }

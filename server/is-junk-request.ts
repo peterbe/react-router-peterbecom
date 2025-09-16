@@ -4,6 +4,7 @@ type Verdict =
   | {
       redirect?: string
       reason?: string
+      notFound?: boolean
     }
   | undefined
 
@@ -53,5 +54,83 @@ export function isJunkRequest(req: Request): Verdict {
     }
   }
 
+  const { query } = req
+  if (query) {
+    // E.g. ?0=%3C%2Fscript%3E%3Cw7cyr5%3E&2=ppt07&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&
+    // or ?AuthState=w7uq28&DirectTo=r82s5&c=ac8s5&d=qmjb3&domain_url=na2z5&file_url=w3x81&folder=bfpj4&
+    const needles = ["0", "2", "s"]
+    const fives = Object.values(query).filter((value) => value?.length === 5)
+    if (needles.some((needle) => needle in query) || fives.length > 3) {
+      if (Object.keys(query).length > 3) {
+        return {
+          reason: ">3 query keys",
+          redirect: req.path,
+        }
+      }
+    } else if (req.method === "GET" && (query.name || query.email)) {
+      const name = `${query.name}`
+      const email = `${query.email}`
+      if (name.length > 50 || email.length > 50) {
+        return {
+          reason: "name or email longer than 50",
+          redirect: req.path,
+        }
+      }
+    }
+
+    if (
+      // For example, /?action=../../../../wp-config.php", or "/?api=http://",
+      ["action", "asset", "api"].some(
+        (needle) =>
+          query[needle] &&
+          (String(query[needle]).match(/\//g) || []).length >= 2,
+      )
+    ) {
+      return {
+        reason: "bad query keys",
+        redirect: req.path,
+      }
+    }
+  }
+
+  const q = req.query.q
+  if (q) {
+    if (Array.isArray(q)) {
+      return {
+        reason: "array of 'q'",
+      }
+    }
+    const query = q as string
+    if (query.length > 10) {
+      if (countChineseCharacters(query) > 10) {
+        return {
+          reason: "Too many Chinese characters",
+        }
+      }
+      if (query.length > 100) {
+        return {
+          reason: "Query too long",
+        }
+      }
+    }
+  }
+
+  const pathSplit = req.path.split("/")
+  if (
+    req.path.endsWith(".php") ||
+    ["wlwmanifest.xml", "wp-includes"].find((segment) =>
+      pathSplit.includes(segment),
+    )
+  ) {
+    return {
+      reason: "looks like WordPress",
+      notFound: true,
+    }
+  }
+
   return undefined // NOT junk
+}
+
+function countChineseCharacters(str: string) {
+  return (str.match(/[\u00ff-\uffff]/g) || []).length
 }

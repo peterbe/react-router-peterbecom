@@ -13,7 +13,7 @@ const RATE_LIMIT_BOT_AGENTS = new Set([
 
 export const limiter = rateLimit({
   windowMs: 5 * 60 * 1000,
-  limit: 20,
+  limit: 25,
   skip: (req: Request) => {
     const userAgent = req.headers["user-agent"] || ""
     if (userAgent) {
