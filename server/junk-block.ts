@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express"
+import { isJunkRequest } from "./is-junk-request"
 
 const BAD_STARTS = [
   "/plog/script-tags-type-in-html5/application_javascript.html/",
@@ -19,47 +20,27 @@ export function junkBlock(
   const search = req.query.search
   const url = req.url
 
-  if (url === "/.well-known/appspecific/com.chrome.devtools.json") {
-    res.status(404).type("text").send("Not currently supported")
-    return
-  }
-  if (url.endsWith("%5C") || url.endsWith("%5") || url.endsWith("5C")) {
-    let betterUrl = url
-    if (betterUrl.endsWith("%5")) {
-      betterUrl = betterUrl.slice(0, -"%5".length)
+  const junkVerdict = isJunkRequest(req)
+  if (junkVerdict) {
+    const { redirect, reason } = junkVerdict
+    if (reason) {
+      warn(reason)
     }
-    while (betterUrl.endsWith("%5C")) {
-      betterUrl = betterUrl.slice(0, -"%5C".length)
-    }
-    if (betterUrl.endsWith("5C")) {
-      betterUrl = betterUrl.slice(0, -"5C".length)
-    }
-    while (betterUrl.endsWith("%")) {
-      betterUrl = betterUrl.slice(0, -1)
-    }
-    // In KeyCDN, a 400 can't be cached
-    warn("too many trailing %5C")
     res.set("Cache-Control", "public, max-age=3600")
-    res.redirect(302, betterUrl)
+    if (redirect) {
+      res.redirect(302, redirect)
+    } else {
+      res
+        .status(400)
+        .type("text")
+        .send(reason || "Junk request")
+    }
     return
   }
 
-  const userAgent = req.headers["user-agent"]
-  if (userAgent?.includes("GPTBot/1.2")) {
-    const searchStr =
-      (search &&
-        (Array.isArray(search) ? search[0].toString() : search.toString())) ||
-      ""
-    if (
-      searchStr.endsWith("\\") ||
-      req.path.endsWith("%5C") ||
-      req.path.startsWith("/plog/script-tags-type-in-html5/")
-    ) {
-      // In KeyCDN, a 400 can't be cached
-      res.set("Cache-Control", "public, max-age=3600")
-      res.redirect(302, "/")
-      return
-    }
+  if (url === "/.well-known/appspecific/com.chrome.devtools.json") {
+    res.status(404).type("text").send("Not currently supported")
+    return
   }
 
   const { query } = req
@@ -176,13 +157,6 @@ export function junkBlock(
   ) {
     res.set("Cache-Control", "public, max-age=60")
     res.status(404).type("text").send("junk blocked")
-    return
-  }
-
-  if (req.query.comment && "email" in req.query && "name" in req.query) {
-    warn("GET posted comment")
-    res.set("Cache-Control", "public, max-age=3600")
-    res.redirect(302, req.path)
     return
   }
 

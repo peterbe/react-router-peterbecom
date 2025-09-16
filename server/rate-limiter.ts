@@ -2,6 +2,7 @@ import type { Request } from "express"
 import { rateLimit } from "express-rate-limit"
 import { isbot } from "isbot"
 import { getBotAgent } from "./get-bot-agent"
+import { isJunkRequest } from "./is-junk-request"
 
 // Picking these based on https://admin.peterbe.com/analytics/charts#bot-agent-requests
 const RATE_LIMIT_BOT_AGENTS = new Set([
@@ -23,6 +24,10 @@ export const limiter = rateLimit({
           return false
         }
       }
+    }
+
+    if (isJunkRequest(req)) {
+      return false
     }
 
     // Default is to skip rate limiting entirely
