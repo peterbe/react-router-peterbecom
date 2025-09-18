@@ -9,6 +9,8 @@ const RATE_LIMIT_BOT_AGENTS = new Set([
   "https://developers.facebook.com/docs/sharing/webmasters/crawler",
   "http://www.bing.com/bingbot.htm",
   "http://www.semrush.com/bot.html",
+  "http://ahrefs.com/robot/",
+  "http://www.semrush.com/bot.html",
 ])
 
 export const limiter = rateLimit({
