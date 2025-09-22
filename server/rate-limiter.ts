@@ -12,6 +12,7 @@ const RATE_LIMIT_BOT_AGENTS = new Set([
   "http://ahrefs.com/robot/",
   "http://www.semrush.com/bot.html",
   "https://developer.amazon.com/support/amazonbot",
+  "Buddybot/1.0",
 ])
 
 export const limiter = rateLimit({
