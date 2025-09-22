@@ -155,6 +155,7 @@ export const HomepageServerData = v.object({
   posts: v.array(HomepagePost),
   next_page: v.nullable(v.number()),
   previous_page: v.nullable(v.number()),
+  max_next_page: v.optional(v.number()),
 })
 
 export const SubmitData = v.object({

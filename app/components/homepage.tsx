@@ -8,12 +8,16 @@ import { CarbonAd } from "./carbonad"
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"
 
+// If not supplied by the JSON API, this becomes the fallback default.
+const DEFAULT_MAX_NEXT_PAGE = 10
+
 type Props = {
   posts: HomepagePost[]
   categories: string[]
   nextPage: number | null
   previousPage: number | null
   page: number
+  maxNextPage?: number
 }
 
 export function Homepage({
@@ -22,6 +26,7 @@ export function Homepage({
   page,
   nextPage,
   previousPage,
+  maxNextPage = DEFAULT_MAX_NEXT_PAGE,
 }: Props) {
   useSendPageview()
 
@@ -54,6 +59,7 @@ export function Homepage({
         categories={categories}
         nextPage={nextPage}
         previousPage={previousPage}
+        maxNextPage={maxNextPage}
       />
     </div>
   )
@@ -146,10 +152,12 @@ function Pagination({
   categories,
   nextPage,
   previousPage,
+  maxNextPage = 10,
 }: {
   categories: string[]
   nextPage: number | null
   previousPage: number | null
+  maxNextPage?: number
 }) {
   return (
     <div className="grid next-previous">
@@ -164,9 +172,13 @@ function Pagination({
       </div>
       <div>
         {nextPage ? (
-          <LinkWithPrefetching to={makeURL(nextPage, categories)}>
-            Next page
-          </LinkWithPrefetching>
+          nextPage <= maxNextPage ? (
+            <LinkWithPrefetching to={makeURL(nextPage, categories)}>
+              Next page
+            </LinkWithPrefetching>
+          ) : (
+            <LinkWithPrefetching to="/plog">See Archive</LinkWithPrefetching>
+          )
         ) : (
           <i>Next page</i>
         )}
