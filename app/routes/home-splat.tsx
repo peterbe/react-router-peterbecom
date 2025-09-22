@@ -105,9 +105,10 @@ export async function loader({ params }: Route.LoaderArgs) {
       posts,
       next_page: nextPage,
       previous_page: previousPage,
+      max_next_page: maxNextPage,
     } = v.parse(HomepageServerData, response.data)
     return data(
-      { categories, posts, nextPage, previousPage, page },
+      { categories, posts, nextPage, previousPage, page, maxNextPage },
       { headers: cacheHeaders(60 * 60) },
     )
   } catch (error) {
@@ -129,7 +130,8 @@ export default function Component({ loaderData }: Route.ComponentProps) {
   if (loaderData instanceof Error) {
     return <pre>{loaderData.message}</pre>
   }
-  const { page, posts, categories, nextPage, previousPage } = loaderData
+  const { page, posts, categories, nextPage, previousPage, maxNextPage } =
+    loaderData
 
   return (
     <Homepage
@@ -138,6 +140,7 @@ export default function Component({ loaderData }: Route.ComponentProps) {
       nextPage={nextPage}
       previousPage={previousPage}
       page={page}
+      maxNextPage={maxNextPage}
     />
   )
 }
