@@ -61,7 +61,7 @@
     "@types/node": "^24",
     "@types/on-finished": "^2.3.5",
     "@types/on-headers": "^1.0.4",
-    "@types/react": "^19.1.9",
+    "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.7",
     "@types/throttle-debounce": "^5.0.2",
     "autoprefixer": "^10.4.21",
