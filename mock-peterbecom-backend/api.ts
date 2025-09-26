@@ -165,7 +165,15 @@ router.post(
           id: item.comments.length + 1,
         })
       }
-      res.json({ oid, hash, comment: comment.replaceAll("\n", "<br>\n") })
+      res.json({
+        oid,
+        hash,
+        comment: comment
+          .replaceAll("\n", "<br>\n")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;"),
+      })
     })
   },
 )
