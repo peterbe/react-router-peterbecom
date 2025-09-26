@@ -159,7 +159,11 @@ router.post(
           oid,
           name,
           email,
-          comment,
+          comment: comment
+            .replaceAll("\n", "<br>\n")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;"),
           hash,
           add_date: new Date().toISOString(),
           id: item.comments.length + 1,
@@ -168,11 +172,7 @@ router.post(
       res.json({
         oid,
         hash,
-        comment: comment
-          .replaceAll("\n", "<br>\n")
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;"),
+        comment,
       })
     })
   },

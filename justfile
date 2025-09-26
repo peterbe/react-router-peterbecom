@@ -27,6 +27,9 @@ test:
     npm run test
     npx playwright test
 
+playwright-codegen:
+    npx playwright codegen
+
 format: lintfix
 
 install:
