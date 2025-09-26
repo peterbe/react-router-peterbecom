@@ -78,3 +78,37 @@ test("comment on lyrics post", async ({ page }) => {
     page.getByText("All comments have to be approved first"),
   ).toBeVisible()
 })
+
+test("comment and edit on lyrics post", async ({ page }) => {
+  await page.goto("/plog/blogitem-040601-1")
+  await page.getByRole("textbox", { name: "Your comment" }).click()
+
+  // Give it a chance to have gotten the CSRF token
+  await page.waitForTimeout(100)
+
+  await page
+    .getByRole("textbox", { name: "Your comment" })
+    .fill("Line one.\nLine two. <&> Line three.\n")
+  await page.getByRole("textbox", { name: "Your full name" }).fill("Playwright")
+  await page.getByRole("textbox", { name: "Your full name" }).press("Tab")
+  await page
+    .getByRole("textbox", { name: "Your email" })
+    .fill("playwright@peterbe.com")
+  await page.getByRole("button", { name: "Post comment" }).click()
+
+  await expect(page.getByText("Comment submitted")).toBeVisible()
+  await expect(
+    page.getByText("It will be manually reviewed shortly."),
+  ).toBeVisible()
+  await page.getByRole("button", { name: "Edit comment" }).click()
+  await page
+    .getByText("Line one.\nLine two. <&> Line three.")
+    .fill("Line 1. <&> Line 2.\n")
+  await page.getByRole("button", { name: "Save changes" }).click()
+
+  await expect(
+    page.getByText("All comments have to be approved first"),
+  ).toBeVisible()
+
+  await expect(page.getByText("Line 1. <&> Line 2.")).toBeVisible()
+})
