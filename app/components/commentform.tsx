@@ -126,30 +126,6 @@ export function CommentForm({
     }
   }
 
-  // async function preview() {
-  //   const body = new FormData()
-  //   body.append("comment", comment)
-  //   const response = await fetch("/api/v1/plog/comments/preview", {
-  //     method: "POST",
-  //     body,
-  //     headers: {
-  //       "X-CSRFToken": csrfmiddlewaretoken,
-  //     },
-  //   })
-  //   if (!response.ok) {
-  //     setPreviewError(new Error(`${response.status}`))
-  //   } else {
-  //     const posted = await response.json()
-  //     try {
-  //       const { comment } = v.parse(PreviewData, posted)
-  //       setRenderedComment(comment)
-  //       setPreviewError(null)
-  //     } catch (error) {
-  //       throw newValiError(error)
-  //     }
-  //   }
-  // }
-
   async function submit() {
     await prepare() // idempotent and fast
     const body = new FormData()
@@ -176,6 +152,7 @@ export function CommentForm({
     setSubmitError(null)
 
     const posted = await response.json()
+    const originalComment = comment.trim()
     try {
       const { oid, comment, hash } = v.parse(SubmitData, posted)
 
@@ -183,7 +160,7 @@ export function CommentForm({
         oid,
         renderedComment: comment,
         hash,
-        comment,
+        comment: originalComment,
         name,
         email,
         depth,
@@ -257,22 +234,6 @@ export function CommentForm({
         />
       )}
 
-      {/* {previewError && (
-        <Message
-          onClose={() => setPreviewError(null)}
-          negative={true}
-          header="Sorry. The comment couldn't be previewed."
-          body={
-            <>
-              <p>An error occurred trying to send this to the server.</p>
-              <p>
-                <code>{previewError.toString()}</code>
-              </p>
-            </>
-          }
-        />
-      )} */}
-
       <form
         onSubmit={async (event) => {
           event.preventDefault()
@@ -339,24 +300,7 @@ export function CommentForm({
             onChange={(event) => setEmail(event.target.value)}
             onBlur={rememberName}
           />
-          {/* <button
-            type="button"
-            className={!renderedComment ? "primary" : undefined}
-            disabled={previewing || !comment.trim()}
-            onClick={async (event) => {
-              event.preventDefault()
-              if (!comment.trim()) return
-              setPreviewing(true)
-              try {
-                await prepare()
-                await preview()
-              } finally {
-                setPreviewing(false)
-              }
-            }}
-          >
-            {renderedComment ? "Preview again" : "Preview first"}
-          </button> */}
+
           <button
             type="submit"
             className={`post ${renderedComment ? "primary" : ""}`}
