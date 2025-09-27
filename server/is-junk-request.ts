@@ -97,6 +97,16 @@ export function isJunkRequest(req: Request): Verdict {
         redirect: req.path,
       }
     }
+    if (
+      query.tag &&
+      typeof query.tag === "string" &&
+      query.tag.includes("\\\\\\")
+    ) {
+      return {
+        reason: "bad query key",
+        redirect: req.path,
+      }
+    }
   }
 
   const q = req.query.q

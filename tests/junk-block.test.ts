@@ -90,6 +90,7 @@ test.each([
   ["/plog?fbclid=IwZXh0bgNhZW0CMTEAblabla", "/plog"],
   ["/plog/blogitem-040601-1?c", "/plog/blogitem-040601-1"],
   ["/?tag=1&tag=2", "/"],
+  ["/?tag=abc\\\\\\\\\\\\", "/"],
   ["/plog?tag/index=blabl", "/plog"],
 ])("remove certain query keys (%s - %s)", async (uri, redirectLocation) => {
   const response = await get(uri)
