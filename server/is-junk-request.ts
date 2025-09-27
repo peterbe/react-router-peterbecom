@@ -97,14 +97,15 @@ export function isJunkRequest(req: Request): Verdict {
         redirect: req.path,
       }
     }
-    if (
-      query.tag &&
-      typeof query.tag === "string" &&
-      query.tag.includes("\\\\\\")
-    ) {
-      return {
-        reason: "bad query key",
-        redirect: req.path,
+    for (const value of Object.values(query)) {
+      const values = Array.isArray(value) ? value : [value]
+      for (const v of values) {
+        if (typeof v === "string" && v.endsWith("\\")) {
+          return {
+            reason: "bad query value",
+            redirect: req.path,
+          }
+        }
       }
     }
   }
