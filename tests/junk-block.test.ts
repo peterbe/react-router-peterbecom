@@ -93,6 +93,10 @@ test.each([
   ["/?tag=abc\\\\\\\\\\\\", "/"],
   ["/plog?tag/index=blabl", "/plog"],
   ["/plog?utm_medium=newsletter%5C%5C%5C%5C%5\\", "/plog"],
+  [
+    "/search?q=%28SELECT%20%28CASE%20WHEN%20%288660%3D8660%29%20THEN",
+    "/search",
+  ],
 ])("remove certain query keys (%s - %s)", async (uri, redirectLocation) => {
   const response = await get(uri)
   expect([302, 429]).toContain(response.status)

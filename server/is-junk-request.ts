@@ -100,10 +100,13 @@ export function isJunkRequest(req: Request): Verdict {
     for (const value of Object.values(query)) {
       const values = Array.isArray(value) ? value : [value]
       for (const v of values) {
-        if (typeof v === "string" && v.endsWith("\\")) {
+        if (
+          typeof v === "string" &&
+          (v.endsWith("\\") || v.includes("(SELECT "))
+        ) {
           return {
             reason: "bad query value",
-            redirect: req.path,
+            redirect: stripTrailingSlash(req.path),
           }
         }
       }
@@ -192,4 +195,11 @@ export function isJunkRequest(req: Request): Verdict {
 
 function countChineseCharacters(str: string) {
   return (str.match(/[\u00ff-\uffff]/g) || []).length
+}
+
+function stripTrailingSlash(path: string) {
+  if (path === "/") {
+    return path
+  }
+  return path.endsWith("/") ? path.slice(0, -1) : path
 }
