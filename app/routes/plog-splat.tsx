@@ -51,6 +51,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     throw new Error(`${response.status} from ${fetchURL}`)
   }
   try {
+    console.log(response.data)
     const { post, comments } = v.parse(ServerData, response.data)
 
     const cacheSeconds =
