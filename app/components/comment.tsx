@@ -13,6 +13,7 @@ type Props = {
   parent: string | null
   toggleEditMode?: () => void
   allowReply?: boolean
+  permalink: boolean
 }
 
 export function DisplayComment({
@@ -24,18 +25,25 @@ export function DisplayComment({
   parent,
   toggleEditMode,
   allowReply,
+  permalink,
 }: Props) {
   let className = "comment"
   if (comment.depth) {
     className += ` nested d-${comment.depth}`
   }
-  const permalink = `comment/${comment.oid}`
+  const permalinkUrl = `comment/${comment.oid}`
   return (
     <div id={comment.oid} className={className}>
       <b>{comment.name ? comment.name : <i>Anonymous</i>}</b>{" "}
-      <Link className="metadata" to={permalink} rel="nofollow">
-        {formatDateBasic(comment.add_date)}
-      </Link>{" "}
+      {permalink ? (
+        <Link className="metadata" to={permalinkUrl} rel="nofollow">
+          {formatDateBasic(comment.add_date)}
+        </Link>
+      ) : (
+        <a href={`#${comment.oid}`} className="metadata" rel="nofollow">
+          {formatDateBasic(comment.add_date)}
+        </a>
+      )}{" "}
       {toggleEditMode && (
         <button
           type="button"

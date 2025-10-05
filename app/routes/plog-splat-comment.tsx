@@ -1,4 +1,4 @@
-import { data, redirect } from "react-router"
+import { data } from "react-router"
 import * as v from "valibot"
 import { Blogpost } from "~/components/blogpost"
 import { get } from "~/lib/get-data"
@@ -10,15 +10,8 @@ import type { Route } from "./+types/plog-splat-comment"
 
 export { headers, links, meta } from "./plog-splat"
 
-export async function loader({ params, request }: Route.LoaderArgs) {
+export async function loader({ params }: Route.LoaderArgs) {
   const page = 1
-  const url = new URL(request.url, "https://www.peterbe.com")
-  if (url.pathname.endsWith("/")) {
-    return redirect(url.pathname.slice(0, -1) + url.search, { status: 302 })
-  }
-  if (url.pathname.endsWith("/p1")) {
-    return redirect(url.pathname.slice(0, -3) + url.search, { status: 302 })
-  }
 
   const oid = params.oid
   const commentoid = params.commentoid

@@ -6,12 +6,15 @@ import { CommentForm } from "~/components/commentform"
 import type { AddOwnCommentProps, Comment, Comments, OwnComment } from "~/types"
 import { Message } from "~/utils/message"
 import type { Post } from "~/valibot-types"
+import { DisplayOwnComment } from "./display-own-comment"
+import { useOwnComments } from "./own-comments-context"
 
 type Props = {
   post: Post
   comments: Comments
   page: number
 }
+
 export function PostComments({ post, comments, page }: Props) {
   const disallowComments = post.disallow_comments
   const hideComments = post.hide_comments
@@ -208,6 +211,7 @@ function ShowCommentTree({
   root?: boolean
 }) {
   const [ownComments, setOwnComments] = useState<OwnComment[]>([])
+  // const { addNewComment, ownComments } = useOwnComments()
   const [submitted, setSubmitted] = useState<string | boolean | null>(null)
 
   function addOwnComment({
@@ -220,6 +224,18 @@ function ShowCommentTree({
     depth,
     parent,
   }: AddOwnCommentProps) {
+    // const newComment: OwnComment = {
+    //   oid,
+    //   hash,
+    //   renderedComment,
+    //   comment,
+    //   name,
+    //   email,
+    //   parent,
+    //   depth,
+    //   postOid: post.oid,
+    // }
+    // addNewComment(newComment)
     setOwnComments((prevState) => {
       const newComments: OwnComment[] = []
       const newComment: OwnComment = {
@@ -275,6 +291,7 @@ function ShowCommentTree({
               notApproved={false}
               parent={parent}
               allowReply={true}
+              permalink={true}
             >
               {submitted === comment.oid && (
                 <Message
@@ -318,7 +335,9 @@ function ShowCommentTree({
                     key={ownComment.oid}
                     ownComment={ownComment}
                     addOwnComment={addOwnComment}
+                    setParent={setParent}
                     post={post}
+                    permalink={false}
                   />
                 )
               })}
@@ -344,7 +363,9 @@ function ShowCommentTree({
               key={ownComment.oid}
               ownComment={ownComment}
               addOwnComment={addOwnComment}
+              setParent={setParent}
               post={post}
+              permalink={false}
             />
           )
         })}
@@ -364,57 +385,5 @@ function ShowCommentTree({
         </div>
       )}
     </>
-  )
-}
-
-function DisplayOwnComment({
-  ownComment,
-  addOwnComment,
-  post,
-}: {
-  ownComment: OwnComment
-  addOwnComment: (props: AddOwnCommentProps) => void
-  post: Post
-}) {
-  const [editMode, setEditMode] = useState(false)
-  if (editMode) {
-    return (
-      <CommentForm
-        editHash={ownComment.hash}
-        parent={ownComment.parent}
-        addOwnComment={addOwnComment}
-        onSubmitted={() => {
-          setEditMode(false)
-        }}
-        initialComment={ownComment.comment}
-        initialName={ownComment.name}
-        initialEmail={ownComment.email}
-        depth={ownComment.depth}
-        setParent={() => {}}
-        post={post}
-      />
-    )
-  }
-  return (
-    <DisplayComment
-      key={ownComment.oid}
-      comment={{
-        id: 0,
-        oid: ownComment.oid,
-        comment: ownComment.renderedComment,
-        add_date: new Date().toISOString(),
-        not_approved: true,
-        depth: ownComment.depth,
-        name: ownComment.name,
-      }}
-      disallowComments={false}
-      allowReply={false}
-      notApproved={true}
-      setParent={() => {}}
-      parent={null}
-      toggleEditMode={() => {
-        setEditMode((prevState) => !prevState)
-      }}
-    />
   )
 }

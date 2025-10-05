@@ -9,15 +9,17 @@ import { CarbonAd } from "./carbonad"
 import { PostComments } from "./comments"
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"
+import { OwnCommentsProvider } from "./own-comments-context"
 import { PostComment } from "./post-comment"
 import { useRememberVisit } from "./remember-visit"
 import { ScrollToTop } from "./scroll-to-top"
+import { DebugOwnComments } from "./DebugOwnComments"
 
 type Props = {
   post: Post
   comments: Comments
   page: number
-  comment?: Comment
+  comment?: Comment | null
 }
 export function Blogpost({ post, comments, page, comment }: Props) {
   useSendPageview()
@@ -71,9 +73,11 @@ export function Blogpost({ post, comments, page, comment }: Props) {
 
       <CarbonAd />
 
+      {/* <OwnCommentsProvider> */}
+      {/* <DebugOwnComments /> */}
       {comment && <PostComment comment={comment} page={page} post={post} />}
-
       <PostComments post={post} comments={comments} page={page} />
+      {/* </OwnCommentsProvider> */}
 
       <RelatedPosts post={post} />
 
