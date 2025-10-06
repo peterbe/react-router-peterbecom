@@ -7,7 +7,6 @@ import type { AddOwnCommentProps, Comment, Comments, OwnComment } from "~/types"
 import { Message } from "~/utils/message"
 import type { Post } from "~/valibot-types"
 import { DisplayOwnComment } from "./display-own-comment"
-import { useOwnComments } from "./own-comments-context"
 
 type Props = {
   post: Post

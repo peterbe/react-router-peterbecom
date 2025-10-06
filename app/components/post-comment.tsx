@@ -5,8 +5,6 @@ import type { Post } from "~/valibot-types"
 import { DisplayComment } from "./comment"
 import { CommentForm } from "./commentform"
 import { DisplayOwnComment } from "./display-own-comment"
-import { useOwnComments } from "./own-comments-context"
-import { DebugOwnComments } from "./DebugOwnComments"
 
 type Props = {
   comment: Comment
