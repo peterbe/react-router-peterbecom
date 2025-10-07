@@ -66,7 +66,8 @@ export type Comments = v.InferInput<typeof Comments>
 export const ServerData = v.object({
   post: Post,
   comments: Comments,
-  page: v.optional(v.number()),
+  comment: v.optional(v.nullable(CommentSchema)),
+  page: v.number(),
 })
 export type ServerDataType = v.InferInput<typeof ServerData>
 

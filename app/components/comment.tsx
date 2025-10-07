@@ -1,7 +1,22 @@
 import type { ReactNode } from "react"
+import { Link } from "react-router"
 
 import type { Comment } from "~/types"
 import { formatDateBasic } from "~/utils/utils"
+import type { Post } from "~/valibot-types"
+
+type Props = {
+  comment: Comment
+  children?: ReactNode | null
+  disallowComments: boolean
+  notApproved: boolean
+  setParent: (oid: string | null) => void
+  parent: string | null
+  toggleEditMode?: () => void
+  allowReply?: boolean
+  permalink: boolean
+  post: Post
+}
 
 export function DisplayComment({
   comment,
@@ -12,26 +27,27 @@ export function DisplayComment({
   parent,
   toggleEditMode,
   allowReply,
-}: {
-  comment: Comment
-  children?: ReactNode | null
-  disallowComments: boolean
-  notApproved: boolean
-  setParent: (oid: string | null) => void
-  parent: string | null
-  toggleEditMode?: () => void
-  allowReply?: boolean
-}) {
+  permalink,
+  post,
+}: Props) {
   let className = "comment"
   if (comment.depth) {
     className += ` nested d-${comment.depth}`
   }
+  const permalinkUrl = `/plog/${post.oid}/comment/${comment.oid}`
+  // const permalinkUrl = getPaginationURL(post.oid, page)
   return (
     <div id={comment.oid} className={className}>
       <b>{comment.name ? comment.name : <i>Anonymous</i>}</b>{" "}
-      <a className="metadata" href={`#${comment.oid}`} rel="nofollow">
-        {formatDateBasic(comment.add_date)}
-      </a>{" "}
+      {permalink ? (
+        <Link className="metadata" to={permalinkUrl} rel="nofollow">
+          {formatDateBasic(comment.add_date)}
+        </Link>
+      ) : (
+        <a href={`#${comment.oid}`} className="metadata" rel="nofollow">
+          {formatDateBasic(comment.add_date)}
+        </a>
+      )}{" "}
       {toggleEditMode && (
         <button
           type="button"
