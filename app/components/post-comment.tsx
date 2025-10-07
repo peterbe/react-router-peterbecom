@@ -99,6 +99,7 @@ export function PostComment({ comment, post, page }: Props) {
             setParent={() => {}}
             parent={null}
             permalink={false}
+            post={post}
           >
             {ownComments
               .filter((c) => c.parent === comment.oid && c.postOid === post.oid)

@@ -1,18 +1,17 @@
 import { data } from "react-router"
 import * as v from "valibot"
-import { Blogpost } from "~/components/blogpost"
+// import { Blogpost } from "~/components/blogpost"
 import { get } from "~/lib/get-data"
 import { newValiError } from "~/utils/utils"
 
-// import Component from "./plog-splat"
 import { ServerData } from "~/valibot-types"
 import type { Route } from "./+types/plog-splat-comment"
+
+import Component from "./plog-splat"
 
 export { headers, links, meta } from "./plog-splat"
 
 export async function loader({ params }: Route.LoaderArgs) {
-  const page = 1
-
   const oid = params.oid
   const commentoid = params.commentoid
 
@@ -27,8 +26,9 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Error(`${response.status} from ${fetchURL}`)
   }
   try {
-    const { post, comments, comment } = v.parse(ServerData, response.data)
+    const { post, comments, comment, page } = v.parse(ServerData, response.data)
 
+    console.log("IN plog-splat-comment", "comment", !!comment)
     const cacheSeconds =
       post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
 
@@ -50,11 +50,11 @@ function isNotPublished(date: string) {
   return actualDate > new Date()
 }
 
-// export default Component
+// export default function Component({ loaderData }: Route.ComponentProps) {
+//   const { post, comments, page, comment } = loaderData
+//   return (
+//     <Blogpost post={post} comments={comments} page={page} comment={comment} />
+//   )
+// }
 
-export default function Component({ loaderData }: Route.ComponentProps) {
-  const { post, comments, page, comment } = loaderData
-  return (
-    <Blogpost post={post} comments={comments} page={page} comment={comment} />
-  )
-}
+export default Component

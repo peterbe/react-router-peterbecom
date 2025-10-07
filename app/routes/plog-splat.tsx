@@ -51,14 +51,14 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     throw new Error(`${response.status} from ${fetchURL}`)
   }
   try {
-    console.log(response.data)
-    const { post, comments } = v.parse(ServerData, response.data)
+    const { post, comments, page, comment } = v.parse(ServerData, response.data)
 
     const cacheSeconds =
       post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
 
+    console.log("IN plog-splat", "comment", !!comment)
     return data(
-      { post, comments, page },
+      { post, comments, page, comment },
       { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
@@ -128,6 +128,9 @@ export function meta({ params, location, data }: Route.MetaArgs) {
 }
 
 export default function Component({ loaderData }: Route.ComponentProps) {
-  const { post, comments, page } = loaderData
-  return <Blogpost post={post} comments={comments} page={page} />
+  const { post, comments, page, comment } = loaderData
+  console.log("Component in plog-splat", { comment })
+  return (
+    <Blogpost post={post} comments={comments} page={page} comment={comment} />
+  )
 }

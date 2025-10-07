@@ -291,6 +291,7 @@ function ShowCommentTree({
               parent={parent}
               allowReply={true}
               permalink={true}
+              post={post}
             >
               {submitted === comment.oid && (
                 <Message

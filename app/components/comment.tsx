@@ -3,6 +3,7 @@ import { Link } from "react-router"
 
 import type { Comment } from "~/types"
 import { formatDateBasic } from "~/utils/utils"
+import type { Post } from "~/valibot-types"
 
 type Props = {
   comment: Comment
@@ -14,6 +15,7 @@ type Props = {
   toggleEditMode?: () => void
   allowReply?: boolean
   permalink: boolean
+  post: Post
 }
 
 export function DisplayComment({
@@ -26,12 +28,14 @@ export function DisplayComment({
   toggleEditMode,
   allowReply,
   permalink,
+  post,
 }: Props) {
   let className = "comment"
   if (comment.depth) {
     className += ` nested d-${comment.depth}`
   }
-  const permalinkUrl = `comment/${comment.oid}`
+  const permalinkUrl = `/plog/${post.oid}/comment/${comment.oid}`
+  // const permalinkUrl = getPaginationURL(post.oid, page)
   return (
     <div id={comment.oid} className={className}>
       <b>{comment.name ? comment.name : <i>Anonymous</i>}</b>{" "}
