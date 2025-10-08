@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react"
-import { Link } from "react-router"
+import { Link, useNavigate, useSearchParams } from "react-router"
 
 import { DisplayComment } from "~/components/comment"
 import { CommentForm } from "~/components/commentform"
@@ -12,6 +12,7 @@ type Props = {
   comments: Comments
   page: number
 }
+
 export function PostComments({ post, comments, page }: Props) {
   const disallowComments = post.disallow_comments
   const hideComments = post.hide_comments
@@ -268,36 +269,38 @@ function ShowCommentTree({
       {comments.map((comment) => {
         return (
           <Fragment key={comment.id}>
-            <DisplayComment
-              comment={comment}
-              disallowComments={disallowComments}
-              setParent={setParent}
-              notApproved={false}
-              parent={parent}
-              allowReply={true}
-            >
-              {submitted === comment.oid && (
-                <Message
-                  onClose={() => setSubmitted(null)}
-                  header="Reply comment submitted"
-                  positive={true}
-                >
-                  It will be manually reviewed shortly.
-                </Message>
-              )}
-              {parent && parent === comment.oid && !disallowComments && (
-                <CommentForm
-                  parent={parent}
-                  post={post}
-                  addOwnComment={addOwnComment}
-                  setParent={setParent}
-                  depth={comment.depth + 1}
-                  onSubmitted={() => {
-                    setSubmitted(comment.oid)
-                  }}
-                />
-              )}
-            </DisplayComment>
+            <DisplayCommentWrapper oid={comment.oid}>
+              <DisplayComment
+                comment={comment}
+                disallowComments={disallowComments}
+                setParent={setParent}
+                notApproved={false}
+                parent={parent}
+                allowReply={true}
+              >
+                {submitted === comment.oid && (
+                  <Message
+                    onClose={() => setSubmitted(null)}
+                    header="Reply comment submitted"
+                    positive={true}
+                  >
+                    It will be manually reviewed shortly.
+                  </Message>
+                )}
+                {parent && parent === comment.oid && !disallowComments && (
+                  <CommentForm
+                    parent={parent}
+                    post={post}
+                    addOwnComment={addOwnComment}
+                    setParent={setParent}
+                    depth={comment.depth + 1}
+                    onSubmitted={() => {
+                      setSubmitted(comment.oid)
+                    }}
+                  />
+                )}
+              </DisplayComment>
+            </DisplayCommentWrapper>
 
             {comment.replies && (
               <ShowCommentTree
@@ -314,12 +317,16 @@ function ShowCommentTree({
               .filter((c) => c.parent === comment.oid && c.postOid === post.oid)
               .map((ownComment) => {
                 return (
-                  <DisplayOwnComment
+                  <DisplayCommentWrapper
+                    oid={ownComment.oid}
                     key={ownComment.oid}
-                    ownComment={ownComment}
-                    addOwnComment={addOwnComment}
-                    post={post}
-                  />
+                  >
+                    <DisplayOwnComment
+                      ownComment={ownComment}
+                      addOwnComment={addOwnComment}
+                      post={post}
+                    />
+                  </DisplayCommentWrapper>
                 )
               })}
           </Fragment>
@@ -417,4 +424,49 @@ function DisplayOwnComment({
       }}
     />
   )
+}
+
+function DisplayCommentWrapper({
+  children,
+  oid,
+}: {
+  children: React.ReactNode
+  oid: string
+}) {
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  if (searchParams.get("comment") === oid) {
+    function exitModal() {
+      const sp = new URLSearchParams(searchParams)
+      sp.delete("comment")
+      navigate(`?${sp.toString()}#${oid}`) //, { replace: true })
+    }
+    return (
+      <dialog open>
+        <article>
+          <header>
+            <button
+              type="button"
+              aria-label="Close"
+              rel="prev"
+              onClick={() => exitModal()}
+              style={{ marginTop: 10 }}
+            />
+            <h3>Comment</h3>
+          </header>
+          {children}
+          <footer>
+            <button
+              type="button"
+              className="secondary"
+              onClick={() => exitModal()}
+            >
+              All comments
+            </button>
+          </footer>
+        </article>
+      </dialog>
+    )
+  }
+  return <>{children}</>
 }

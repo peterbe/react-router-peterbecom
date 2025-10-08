@@ -40,7 +40,12 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     }
   }
 
+  const permaComment = url.searchParams.get("comment")
+
   const sp = new URLSearchParams({ page: `${page}` })
+  if (permaComment) {
+    sp.append("comment", permaComment)
+  }
   const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}?${sp}`
 
   const response = await get(fetchURL)

@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { useSearchParams } from "react-router"
 
 import type { Comment } from "~/types"
 import { formatDateBasic } from "~/utils/utils"
@@ -22,14 +23,22 @@ export function DisplayComment({
   toggleEditMode?: () => void
   allowReply?: boolean
 }) {
+  const [searchParams] = useSearchParams()
+  const permaUrl = `?${new URLSearchParams({
+    ...searchParams,
+    comment: comment.oid,
+  }).toString()}`
+
   let className = "comment"
+
   if (comment.depth) {
     className += ` nested d-${comment.depth}`
   }
+
   return (
     <div id={comment.oid} className={className}>
       <b>{comment.name ? comment.name : <i>Anonymous</i>}</b>{" "}
-      <a className="metadata" href={`#${comment.oid}`} rel="nofollow">
+      <a className="metadata" href={permaUrl} rel="nofollow">
         {formatDateBasic(comment.add_date)}
       </a>{" "}
       {toggleEditMode && (

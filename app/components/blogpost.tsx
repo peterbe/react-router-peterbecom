@@ -17,6 +17,7 @@ type Props = {
   comments: Comments
   page: number
 }
+
 export function Blogpost({ post, comments, page }: Props) {
   useSendPageview()
   const pubDate = new Date(post.pub_date)
