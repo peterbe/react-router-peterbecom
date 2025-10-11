@@ -26,6 +26,12 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
   const parts = dynamicPage.split("/")
 
+  const searchQuery = searchParams.get("search")
+  if (searchQuery) {
+    const newUrl = `${pathname}#search=${encodeURIComponent(searchQuery)}`
+    return redirect(newUrl, 308)
+  }
+
   const sp = new URLSearchParams({ id: parts[2] })
   const fetchURL = `/api/v1/lyrics/song?${sp}`
   const response = await get(fetchURL, { followRedirect: false })
@@ -35,12 +41,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     response.headers.location
   ) {
     return redirect(response.headers.location, 308)
-  }
-
-  const searchQuery = searchParams.get("search")
-  if (searchQuery) {
-    const newUrl = `${pathname}#search=${encodeURIComponent(searchQuery)}`
-    return redirect(newUrl, 308)
   }
 
   if (response.status === 404) {
