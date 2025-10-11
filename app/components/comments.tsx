@@ -300,6 +300,25 @@ function ShowCommentTree({
                   />
                 )}
               </DisplayComment>
+
+              {ownComments
+                .filter(
+                  (c) => c.parent === comment.oid && c.postOid === post.oid,
+                )
+                .map((ownComment) => {
+                  return (
+                    <DisplayCommentWrapper
+                      oid={ownComment.oid}
+                      key={ownComment.oid}
+                    >
+                      <DisplayOwnComment
+                        ownComment={ownComment}
+                        addOwnComment={addOwnComment}
+                        post={post}
+                      />
+                    </DisplayCommentWrapper>
+                  )
+                })}
             </DisplayCommentWrapper>
 
             {comment.replies && (
@@ -313,7 +332,7 @@ function ShowCommentTree({
               />
             )}
 
-            {ownComments
+            {/* {ownComments
               .filter((c) => c.parent === comment.oid && c.postOid === post.oid)
               .map((ownComment) => {
                 return (
@@ -328,7 +347,7 @@ function ShowCommentTree({
                     />
                   </DisplayCommentWrapper>
                 )
-              })}
+              })} */}
           </Fragment>
         )
       })}
