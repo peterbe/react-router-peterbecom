@@ -164,10 +164,25 @@ export const SubmitData = v.object({
   comment: v.string(),
 })
 
-// export const PreviewData = v.object({
-//   comment: v.string(),
-// })
-
 export const PrepareData = v.object({
   csrfmiddlewaretoken: v.string(),
+})
+
+const CommentPost = v.object({
+  oid: v.string(),
+  title: v.string(),
+  pub_date: v.string(),
+  disallow_comments: v.boolean(),
+  open_graph_image: v.nullable(v.string()),
+  summary: v.string(),
+})
+
+export type CommentPost = v.InferInput<typeof CommentPost>
+
+export const CommentServerData = v.object({
+  post: CommentPost,
+  replies: Comments,
+  comment: CommentSchema,
+  parent: v.nullable(CommentSchema),
+  page: v.number(),
 })

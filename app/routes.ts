@@ -12,6 +12,7 @@ export default [
     route("blogitem-040601-1/q/*", "./routes/lyrics-search.tsx"),
     route("blogitem-040601-1/song/*", "./routes/lyrics-song.tsx"),
     route("blogitem-040601-1/*", "./routes/lyrics-post.tsx"),
+    route(":oid/comment/:commentoid", "./routes/plog-comment.tsx"),
     route(":oid/*", "./routes/plog-splat.tsx"),
   ]),
   route("about", "routes/about.tsx"),

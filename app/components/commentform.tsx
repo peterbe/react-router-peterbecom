@@ -96,10 +96,8 @@ export function CommentForm({
   const [csrfmiddlewaretokenTimestamp, setCsrfmiddlewaretokenTimestamp] =
     useState<Date | null>(null)
 
-  // const [previewing, setPreviewing] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [renderedComment, setRenderedComment] = useState("")
-  // const [previewError, setPreviewError] = useState<Error | null>(null)
   const [prepareError, setPrepareError] = useState<Error | null>(null)
   const [submitError, setSubmitError] = useState<Error | null>(null)
 
@@ -206,6 +204,7 @@ export function CommentForm({
           notApproved={false}
           disallowComments={true}
           parent={null}
+          post={post}
         />
       )}
 
@@ -263,7 +262,9 @@ export function CommentForm({
         style={{ marginTop: 40 }}
       >
         <div className="field">
-          <label htmlFor="id_comment">What do you think?</label>
+          <label htmlFor="id_comment">
+            {depth ? "Type your reply here" : "Type your comment here"}
+          </label>
           <textarea
             id="id_comment"
             ref={textareaRef}

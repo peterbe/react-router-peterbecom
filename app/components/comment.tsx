@@ -1,7 +1,9 @@
 import type { ReactNode } from "react"
+import { Link } from "react-router"
 
 import type { Comment } from "~/types"
 import { formatDateBasic } from "~/utils/utils"
+import type { Post } from "~/valibot-types"
 
 export function DisplayComment({
   comment,
@@ -12,6 +14,7 @@ export function DisplayComment({
   parent,
   toggleEditMode,
   allowReply,
+  post,
 }: {
   comment: Comment
   children?: ReactNode | null
@@ -21,17 +24,23 @@ export function DisplayComment({
   parent: string | null
   toggleEditMode?: () => void
   allowReply?: boolean
+  post: Post
 }) {
   let className = "comment"
   if (comment.depth) {
     className += ` nested d-${comment.depth}`
   }
+  const commentUrl = `/plog/${post.oid}/comment/${comment.oid}`
   return (
     <div id={comment.oid} className={className}>
       <b>{comment.name ? comment.name : <i>Anonymous</i>}</b>{" "}
-      <a className="metadata" href={`#${comment.oid}`} rel="nofollow">
-        {formatDateBasic(comment.add_date)}
-      </a>{" "}
+      {comment.not_approved ? (
+        <i>{formatDateBasic(comment.add_date)}</i>
+      ) : (
+        <Link className="metadata" to={commentUrl} rel="nofollow">
+          {formatDateBasic(comment.add_date)}
+        </Link>
+      )}{" "}
       {toggleEditMode && (
         <button
           type="button"
