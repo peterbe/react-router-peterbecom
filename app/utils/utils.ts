@@ -11,8 +11,11 @@ export function formatDateBasic(date: string) {
   })
 }
 
-export function postURL(oid: string) {
-  return `/plog/${oid}`
+export function postURL(oid: string, page?: number, comment?: string) {
+  let url = `/plog/${oid}`
+  if (page && page > 1) url += `/p${page}`
+  if (comment) url += `#${comment}`
+  return url
 }
 
 export function categoryURL(name: string) {
