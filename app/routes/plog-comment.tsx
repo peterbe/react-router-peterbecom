@@ -64,7 +64,6 @@ export function headers({ loaderHeaders }: Route.HeadersArgs) {
 }
 
 export function meta({ params, location, data }: Route.MetaArgs) {
-  // export const meta: MetaFunction<typeof loader> = ({ data, params }) => {
   const oid = params.oid
   if (!oid) throw new Error("No oid")
   const commentoid = params.commentoid
@@ -75,7 +74,10 @@ export function meta({ params, location, data }: Route.MetaArgs) {
     return [{ title: "Page not found" }]
   }
 
-  let pageTitle = `Comment on "${data.post.title}"`
+  let pageTitle =
+    data.post.title.startsWith('"') && data.post.title.endsWith('"')
+      ? `Comment on ${data.post.title}`
+      : `Comment on "${data.post.title}"`
 
   if (data.page > 1) {
     pageTitle += ` (page ${data.page})`

@@ -213,27 +213,11 @@ export function Blogcomment({
               )
             })}
 
-          {/* {submitted === comment.oid && (
-            <Message
-              onClose={() => setSubmitted(null)}
-              header="Reply comment submitted"
-              positive={true}
-            >
-              It will be manually reviewed shortly.
-            </Message>
+          {disallowComments && (
+            <p>
+              <em>Further comments closed</em>
+            </p>
           )}
-          {!disallowComments && (
-            <CommentForm
-              parent={comment.oid}
-              post={post}
-              addOwnComment={addOwnComment}
-              setParent={setParent}
-              depth={comment.depth + 1}
-              onSubmitted={() => {
-                setSubmitted(comment.oid)
-              }}
-            />
-          )} */}
         </div>
       </div>
 
