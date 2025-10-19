@@ -111,16 +111,7 @@ export function Blogcomment({
       />
 
       <div id="main-content">
-        <article>
-          <p style={{ textAlign: "center" }}>
-            ⬅︎ Back to blog post:
-            <br />
-            <LinkWithPrefetching to={postURL(post.oid, page, comment.oid)}>
-              {post.title}
-            </LinkWithPrefetching>
-          </p>
-        </article>
-
+        <BackToPost post={post} page={page} comment={comment} />
         <div id="comments">
           <h2>Comment</h2>
           <DisplayComment
@@ -276,5 +267,26 @@ function DisplayOwnComment({
         setEditMode((prevState) => !prevState)
       }}
     />
+  )
+}
+
+function BackToPost({
+  post,
+  page,
+  comment,
+}: {
+  post: Post
+  page: number
+  comment: Comment
+}) {
+  return (
+    <article>
+      <p style={{ textAlign: "center", marginBottom: "0.5rem" }}>
+        ⬅︎ Back to{" "}
+        <LinkWithPrefetching to={postURL(post.oid, page, comment.oid)}>
+          {post.title}
+        </LinkWithPrefetching>
+      </p>
+    </article>
   )
 }
