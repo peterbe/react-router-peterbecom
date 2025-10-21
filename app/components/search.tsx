@@ -139,7 +139,7 @@ export function Search({ q, debug }: Props) {
             const first = !i
             let url = `/plog/${result.oid}`
             if (result.comment_oid) {
-              url += `#${result.comment_oid}`
+              url += `/comment/${result.comment_oid}`
             }
             return (
               <div
@@ -148,7 +148,11 @@ export function Search({ q, debug }: Props) {
               >
                 <p>
                   <b>
-                    <LinkWithPrefetching to={url} instant={first}>
+                    <LinkWithPrefetching
+                      to={url}
+                      instant={first}
+                      discover="none"
+                    >
                       <span
                         dangerouslySetInnerHTML={{ __html: result.title }}
                       />
@@ -164,13 +168,14 @@ export function Search({ q, debug }: Props) {
                     to={url}
                     className="search-result-url"
                     style={{ marginRight: 10 }}
+                    discover="none"
                   >
                     {url}
                   </LinkWithPrefetching>{" "}
                   {(result.categories || []).map((category, i, arr) => {
                     return (
                       <Fragment key={category}>
-                        <Link to={categoryURL(category)}>
+                        <Link to={categoryURL(category)} discover="none">
                           <small>{category}</small>
                         </Link>
                         {i < arr.length - 1 ? ", " : ""}

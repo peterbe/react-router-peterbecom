@@ -50,7 +50,7 @@ export function Blogpost({ post, comments, page }: Props) {
                   <Fragment key={category}>
                     <LinkWithPrefetching
                       to={categoryURL(category)}
-                      rel="nofollow"
+                      discover="none"
                     >
                       {category}
                     </LinkWithPrefetching>
@@ -108,7 +108,10 @@ function RelatedPosts({ post }: { post: Post }) {
           <>
             <dt>Previous:</dt>
             <dd>
-              <LinkWithPrefetching to={postURL(previousPost.oid)}>
+              <LinkWithPrefetching
+                to={postURL(previousPost.oid)}
+                discover="none"
+              >
                 {previousPost.title}
               </LinkWithPrefetching>{" "}
               <small>{formatDateBasic(previousPost.pub_date)}</small>{" "}
@@ -121,7 +124,7 @@ function RelatedPosts({ post }: { post: Post }) {
           <>
             <dt>Next:</dt>
             <dd>
-              <LinkWithPrefetching to={postURL(nextPost.oid)}>
+              <LinkWithPrefetching to={postURL(nextPost.oid)} discover="none">
                 {nextPost.title}
               </LinkWithPrefetching>{" "}
               <small>{formatDateBasic(nextPost.pub_date)}</small>{" "}
@@ -136,7 +139,7 @@ function RelatedPosts({ post }: { post: Post }) {
           <dt>Related by category:</dt>
           {relatedByCategory.map((related) => (
             <dd key={related.oid}>
-              <LinkWithPrefetching to={postURL(related.oid)}>
+              <LinkWithPrefetching to={postURL(related.oid)} discover="none">
                 {related.title}
               </LinkWithPrefetching>{" "}
               <small>{formatDateBasic(related.pub_date)}</small>{" "}
@@ -151,7 +154,7 @@ function RelatedPosts({ post }: { post: Post }) {
           <dt>Related by keyword:</dt>
           {relatedByKeyword.map((related) => (
             <dd key={related.oid}>
-              <LinkWithPrefetching to={postURL(related.oid)}>
+              <LinkWithPrefetching to={postURL(related.oid)} discover="none">
                 {related.title}
               </LinkWithPrefetching>{" "}
               <small>{formatDateBasic(related.pub_date)}</small>{" "}
@@ -169,7 +172,7 @@ function SubCategories({ categories }: { categories: string[] }) {
     <>
       {categories.map((category, i) => (
         <Fragment key={category}>
-          <Link to={categoryURL(category)} viewTransition>
+          <Link to={categoryURL(category)} viewTransition discover="none">
             <small>{category}</small>
           </Link>
           {i < categories.length - 1 && <small>, </small>}

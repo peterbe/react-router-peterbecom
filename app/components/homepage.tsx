@@ -109,7 +109,7 @@ function Post({ post, index }: { post: HomepagePost; index: number }) {
     <article className="homepage-post">
       <hgroup>
         <h3>
-          <LinkWithPrefetching to={url} instant={first}>
+          <LinkWithPrefetching to={url} instant={first} discover="none">
             {post.title}
           </LinkWithPrefetching>
         </h3>

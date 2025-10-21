@@ -12,7 +12,12 @@ interface Props extends LinkProps {
 // never load the XHR fetches necessary.
 // However, in the case of the variable `instant` prop, we can at least
 // control it.
-export function LinkWithPrefetching({ to, children, instant = false }: Props) {
+export function LinkWithPrefetching({
+  to,
+  children,
+  instant = false,
+  ...props
+}: Props) {
   const href = to.toString()
 
   return (
@@ -20,7 +25,12 @@ export function LinkWithPrefetching({ to, children, instant = false }: Props) {
       {/* When the user right-clicks to open in a new tab */}
       {instant && <link rel="prefetch" href={href} />}
 
-      <Link to={to} viewTransition prefetch={instant ? "render" : "intent"}>
+      <Link
+        to={to}
+        viewTransition
+        prefetch={instant ? "render" : "intent"}
+        {...props}
+      >
         {children}
       </Link>
     </>
