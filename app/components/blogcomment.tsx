@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { lazy, Suspense, useEffect, useState } from "react"
+import { ErrorBoundary } from "react-error-boundary"
 import { useSendPageview } from "~/analytics"
 import type { AddOwnCommentProps, OwnComment } from "~/types"
 import { Message } from "~/utils/message"
@@ -11,6 +12,8 @@ import { CommentForm } from "./commentform"
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"
 import { useRememberVisit } from "./remember-visit"
+
+const ConfettiLazy = lazy(() => import("~/components/confetti-comment"))
 
 type Props = {
   post: Post
@@ -130,6 +133,11 @@ export function Blogcomment({
                 positive={true}
               >
                 It will be manually reviewed shortly.
+                <Suspense fallback={null}>
+                  <ErrorBoundary fallback={null}>
+                    <ConfettiLazy />
+                  </ErrorBoundary>
+                </Suspense>
               </Message>
             )}
             {parent && parent === comment.oid && !disallowComments && (
@@ -164,6 +172,11 @@ export function Blogcomment({
                   positive={true}
                 >
                   It will be manually reviewed shortly.
+                  <Suspense fallback={null}>
+                    <ErrorBoundary fallback={null}>
+                      <ConfettiLazy />
+                    </ErrorBoundary>
+                  </Suspense>
                 </Message>
               )}
               {parent && parent === parentComment.oid && !disallowComments && (
