@@ -36,7 +36,7 @@ function SongLyricsSubheader({ page }: { page: number }) {
   const titles: {
     [key: number]: string
   } = {
-    1: "I'm looking for a song that goes like this lyrics. Song lyrics search finder.",
+    1: "Song finder by lyrics. Helps you find songs when you only know some lyrics.",
     2: "I'm looking for this song by these lyrics.",
     3: "I'm looking for a song I don't know the name of.",
     4: "Looking for a song you heard, but don't know the name?",
