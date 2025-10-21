@@ -37,7 +37,12 @@ export function DisplayComment({
       {comment.not_approved ? (
         <i>{formatDateBasic(comment.add_date)}</i>
       ) : (
-        <Link className="metadata" to={commentUrl} rel="nofollow">
+        <Link
+          className="metadata"
+          to={commentUrl}
+          rel="nofollow"
+          discover="none"
+        >
           {formatDateBasic(comment.add_date)}
         </Link>
       )}{" "}

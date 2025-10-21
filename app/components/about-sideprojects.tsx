@@ -1,5 +1,10 @@
 import type { ReactNode } from "react"
-import { Link } from "react-router"
+import type { LinkProps } from "react-router"
+import { Link as Link_ } from "react-router"
+
+function Link(props: LinkProps) {
+  return <Link_ discover="none" {...props} viewTransition />
+}
 
 type SideProject = {
   id: string

@@ -31,14 +31,14 @@ export function BlogArchive({ groups }: Props) {
                 }`
                 return (
                   <dd key={post.oid}>
-                    <LinkWithPrefetching to={postURL(post.oid)}>
+                    <LinkWithPrefetching to={postURL(post.oid)} discover="none">
                       {post.title}
                     </LinkWithPrefetching>{" "}
                     {post.comments > 0 && <span>{count}</span>}{" "}
                     <small>
                       {post.categories.map((name, i, arr) => (
                         <Fragment key={name}>
-                          <Link to={categoryURL(name)} rel="nofollow">
+                          <Link to={categoryURL(name)} discover="none">
                             {name}
                           </Link>
                           {i < arr.length - 1 ? ", " : ""}
