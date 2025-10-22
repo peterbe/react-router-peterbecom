@@ -1,6 +1,6 @@
 /** For example
  *
- * npm run test-user-agent ""Mozilla/5.0 (compatible; bla blabot)"
+ * bun run test-user-agent "Mozilla/5.0 (compatible; bla blabot)"
  *
  */
 
