@@ -2,41 +2,42 @@
 # https://just.systems/
 
 dev:
-    npm run dev
+    bun run dev
 
 dev-with-proxy:
-    API_BASE=https://www.peterbe.com npm run dev
+    API_BASE=https://www.peterbe.com bun run dev
 
 build:
-    npm run build
+    bun run build
 
 start: build
-    npm run start
+    bun run start
 
 tsc:
-    npm run tsc
+    bun run tsc
 
 lint:
-    npm run lint
-    npm run typecheck
+    bun run lint
+    bun run typecheck
 
 lintfix:
-    npm run lint:fix
+    bun run lint:fix
 
 test:
-    npm run test
-    npx playwright test
+    bun run test
+    bunx playwright test
 
 playwright-codegen:
-    npx playwright codegen
+    bunx playwright codegen
 
 format: lintfix
 
 install:
-    npm install
+    bun install
 
 upgrade:
-    npx npm-check-updates --interactive
+    bun update --interactive
+    bun install
 
 start-mock-peterbecom-backend:
-    npm run mock-peterbecom-backend
+    bun run mock-peterbecom-backend

@@ -4,22 +4,22 @@
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_ENV=production react-router build",
-    "build:witholdbuildpreserved": "rm -fr /tmp/_old_build && tsx scripts/backup-old-build.ts && npm run build && tsx scripts/restore-old-build.ts",
+    "build:witholdbuildpreserved": "rm -fr /tmp/_old_build && bun run scripts/backup-old-build.ts && bun run build && tsx scripts/restore-old-build.ts",
     "dev": "react-router dev",
-    "start": "cross-env NODE_ENV=production tsx start-server.ts ./build/server/index.js",
+    "start": "cross-env NODE_ENV=production bun run start-server.ts ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint": "biome check",
     "lint:fix": "biome check --write",
     "prepare": "husky",
     "test": "BUILD_PATH=./build/server/index.js vitest --run",
-    "build:compress": "node --experimental-strip-types --no-warnings scripts/compress-build.ts",
-    "compare-build-dirs": "node --experimental-strip-types --no-warnings scripts/compare-build-dirs.ts",
-    "bot-agent-backfill": "tsx scripts/bot-agent-backfill.ts",
+    "build:compress": "bun run scripts/compress-build.ts",
+    "compare-build-dirs": "bun run scripts/compare-build-dirs.ts",
+    "bot-agent-backfill": "bun run scripts/bot-agent-backfill.ts",
     "test:watch": "BUILD_PATH=./build/server/index.js vitest",
-    "mock-peterbecom-backend": "tsx mock-peterbecom-backend/index.ts",
-    "mock-peterbecom-backend:watch": "tsx watch mock-peterbecom-backend/index.ts",
-    "test-user-agent": "tsx scripts/test-user-agent.ts",
-    "postinstall": "npx @biomejs/biome migrate --write"
+    "mock-peterbecom-backend": "bun run mock-peterbecom-backend/index.ts",
+    "mock-peterbecom-backend:watch": "bun run --watch mock-peterbecom-backend/index.ts",
+    "test-user-agent": "bun run scripts/test-user-agent.ts",
+    "postinstall": "bunx @biomejs/biome migrate --write"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",
@@ -74,7 +74,8 @@
     "typescript": "^5.9.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "@types/bun": "latest"
   },
   "overrides": {
     "usehooks-ts": {

@@ -15,37 +15,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v5
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      - name: Cache node_modules
-        uses: actions/cache@v4
-        id: cached-node_modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ hashFiles('package*.json') }}-${{ hashFiles('.github/workflows/test.yml') }}
-
-      - name: Install
-        if: steps.cached-node_modules.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
+      - run: bun run lint
 
       - name: Build (and lint)
         env:
           API_BASE: http://localhost:8000
-        run: npm run build
+        run: bun run build
 
       - name: Compress build assets
-        run: npm run build:compress
+        run: bun run build:compress
 
       - name: Start mock server
-        run: npm run mock-peterbecom-backend > /tmp/stdout.log 2> /tmp/stderr.log &
+        run: bun run mock-peterbecom-backend > /tmp/stdout.log 2> /tmp/stderr.log &
 
       - name: Check that the server runs
         run: |
@@ -56,10 +40,10 @@ jobs:
         env:
           API_BASE: http://localhost:8000
           SERVER_URL: http://localhost:3000
-        run: npm run test
+        run: bun run test
 
       - name: Playwright tests
-        run: npx playwright test
+        run: bunx playwright test
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
