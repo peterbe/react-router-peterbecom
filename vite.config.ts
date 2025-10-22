@@ -29,4 +29,10 @@ export default defineConfig({
       "/avatar.png": backendProxy,
     },
   },
+  // Hack from https://github.com/remix-run/react-router/issues/12568#issuecomment-2625776697
+  resolve: {
+    alias: {
+      "react-dom/server": "react-dom/server.node",
+    },
+  },
 })
