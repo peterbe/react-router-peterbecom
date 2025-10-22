@@ -35,6 +35,9 @@ format: lintfix
 install:
     bun install
 
+outdated:
+    bun outdated
+
 upgrade:
     bun update --interactive
     bun install
