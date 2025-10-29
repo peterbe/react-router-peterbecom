@@ -99,19 +99,19 @@ export function meta({ location, data }: Route.MetaArgs) {
   const pageTitle = "Find song by lyrics"
   const page = data?.page || 1
   // The contents of the `<title>` has to be a string
-  let title = `${pageTitle} ${
-    page > 1 ? ` (Page ${page})` : " Looking for songs by the lyrics"
-  }`
+  let title = `${pageTitle} ${page > 1 ? ` (Page ${page})` : ""}`
   let description = "Find songs by lyrics."
 
   const { pathname } = location
 
-  if (pathname.includes("/search/") && data && "metadata" in data) {
+  if (pathname.includes("/q/") && data && "metadata" in data) {
     const { metadata } = data
     title = `"${metadata.search}" ${
       page > 1 ? ` (page ${page}) ` : ""
     }- ${pageTitle}`
     description = `Searching for song lyrics by "${metadata.search}"`
+  } else {
+    title += " Looking for songs by the lyrics"
   }
 
   return [
