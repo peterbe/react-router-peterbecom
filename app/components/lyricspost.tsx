@@ -4,7 +4,8 @@ import { useSendPageview } from "../analytics"
 import { CarbonAd } from "./carbonad"
 import { PostComments } from "./comments"
 import { ScrollToTop } from "./scroll-to-top"
-import SongSearchAutocomplete from "./songsearch-autocomplete"
+
+// import SongSearchAutocomplete from "./songsearch-autocomplete"
 
 type Props = {
   post: Post
@@ -21,7 +22,7 @@ export function Lyricspost({ post, comments, page }: Props) {
         <SongLyricsSubheader page={page} />
       </hgroup>
 
-      <SongSearchAutocomplete />
+      {/* <SongSearchAutocomplete /> */}
 
       <CarbonAd />
 
