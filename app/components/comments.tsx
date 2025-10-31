@@ -76,7 +76,7 @@ function PostOwnComment() {
     <a
       href="#commentsform"
       role="button"
-      className="mini"
+      className="mini outline"
       style={{ marginLeft: 0 }}
       onClick={(event) => {
         const dest = document.querySelector<HTMLDivElement>("#commentsform")
@@ -132,50 +132,46 @@ function Heading({
         </hgroup>
       </div>
       <div>
-        <div className="grid">
-          <div>
-            {prevPage ? (
-              <Link
-                to={getPaginationURL(oid, prevPage)}
-                // role="button"
-                className="mini"
-              >
-                Page {prevPage}
-              </Link>
-            ) : (
-              <a
-                href={getPaginationURL(oid, 1)}
-                onClick={(event) => event.preventDefault()}
-                // role="button"
-                className="secondary outline mini"
-                aria-disabled="true"
-              >
-                Page 1
-              </a>
-            )}
-          </div>
-          <div>
-            {nextPage ? (
-              <Link
-                to={getPaginationURL(oid, nextPage)}
-                // role="button"
-                className="mini"
-              >
-                Page {nextPage}
-              </Link>
-            ) : (
-              <a
-                href={getPaginationURL(oid, page)}
-                onClick={(event) => event.preventDefault()}
-                // role="button"
-                className="secondary outline mini"
-                aria-disabled="true"
-              >
-                Page {page}
-              </a>
-            )}
-          </div>
-        </div>
+        {prevPage ? (
+          <Link
+            to={getPaginationURL(oid, prevPage)}
+            // role="button"
+            className="mini"
+          >
+            Page {prevPage}
+          </Link>
+        ) : (
+          <a
+            href={getPaginationURL(oid, 1)}
+            onClick={(event) => event.preventDefault()}
+            // role="button"
+            className="secondary outline mini"
+            aria-disabled="true"
+          >
+            Page 1
+          </a>
+        )}
+      </div>
+      <div>
+        {nextPage ? (
+          <Link
+            to={getPaginationURL(oid, nextPage)}
+            // role="button"
+            className="mini"
+          >
+            Page {nextPage}
+          </Link>
+        ) : (
+          <a
+            href={getPaginationURL(oid, page)}
+            onClick={(event) => event.preventDefault()}
+            // role="button"
+            className="secondary outline mini"
+            aria-disabled="true"
+          >
+            Page {page}
+          </a>
+        )}
       </div>
     </div>
   )

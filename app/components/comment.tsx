@@ -61,7 +61,7 @@ export function DisplayComment({
       {!disallowComments && allowReply && !toggleEditMode && (
         <button
           type="button"
-          className="mini reply-comment"
+          className="mini reply-comment outline"
           onClick={(event) => {
             event.preventDefault()
             if (parent && parent === comment.oid) {
