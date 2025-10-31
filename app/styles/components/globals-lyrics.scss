@@ -1,0 +1,33 @@
+[data-theme="light"],
+:root:not([data-theme="dark"]) {
+  --background-color: #f7f7f7;
+  --card-sectionning-background-color: #f9f9f9;
+  --muted-color: hsl(205deg 7.32% 63.16%);
+  --code-color: hsl(203, 16%, 28%);
+}
+
+a {
+  /* For a11y */
+  text-decoration: underline;
+}
+
+
+@media only screen and (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background-color: #0d1418;
+    --card-sectionning-background-color: #11191f;
+    --muted-color: hsl(205deg 7.32% 63.16%);
+    --code-color: hsl(203deg 7.74% 57.32%);
+  }
+}
+
+
+button.mini,
+a.mini[role="button"] {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+  margin: 5px;
+  width: auto;
+  display: inline;
+}
+
