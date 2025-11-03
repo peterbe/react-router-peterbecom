@@ -11,3 +11,22 @@ img.floatleft {
   float: left;
   margin: 7px 7px 0 0;
 }
+
+
+:root {
+  --img-shadow: rgba(0, 0, 0, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --img-shadow: rgba(204, 204, 204, 0.6);
+  }
+}
+
+img.fullsize {
+  filter: drop-shadow(0 2px 4px var(--img-shadow));
+// filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  border-radius: 2px;
+  width: 90%;
+}
+
