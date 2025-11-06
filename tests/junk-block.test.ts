@@ -44,6 +44,18 @@ test.each([
   expect(response.headers.location).toBe("/plog")
 })
 
+test("only some paths can have a 'q' query string (%s)", async () => {
+  {
+    const response = await get("/search?q=testing")
+    expect(response.status).toBe(200)
+  }
+  {
+    const response = await get("/about?q=testing")
+    expect(response.status).toBe(302)
+    expect(response.headers.location).toBe("/about")
+  }
+})
+
 test("ok Chinese searches", async () => {
   const sp = new URLSearchParams({
     q: "彼得",

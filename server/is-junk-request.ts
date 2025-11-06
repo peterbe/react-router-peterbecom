@@ -6,6 +6,13 @@ const BAD_STARTS = [
   "/.env",
 ]
 
+const CAN_HAVE_Q_PATHS = new Set([
+  "/search",
+  "/api/v1/search",
+  "/api/v1/typeahead",
+  "/search.data",
+])
+
 type Verdict =
   | {
       redirect?: string
@@ -115,6 +122,14 @@ export function isJunkRequest(req: Request): Verdict {
 
   const q = req.query.q
   if (q) {
+    // Certain pages should never have a query parameter 'q'
+    if (!CAN_HAVE_Q_PATHS.has(req.path)) {
+      return {
+        reason: "unexpected 'q' parameter",
+        redirect: req.path,
+      }
+    }
+
     if (Array.isArray(q)) {
       return {
         reason: "array of 'q'",
@@ -137,6 +152,7 @@ export function isJunkRequest(req: Request): Verdict {
     if (
       typeof q === "string" &&
       (q.startsWith("-1 OR ") ||
+        q.startsWith('-1" OR') ||
         q.startsWith("(select ") ||
         q.startsWith("e0'XOR(") ||
         q.startsWith("e'||"))
