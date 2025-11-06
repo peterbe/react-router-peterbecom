@@ -133,6 +133,18 @@ export function isJunkRequest(req: Request): Verdict {
         }
       }
     }
+
+    if (
+      typeof q === "string" &&
+      (q.startsWith("-1 OR ") ||
+        q.startsWith("(select ") ||
+        q.startsWith("e0'XOR(") ||
+        q.startsWith("e'||"))
+    ) {
+      return {
+        reason: "SQL Injection attempt",
+      }
+    }
   }
 
   const pathSplit = req.path.split("/")
