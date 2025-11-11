@@ -3,7 +3,6 @@ import type { Comments, Post } from "~/valibot-types"
 import { useSendPageview } from "../analytics"
 import { CarbonAd } from "./carbonad"
 import { PostComments } from "./comments"
-import { ScrollToTop } from "./scroll-to-top"
 import SongSearchAutocomplete from "./songsearch-autocomplete"
 
 type Props = {
@@ -26,8 +25,6 @@ export function Lyricspost({ post, comments, page }: Props) {
       <CarbonAd />
 
       <PostComments post={post} comments={comments} page={page} />
-
-      <ScrollToTop />
     </div>
   )
 }
