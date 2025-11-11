@@ -4,6 +4,7 @@ import { Link } from "react-router"
 import type { Comments } from "~/types"
 import type { Post } from "~/valibot-types"
 import { ShowCommentTree } from "./comment-tree"
+import { ScrollToTop } from "./scroll-to-top"
 
 type Props = {
   post: Post
@@ -67,6 +68,14 @@ export function PostComments({ post, comments, page }: Props) {
           <em>Comments closed</em>
         </p>
       )}
+
+      <Footing
+        page={page}
+        totalPages={totalPages}
+        oid={post.oid}
+        nextPage={comments.next_page}
+        prevPage={comments.previous_page}
+      />
     </div>
   )
 }
@@ -133,18 +142,13 @@ function Heading({
       </div>
       <div>
         {prevPage ? (
-          <Link
-            to={getPaginationURL(oid, prevPage)}
-            // role="button"
-            className="mini"
-          >
+          <Link to={getPaginationURL(oid, prevPage)} className="mini">
             Page {prevPage}
           </Link>
         ) : (
           <a
             href={getPaginationURL(oid, 1)}
             onClick={(event) => event.preventDefault()}
-            // role="button"
             className="secondary outline mini"
             aria-disabled="true"
           >
@@ -154,18 +158,71 @@ function Heading({
       </div>
       <div>
         {nextPage ? (
-          <Link
-            to={getPaginationURL(oid, nextPage)}
-            // role="button"
-            className="mini"
-          >
+          <Link to={getPaginationURL(oid, nextPage)} className="mini">
             Page {nextPage}
           </Link>
         ) : (
           <a
             href={getPaginationURL(oid, page)}
             onClick={(event) => event.preventDefault()}
-            // role="button"
+            className="secondary outline mini"
+            aria-disabled="true"
+          >
+            Page {page}
+          </a>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function Footing({
+  page,
+  totalPages,
+  oid,
+  nextPage,
+  prevPage,
+}: {
+  page: number
+  totalPages: number
+  oid: string
+  nextPage: number | null
+  prevPage: number | null
+}) {
+  if (totalPages === 1) {
+    return null
+  }
+
+  return (
+    <div className="grid" style={{ marginTop: 80 }}>
+      <div style={{ textAlign: "center" }}>
+        <ScrollToTop />
+      </div>
+      <div style={{ textAlign: "center" }}>
+        {prevPage ? (
+          <Link to={getPaginationURL(oid, prevPage)} className="mini">
+            Page {prevPage}
+          </Link>
+        ) : (
+          <a
+            href={getPaginationURL(oid, 1)}
+            onClick={(event) => event.preventDefault()}
+            className="secondary outline mini"
+            aria-disabled="true"
+          >
+            Page 1
+          </a>
+        )}
+      </div>
+      <div style={{ textAlign: "center" }}>
+        {nextPage ? (
+          <Link to={getPaginationURL(oid, nextPage)} className="mini">
+            Page {nextPage}
+          </Link>
+        ) : (
+          <a
+            href={getPaginationURL(oid, page)}
+            onClick={(event) => event.preventDefault()}
             className="secondary outline mini"
             aria-disabled="true"
           >
