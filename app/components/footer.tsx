@@ -20,6 +20,7 @@ export function Footer() {
                 <Link
                   to={to}
                   className={pathname === to ? "secondary" : undefined}
+                  discover="none"
                 >
                   {text}
                 </Link>

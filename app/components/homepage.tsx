@@ -125,7 +125,7 @@ function Post({ post, index }: { post: HomepagePost; index: number }) {
         {post.categories.map((category, i, arr) => {
           return (
             <Fragment key={category}>
-              <Link to={categoryURL(category)} rel="nofollow">
+              <Link to={categoryURL(category)} rel="nofollow" discover="none">
                 {category}
               </Link>
               {i < arr.length - 1 ? ", " : ""}
@@ -173,7 +173,10 @@ function Pagination({
       <div>
         {nextPage ? (
           nextPage <= maxNextPage ? (
-            <LinkWithPrefetching to={makeURL(nextPage, categories)}>
+            <LinkWithPrefetching
+              to={makeURL(nextPage, categories)}
+              discover="none"
+            >
               Next page
             </LinkWithPrefetching>
           ) : (

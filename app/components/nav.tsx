@@ -81,6 +81,7 @@ export function Nav({
                           }
                         }}
                         prefetch="intent"
+                        discover="none"
                       >
                         {text}
                       </Link>
