@@ -14,6 +14,8 @@ const RATE_LIMIT_BOT_AGENTS = new Set([
   "https://developer.amazon.com/support/amazonbot",
   "Buddybot/1.0",
   "Mozilla/5.0 (compatible; S-Scanner/1.0)",
+  "https://bot.seekport.com",
+  "https://ibou.io/iboubot.html",
 ])
 
 export const limiter = rateLimit({
