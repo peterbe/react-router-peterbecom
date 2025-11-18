@@ -16,6 +16,8 @@ const RATE_LIMIT_BOT_AGENTS = new Set([
   "Mozilla/5.0 (compatible; S-Scanner/1.0)",
   "https://bot.seekport.com",
   "https://ibou.io/iboubot.html",
+  "https://babbar.tech/crawler",
+  "http://mj12bot.com/",
 ])
 
 export const limiter = rateLimit({
