@@ -112,10 +112,10 @@ function Results({
                 />
               </a>
             ) : null}
-            {result.fragments.map((fragment) => (
+            {result.fragments.map((fragment, i) => (
               <p
                 className="fragment"
-                key={fragment}
+                key={`${fragment}${i}`}
                 dangerouslySetInnerHTML={{ __html: fragment }}
               />
             ))}
