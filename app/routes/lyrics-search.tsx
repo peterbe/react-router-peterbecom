@@ -14,6 +14,7 @@ export const links: Route.LinksFunction = () => [
 ]
 
 const OID = "/plog/blogitem-040601-1"
+const PREFETCH_COUNT = 3
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const { pathname } = new URL(request.url)
@@ -114,6 +115,25 @@ export function meta({ location, data }: Route.MetaArgs) {
     title += " Looking for songs by the lyrics"
   }
 
+  type PrefetchURL = {
+    tagName: string
+    rel: string
+    href: string
+  }
+  const prefetchUrls: PrefetchURL[] = []
+  if (data?.results) {
+    const resultUrls = data.results
+      .slice(0, PREFETCH_COUNT)
+      .map((r) => `${OID}${r._url}`)
+    prefetchUrls.push(
+      ...resultUrls.map((url) => ({
+        tagName: "link",
+        rel: "prefetch",
+        href: url,
+      })),
+    )
+  }
+
   return [
     { title },
     {
@@ -130,6 +150,7 @@ export function meta({ location, data }: Route.MetaArgs) {
       content:
         "You can find the song if you only know parts of the song's lyrics.",
     },
+    ...prefetchUrls,
   ]
 }
 
