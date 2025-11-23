@@ -74,10 +74,18 @@ export function meta({ params, location, data }: Route.MetaArgs) {
     return [{ title: "Page not found" }]
   }
 
-  let pageTitle =
+  const postTitleQuoted =
     data.post.title.startsWith('"') && data.post.title.endsWith('"')
-      ? `Comment on ${data.post.title}`
-      : `Comment on "${data.post.title}"`
+      ? `${data.post.title}`
+      : `"${data.post.title}"`
+
+  let pageTitle = ""
+  if (data.comment.name) {
+    pageTitle += `Comment by ${data.comment.name} on ${postTitleQuoted}`
+  } else {
+    pageTitle += `Comment on ${postTitleQuoted}`
+  }
+  pageTitle += ` (${data.comment.comment.split(/\s+/).slice(0, 7).join(" ")}...)`
 
   if (data.page > 1) {
     pageTitle += ` (page ${data.page})`
