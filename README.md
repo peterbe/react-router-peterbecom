@@ -27,3 +27,5 @@ npm run test
 ### Linting
 
 All linting and code formatting is done using [Biome](https://biomejs.dev/).
+
+.
