@@ -14,7 +14,7 @@ export const links: Route.LinksFunction = () => [
 ]
 
 const OID = "/plog/blogitem-040601-1"
-const PREFETCH_COUNT = 3
+const PREFETCH_COUNT = 2
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const { pathname } = new URL(request.url)
@@ -121,6 +121,7 @@ export function meta({ location, data }: Route.MetaArgs) {
     href: string
   }
   const prefetchUrls: PrefetchURL[] = []
+
   if (data?.results) {
     const resultUrls = data.results
       .slice(0, PREFETCH_COUNT)
