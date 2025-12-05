@@ -20,6 +20,7 @@ export function About() {
     <div className="about">
       <Nav title={"About Peterbe.com"} />
       <div id="main-content">
+        <img src="/images/me.jpg" alt="Peter in the forest" className="mug" />
         <p>
           My name is <strong>Peter Bengtsson</strong> and I&apos;m a web
           developer. This is my personal blog.
@@ -60,7 +61,7 @@ export function About() {
         </p>
       </div>
 
-      <h2>Side projects</h2>
+      <h2 style={{ clear: "right" }}>Side projects</h2>
 
       <form
         onSubmit={(event) => {
