@@ -1,16 +1,24 @@
-import type { Comments, Post } from "~/valibot-types"
+import type { Comments, CommentType, Post } from "~/valibot-types"
 
 import { useSendPageview } from "../analytics"
 import { CarbonAd } from "./carbonad"
 import { PostComments } from "./comments"
+import { HighlightedComments } from "./highlighted-comments"
 import SongSearchAutocomplete from "./songsearch-autocomplete"
 
 type Props = {
   post: Post
   comments: Comments
   page: number
+  highlightedComments?: CommentType[]
 }
-export function Lyricspost({ post, comments, page }: Props) {
+
+export function Lyricspost({
+  post,
+  comments,
+  page,
+  highlightedComments,
+}: Props) {
   useSendPageview()
 
   return (
@@ -23,6 +31,8 @@ export function Lyricspost({ post, comments, page }: Props) {
       <SongSearchAutocomplete />
 
       <CarbonAd />
+
+      <HighlightedComments post={post} comments={highlightedComments} />
 
       <PostComments post={post} comments={comments} page={page} />
     </div>

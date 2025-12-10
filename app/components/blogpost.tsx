@@ -3,10 +3,11 @@ import { Link } from "react-router"
 
 import { useSendPageview } from "~/analytics"
 import { categoryURL, formatDateBasic, postURL } from "~/utils/utils"
-import type { Comments, Post } from "~/valibot-types"
+import type { Comments, CommentType, Post } from "~/valibot-types"
 
 import { CarbonAd } from "./carbonad"
 import { PostComments } from "./comments"
+import { HighlightedComments } from "./highlighted-comments"
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"
 import { useRememberVisit } from "./remember-visit"
@@ -16,8 +17,9 @@ type Props = {
   post: Post
   comments: Comments
   page: number
+  highlightedComments?: CommentType[]
 }
-export function Blogpost({ post, comments, page }: Props) {
+export function Blogpost({ post, comments, page, highlightedComments }: Props) {
   useSendPageview()
   const pubDate = new Date(post.pub_date)
 
@@ -68,6 +70,8 @@ export function Blogpost({ post, comments, page }: Props) {
       <div id="main-content" dangerouslySetInnerHTML={{ __html: post.body }} />
 
       <CarbonAd />
+
+      <HighlightedComments post={post} comments={highlightedComments} />
 
       <PostComments post={post} comments={comments} page={page} />
 
