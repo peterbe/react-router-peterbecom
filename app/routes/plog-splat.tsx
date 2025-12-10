@@ -3,6 +3,7 @@ import { data, redirect } from "react-router"
 import * as v from "valibot"
 import { Blogpost } from "~/components/blogpost"
 import { get } from "~/lib/get-data"
+import { recursiveGetHighlightedComments } from "~/utils/get-highlighted-comments"
 import { absoluteURL, newValiError } from "~/utils/utils"
 import { ServerData } from "~/valibot-types"
 import stylesheet from "../styles/plog.scss?url"
@@ -52,12 +53,12 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
   try {
     const { post, comments } = v.parse(ServerData, response.data)
-
+    const highlightedComments = recursiveGetHighlightedComments(comments.tree)
     const cacheSeconds =
       post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
 
     return data(
-      { post, comments, page },
+      { post, comments, page, highlightedComments },
       { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
@@ -127,6 +128,13 @@ export function meta({ params, location, data }: Route.MetaArgs) {
 }
 
 export default function Component({ loaderData }: Route.ComponentProps) {
-  const { post, comments, page } = loaderData
-  return <Blogpost post={post} comments={comments} page={page} />
+  const { post, comments, page, highlightedComments } = loaderData
+  return (
+    <Blogpost
+      post={post}
+      comments={comments}
+      page={page}
+      highlightedComments={highlightedComments}
+    />
+  )
 }

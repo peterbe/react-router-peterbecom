@@ -8,6 +8,7 @@ import type { Route } from "./+types/lyrics-post"
 
 export { ErrorBoundary } from "../root"
 
+import { recursiveGetHighlightedComments } from "~/utils/get-highlighted-comments"
 import stylesheet from "../styles/lyrics-post.scss?url"
 
 export const links: Route.LinksFunction = () => [
@@ -57,11 +58,11 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
   try {
     const { post, comments } = v.parse(ServerData, response.data)
-
+    const highlightedComments = recursiveGetHighlightedComments(comments.tree)
     const cacheSeconds = 60 * 60 * 12
 
     return data(
-      { post, comments, page },
+      { post, comments, page, highlightedComments },
       { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
@@ -106,6 +107,13 @@ export function meta({ location, data }: Route.MetaArgs) {
 }
 
 export default function Component({ loaderData }: Route.ComponentProps) {
-  const { post, comments, page } = loaderData
-  return <Lyricspost post={post} comments={comments} page={page} />
+  const { post, comments, page, highlightedComments } = loaderData
+  return (
+    <Lyricspost
+      post={post}
+      comments={comments}
+      page={page}
+      highlightedComments={highlightedComments}
+    />
+  )
 }

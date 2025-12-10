@@ -36,6 +36,7 @@ export interface Comment {
   name: string | null
   replies?: Comment[]
   hash?: string
+  highlighted?: string | null
 }
 
 const CommentSchema: v.GenericSchema<Comment> = v.object({
@@ -48,7 +49,10 @@ const CommentSchema: v.GenericSchema<Comment> = v.object({
   name: v.nullable(v.string()),
   replies: v.optional(v.array(v.lazy(() => CommentSchema))),
   hash: v.optional(v.string()),
+  highlighted: v.optional(v.nullable(v.string())),
 })
+
+export type CommentType = v.InferInput<typeof CommentSchema>
 
 export const Comments = v.object({
   truncated: v.union([v.boolean(), v.number()]),
