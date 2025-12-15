@@ -64,16 +64,17 @@ test("ok Chinese searches", async () => {
   expect(response.status).toBe(200)
 })
 
-test.each(["/xmlrpc.php", "/blog/wp-login.php", "/about/wp-login.php"])(
-  "junk URLs",
-  async (url) => {
-    const response = await get(url)
-    expect([404, 429]).toContain(response.status)
-    if (response.status === 404) {
-      expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
-    }
-  },
-)
+test.each([
+  "/xmlrpc.php",
+  "/blog/wp-login.php",
+  "/about/wp-login.php",
+])("junk URLs", async (url) => {
+  const response = await get(url)
+  expect([404, 429]).toContain(response.status)
+  if (response.status === 404) {
+    expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+  }
+})
 
 test.each([
   "/plog?0=xsrf4&2=%22-cwxyn6-%22&api=zekd9&callback=gm5f7&code=qzop0&css=a9aj0&future=i1zd1&id=mm508&index=zwc02&item=tm8q3&lang=csi63&list_type=ie7x9&month=pyib1&name=qh1r1&parentId=osnl2&positions=shs71&root=lup28&s=uw9z3&ssr=amov1&terms=nwju2",
