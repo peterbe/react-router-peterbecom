@@ -20,6 +20,8 @@ jobs:
 
       - run: bun run lint
 
+      - run: bun run typecheck
+
       - name: Build (and lint)
         env:
           API_BASE: http://localhost:8000
