@@ -13,7 +13,7 @@ async function main() {
   }
 }
 
-async function compressDirectory(directory: string) {
+async function compressDirectory(directory: int) {
   const files = await readdir(directory, {
     recursive: true,
     withFileTypes: true,
