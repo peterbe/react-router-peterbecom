@@ -7,7 +7,7 @@ The technology used is React Router 7 (previously Remix).
 ## Hacking
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 and visit <http://localhost:3000>.
@@ -21,7 +21,7 @@ export API_BASE=https://www.peterbe.com
 ### Testing
 
 ```bash
-npm run test
+bun run test
 ```
 
 ### Linting
