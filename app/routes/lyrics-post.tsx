@@ -84,9 +84,11 @@ export function meta({ location, data }: Route.MetaArgs) {
   const page = data?.page || 1
 
   // The contents of the `<title>` has to be a string
-  const title = `${pageTitle} ${
-    page > 1 ? ` (Page ${page})` : " Looking for songs by the lyrics"
-  }`
+  let title = pageTitle
+  if (page > 1) {
+    title += ` (Page ${page})`
+  }
+
   return [
     { title: title },
     {
@@ -96,7 +98,8 @@ export function meta({ location, data }: Route.MetaArgs) {
     },
     {
       name: "description",
-      content: "Find songs by lyrics.",
+      content:
+        "You can find the song if you only know parts of the song's lyrics.",
     },
     {
       property: "og:description",
