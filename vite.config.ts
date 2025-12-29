@@ -15,6 +15,8 @@ export default defineConfig((config) => {
       postcss: {
         plugins: [autoprefixer],
       },
+      // From https://github.com/picocss/pico/issues/717#issuecomment-3695614717
+      preprocessorOptions: { scss: { quietDeps: true } },
     },
     plugins: [dynamicImagesPlugin(), reactRouter(), tsconfigPaths()],
     server: {
