@@ -10,12 +10,12 @@ import { createProxyMiddleware } from "http-proxy-middleware"
 import morgan from "morgan"
 import type { ServerBuild } from "react-router"
 import Rollbar from "rollbar"
-import { limiter } from "server/rate-limiter.ts"
 import { cdnByPassRedirect } from "./server/cdn-bypass-redirect.ts"
 import { dynamicImages } from "./server/dynamic-images.ts"
 import { ip } from "./server/ip.ts"
 import { junkBlock } from "./server/junk-block.ts"
 import { legacyRedirects } from "./server/legacy-redirects.ts"
+import { limiter } from "./server/rate-limiter.ts"
 import { requestLogger } from "./server/requestLogger.ts"
 
 dotenv.config({ quiet: true })
