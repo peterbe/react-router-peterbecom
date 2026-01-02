@@ -7,6 +7,9 @@ dev:
 dev-with-proxy:
     API_BASE=https://www.peterbe.com bun run dev
 
+start-with-proxy: build
+    API_BASE=https://www.peterbe.com bun run start
+
 build:
     bun run build
 

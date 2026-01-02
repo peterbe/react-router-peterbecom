@@ -121,6 +121,6 @@ const port = process.env.PORT || 3000
 
 export async function main() {
   return app.listen(port, () => {
-    console.log(`Express server listening on port ${port}`)
+    console.log(`Express server listening on http://localhost:${port}`)
   })
 }

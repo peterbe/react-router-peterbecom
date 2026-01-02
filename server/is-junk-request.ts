@@ -164,7 +164,7 @@ export function isJunkRequest(req: Request): Verdict {
         reason: "SQL Injection attempt",
       }
     }
-    console.log({ Q: q, path: req.path })
+    // console.log({ Q: q, path: req.path })
   }
 
   if (req.path.startsWith("/oc-") && req.query.id) {
