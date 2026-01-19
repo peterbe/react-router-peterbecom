@@ -74,8 +74,14 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "cdn.carbonads.com"],
-        connectSrc: ["'self'", "srv.carbonads.net"],
-        imgSrc: ["'self'", "srv.carbonads.net", "ad.doubleclick.net", "data:"],
+        connectSrc: ["'self'", "srv.carbonads.net", "songsear.ch"],
+        imgSrc: [
+          "'self'",
+          "srv.carbonads.net",
+          "ad.doubleclick.net",
+          "data:",
+          "songsear.ch",
+        ],
       },
     },
   }),
