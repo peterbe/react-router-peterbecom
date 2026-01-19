@@ -6,6 +6,7 @@ import dotenv from "dotenv"
 import type { Request, Response } from "express"
 import express from "express"
 import asyncHandler from "express-async-handler"
+import helmet from "helmet"
 import { createProxyMiddleware } from "http-proxy-middleware"
 import morgan from "morgan"
 import type { ServerBuild } from "react-router"
@@ -65,6 +66,20 @@ app.use(
 app.use(requestLogger(DATABASE_URL))
 
 app.use(limiter)
+
+app.use(
+  // helmet({ referrerPolicy: false }),
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "cdn.carbonads.com"],
+        connectSrc: ["'self'", "srv.carbonads.net"],
+        imgSrc: ["'self'", "srv.carbonads.net", "ad.doubleclick.net", "data:"],
+      },
+    },
+  }),
+)
 
 app.use(express.static("build/client", { maxAge: "14d" }))
 app.use(express.static("public", { maxAge: "3d" }))
