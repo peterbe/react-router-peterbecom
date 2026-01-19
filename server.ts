@@ -68,20 +68,13 @@ app.use(requestLogger(DATABASE_URL))
 app.use(limiter)
 
 app.use(
-  // helmet({ referrerPolicy: false }),
   helmet({
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", "cdn.carbonads.com"],
         connectSrc: ["'self'", "srv.carbonads.net", "songsear.ch"],
-        imgSrc: [
-          "'self'",
-          "srv.carbonads.net",
-          "ad.doubleclick.net",
-          "data:",
-          "songsear.ch",
-        ],
+        imgSrc: ["'self'", "*", "data:", "https:"], // super broad because of the carbon ads madness
       },
     },
   }),
