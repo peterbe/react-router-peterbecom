@@ -17,7 +17,7 @@ const OID = "/plog/blogitem-040601-1"
 const PREFETCH_COUNT = 2
 
 export async function loader({ params, request }: Route.LoaderArgs) {
-  const { pathname } = new URL(request.url)
+  const { pathname, searchParams } = new URL(request.url)
   if (pathname.endsWith("/")) {
     return redirect(pathname.slice(0, -1))
   }
@@ -51,6 +51,24 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       continue
     }
     search = part
+  }
+  if (search.length > 80) {
+    let newSearch = ""
+    const words = search.trim().split(/\s+/g)
+    for (const word of words) {
+      if (newSearch.length + word.length + 1 > 80) {
+        break
+      }
+      if (newSearch) {
+        newSearch += " "
+      }
+      newSearch += word
+    }
+    let newUrl = `${OID}/q/${encodeURIComponent(newSearch)}`
+    if (searchParams.toString()) {
+      newUrl += `?${searchParams.toString()}`
+    }
+    return redirect(newUrl, 308)
   }
 
   const sp = new URLSearchParams({ page: `${page}` })
