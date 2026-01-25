@@ -171,6 +171,18 @@ test("lyrics post page (/p1)", async () => {
   expect(response.headers.location).toBe("/plog/blogitem-040601-1")
 })
 
+test("lyrics search page (too long)", async () => {
+  const sentence =
+    "this is a very long search string that exceeds the maximum allowed length of eighty characters which is not good"
+  const url = `/plog/blogitem-040601-1/q/${encodeURIComponent(sentence)}?foo=bar`
+  const response = await get(url)
+  expect(response.status).toBe(308)
+  const shortened =
+    "this is a very long search string that exceeds the maximum allowed length of"
+  const location = `/plog/blogitem-040601-1/q/${encodeURIComponent(shortened)}?foo=bar`
+  expect(response.headers.location).toBe(location)
+})
+
 test("certain query strings cause a redirect", async () => {
   for (const querystring of ["comments=all", "magmadomain=something"]) {
     const response = await get(`/anything?${querystring}`)

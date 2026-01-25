@@ -40,7 +40,7 @@ interface ServerData {
 }
 
 const SERVER = "https://songsear.ch"
-const MAX_LENGTH = 150
+const MAX_LENGTH = 80
 
 declare global {
   interface Window {
