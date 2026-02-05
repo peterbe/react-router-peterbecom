@@ -215,7 +215,6 @@ export function isJunkRequest(req: Request): Verdict {
   // string rather than resetting back to the pathname alone.
   const bannedQueryKeys = new Set([["fbclid"], ["p", "test"]])
   for (const ks of bannedQueryKeys) {
-    console.log("req.query", req.query)
     if (ks.every((k) => k in req.query)) {
       return {
         reason: `banned query key(s): ${ks.join(", ")}`,
