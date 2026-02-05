@@ -29,7 +29,7 @@ export default function ConfettiScreensaver() {
     return () => {
       clearInterval(interval)
     }
-  }, [run, jsConfetti.addConfetti])
+  }, [run, jsConfetti])
 
   // This starts and re-starts the animation.
   // I.e. the very first time and then, after the screensaver has been

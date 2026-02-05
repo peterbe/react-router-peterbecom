@@ -103,6 +103,7 @@ test.each([
   ["/plog?fbclid=IwZXh0bgNhZW0CMTEAblabla", "/plog"],
   ["/plog/blogitem-040601-1?c", "/plog/blogitem-040601-1"],
   ["/?tag=1&tag=2", "/"],
+  ["/?p=bla&test=xxx", "/"],
   ["/?tag=abc\\\\\\\\\\\\", "/"],
   ["/plog?tag/index=blabl", "/plog"],
   ["/plog?utm_medium=newsletter%5C%5C%5C%5C%5\\", "/plog"],
