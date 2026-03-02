@@ -26,6 +26,10 @@ article.homepage-post {
   }
 }
 
-.subtitle {
-  margin-bottom: 50px;
+@media (min-width: 768px) {
+  /* Desktop */
+  .subtitle {
+    // Extra margin so the ad doesn't cause layout shift
+    margin-bottom: 95px;
+  }
 }
