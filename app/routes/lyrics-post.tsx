@@ -89,6 +89,11 @@ export function meta({ location, data }: Route.MetaArgs) {
     title += ` (Page ${page})`
   }
 
+  const description =
+    "You can find the song if you only know parts of the song's lyrics. " +
+    "Find songs by parts of the lyrics you can remember. " +
+    "Music finder for music stuck in your head."
+
   return [
     { title: title },
     {
@@ -98,13 +103,11 @@ export function meta({ location, data }: Route.MetaArgs) {
     },
     {
       name: "description",
-      content:
-        "You can find the song if you only know parts of the song's lyrics.",
+      content: description,
     },
     {
       property: "og:description",
-      content:
-        "You can find the song if you only know parts of the song's lyrics.",
+      content: description,
     },
   ]
 }
