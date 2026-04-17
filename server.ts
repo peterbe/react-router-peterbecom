@@ -80,6 +80,8 @@ app.use(
   }),
 )
 
+app.use(junkBlock)
+
 app.use(express.static("build/client", { maxAge: "14d" }))
 app.use(express.static("public", { maxAge: "3d" }))
 
@@ -105,7 +107,7 @@ app.use("*/ping", backendProxy) // Legacy. Delete later in 2024
 
 app.use(cdnByPassRedirect)
 app.use(legacyRedirects)
-app.use(junkBlock)
+// app.use(junkBlock)
 app.use("/_ip", ip)
 app.post(
   "/events",
