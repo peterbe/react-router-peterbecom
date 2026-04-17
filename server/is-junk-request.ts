@@ -29,6 +29,13 @@ export function isJunkRequest(req: Request): Verdict {
   const search = req.query.search
   const url = req.url
 
+  if (url.startsWith("/assets/") && Object.keys(req.query).length) {
+    return {
+      reason: "Assets should not have query parameters",
+      redirect: req.path,
+    }
+  }
+
   if (url.endsWith("%5C") || url.endsWith("%5") || url.endsWith("5C")) {
     let betterUrl = url
     if (betterUrl.endsWith("%5")) {
