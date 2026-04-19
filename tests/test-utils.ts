@@ -70,8 +70,12 @@ export async function post(
 }
 
 export function isCached(res: AxiosResponse) {
-  const cc = res.headers["cache-control"]
+  let cc = res.headers["cache-control"]
   if (!cc) return false
-  const maxAge = Number.parseInt(cc.match(/max-age=(\d+)/)[1], 10)
+  if (Array.isArray(cc)) {
+    cc = cc.join(",")
+  }
+  cc = `${cc}`.toLowerCase()
+  const maxAge = Number.parseInt(cc.match(/max-age=(\d+)/)?.[1] ?? "0", 10)
   return maxAge > 0 && /public/.test(cc)
 }

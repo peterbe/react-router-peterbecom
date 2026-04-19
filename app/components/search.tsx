@@ -201,7 +201,7 @@ export function Search({ q, debug }: Props) {
         />
       )}
 
-      {debug && data && data.results && data.results.search_terms && (
+      {debug && data?.results?.search_terms && (
         <SearchTermDebugging
           searchTerms={data.results.search_terms}
           boosts={data.results?.search_term_boosts}
