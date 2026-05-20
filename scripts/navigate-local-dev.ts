@@ -10,6 +10,7 @@ async function main() {
   let title = await view.evaluate("document.title")
   expect(title).toBe("Peterbe.com - Stuff in Peter's head")
 
+  // XXX why doesn't this work?!
   // await view.click('a[href="/plog"]', {
   //   timeout: 2000,
   // })
@@ -31,5 +32,3 @@ async function main() {
   title = await view.evaluate("document.title")
   expect(title).toMatch(/Contact/)
 }
-
-// const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
