@@ -1,12 +1,12 @@
 import { Fragment, lazy, Suspense, useEffect, useState } from "react"
 import { ErrorBoundary } from "react-error-boundary"
-import type { AddOwnCommentProps, Comment, OwnComment } from "~/types"
-import { Message } from "~/utils/message"
-import type { Post } from "~/valibot-types"
+import type { AddOwnCommentProps, Comment, OwnComment } from "../types"
+import { Message } from "../utils/message"
+import type { Post } from "../valibot-types"
 import { DisplayComment } from "./comment"
 import { CommentForm } from "./commentform"
 
-const ConfettiLazy = lazy(() => import("~/components/confetti-comment"))
+const ConfettiLazy = lazy(() => import("../components/confetti-comment"))
 
 export function ShowCommentTree({
   post,

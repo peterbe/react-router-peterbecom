@@ -1,11 +1,11 @@
 import { data } from "react-router"
 
 import * as v from "valibot"
-import { Blogcomment } from "~/components/blogcomment"
-import { get } from "~/lib/get-data"
-import { absoluteURL, newValiError } from "~/utils/utils"
-import { CommentServerData, type Post } from "~/valibot-types"
+import { Blogcomment } from "../components/blogcomment"
+import { get } from "../lib/get-data"
 import stylesheet from "../styles/plog.scss?url"
+import { absoluteURL, newValiError } from "../utils/utils"
+import { CommentServerData, type Post } from "../valibot-types"
 import type { Route } from "./+types/plog-comment"
 
 export const links: Route.LinksFunction = () => [

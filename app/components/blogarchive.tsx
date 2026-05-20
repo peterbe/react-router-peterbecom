@@ -1,9 +1,9 @@
 import { Fragment } from "react"
 import { Link } from "react-router"
 
-import { useSendPageview } from "~/analytics"
-import type { Group } from "~/types"
-import { categoryURL, postURL } from "~/utils/utils"
+import { useSendPageview } from "../analytics"
+import type { Group } from "../types"
+import { categoryURL, postURL } from "../utils/utils"
 
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"

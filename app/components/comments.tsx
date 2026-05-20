@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { Link } from "react-router"
 
-import type { Comments } from "~/types"
-import type { Post } from "~/valibot-types"
+import type { Comments } from "../types"
+import type { Post } from "../valibot-types"
 import { ShowCommentTree } from "./comment-tree"
 import { ScrollToTop } from "./scroll-to-top"
 

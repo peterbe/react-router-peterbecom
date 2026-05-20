@@ -1,4 +1,4 @@
-import { useSendPageview } from "~/analytics"
+import { useSendPageview } from "../analytics"
 
 import { Nav } from "./nav"
 

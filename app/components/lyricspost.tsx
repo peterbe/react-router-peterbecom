@@ -1,6 +1,5 @@
-import type { Comments, CommentType, Post } from "~/valibot-types"
-
 import { useSendPageview } from "../analytics"
+import type { Comments, CommentType, Post } from "../valibot-types"
 import { CarbonAd } from "./carbonad"
 import { PostComments } from "./comments"
 import { HighlightedComments } from "./highlighted-comments"

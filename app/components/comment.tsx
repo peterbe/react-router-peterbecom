@@ -1,9 +1,9 @@
 import type { ReactNode } from "react"
 import { Link } from "react-router"
 
-import type { Comment } from "~/types"
-import { formatDateBasic } from "~/utils/utils"
-import type { Post } from "~/valibot-types"
+import type { Comment } from "../types"
+import { formatDateBasic } from "../utils/utils"
+import type { Post } from "../valibot-types"
 
 export function DisplayComment({
   comment,

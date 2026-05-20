@@ -19,7 +19,8 @@
     "mock-peterbecom-backend": "bun run mock-peterbecom-backend/index.ts",
     "mock-peterbecom-backend:watch": "bun run --watch mock-peterbecom-backend/index.ts",
     "test-user-agent": "bun run scripts/test-user-agent.ts",
-    "postinstall": "bunx @biomejs/biome migrate --write"
+    "postinstall": "bunx @biomejs/biome migrate --write",
+    "navigate-local-dev": "bun run scripts/navigate-local-dev.ts"
   },
   "dependencies": {
     "@picocss/pico": "^2.1.1",

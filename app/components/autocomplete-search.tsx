@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { Link } from "react-router"
 
-import { postURL } from "~/utils/utils"
+import { postURL } from "../utils/utils"
 
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { type RememberedSearch, useRememberSearch } from "./remember-search"

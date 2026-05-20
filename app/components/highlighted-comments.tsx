@@ -1,6 +1,6 @@
 import { Link } from "react-router"
-import { formatDateBasic } from "~/utils/utils"
-import type { CommentType, Post } from "~/valibot-types"
+import { formatDateBasic } from "../utils/utils"
+import type { CommentType, Post } from "../valibot-types"
 
 export function HighlightedComments({
   post,

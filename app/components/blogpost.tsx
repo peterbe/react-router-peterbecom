@@ -1,9 +1,9 @@
 import { Fragment } from "react"
 import { Link } from "react-router"
 
-import { useSendPageview } from "~/analytics"
-import { categoryURL, formatDateBasic, postURL } from "~/utils/utils"
-import type { Comments, CommentType, Post } from "~/valibot-types"
+import { useSendPageview } from "../analytics"
+import { categoryURL, formatDateBasic, postURL } from "../utils/utils"
+import type { Comments, CommentType, Post } from "../valibot-types"
 
 import { CarbonAd } from "./carbonad"
 import { PostComments } from "./comments"
