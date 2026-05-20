@@ -17,15 +17,17 @@ async function main() {
   // title = await view.evaluate("document.title")
   // console.log({ title })
 
-  await view.navigate(BASE_URL + "/plog")
+  const makeUrl = (path: string) => `${BASE_URL}${path}`
+
+  await view.navigate(makeUrl("/plog"))
   title = await view.evaluate("document.title")
   expect(title).toMatch(/Blog archive/)
 
-  await view.navigate(BASE_URL + "/about")
+  await view.navigate(makeUrl("/about"))
   title = await view.evaluate("document.title")
   expect(title).toMatch(/About/)
 
-  await view.navigate(BASE_URL + "/contact")
+  await view.navigate(makeUrl("/contact"))
   title = await view.evaluate("document.title")
   expect(title).toMatch(/Contact/)
 }
