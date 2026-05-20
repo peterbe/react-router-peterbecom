@@ -1,6 +1,5 @@
 import { Link, useLocation } from "react-router"
-
-import { links } from "~/components/nav"
+import { links } from "./nav"
 
 const THIS_YEAR = new Date().getFullYear()
 

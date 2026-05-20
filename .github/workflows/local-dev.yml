@@ -28,6 +28,7 @@ jobs:
         run: |
           sleep 3
           curl --retry-connrefused --retry 4 http://localhost:3000
+          bun run navigate-local-dev
 
       - name: Debug any server outputs
         if: failure()

@@ -1,0 +1,33 @@
+import { expect } from "vitest"
+
+const BASE_URL = process.env.BASE_URL || "http://localhost:3000"
+
+main()
+async function main() {
+  await using view = new Bun.WebView()
+
+  await view.navigate(BASE_URL)
+  let title = await view.evaluate("document.title")
+  expect(title).toBe("Peterbe.com - Stuff in Peter's head")
+
+  // await view.click('a[href="/plog"]', {
+  //   timeout: 2000,
+  // })
+  // await sleep(500)
+  // title = await view.evaluate("document.title")
+  // console.log({ title })
+
+  await view.navigate(BASE_URL + "/plog")
+  title = await view.evaluate("document.title")
+  expect(title).toMatch(/Blog archive/)
+
+  await view.navigate(BASE_URL + "/about")
+  title = await view.evaluate("document.title")
+  expect(title).toMatch(/About/)
+
+  await view.navigate(BASE_URL + "/contact")
+  title = await view.evaluate("document.title")
+  expect(title).toMatch(/Contact/)
+}
+
+// const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
