@@ -1,10 +1,10 @@
 import { redirect } from "react-router"
 import * as v from "valibot"
-import { BlogArchive } from "~/components/blogarchive"
-import { get } from "~/lib/get-data"
-import { absoluteURL } from "~/utils/utils"
-import { IndexServerData } from "~/valibot-types"
+import { BlogArchive } from "../components/blogarchive"
+import { get } from "../lib/get-data"
 import stylesheet from "../styles/plog-index.scss?url"
+import { absoluteURL } from "../utils/utils"
+import { IndexServerData } from "../valibot-types"
 import type { Route } from "./+types/plog-index"
 
 export const links: Route.LinksFunction = () => [

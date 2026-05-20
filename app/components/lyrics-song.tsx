@@ -1,9 +1,7 @@
 import { Fragment, useEffect, useState } from "react"
 import { useLocation } from "react-router"
-
-import type { LyricsSong as LyricsSongT } from "~/valibot-types"
-
 import { useSendPageview } from "../analytics"
+import type { LyricsSong as LyricsSongT } from "../valibot-types"
 import { CarbonAd } from "./carbonad"
 
 const PREFIX = "/plog/blogitem-040601-1"

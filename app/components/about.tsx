@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import { useSendPageview } from "~/analytics"
+import { useSendPageview } from "../analytics"
 
 import { sideProjects } from "./about-sideprojects"
 import { Nav } from "./nav"

@@ -1,10 +1,10 @@
 import { lazy, Suspense, useEffect, useState } from "react"
 import { ErrorBoundary } from "react-error-boundary"
-import { useSendPageview } from "~/analytics"
-import type { AddOwnCommentProps, OwnComment } from "~/types"
-import { Message } from "~/utils/message"
-import { postURL } from "~/utils/utils"
-import type { Comment, Comments, Post } from "~/valibot-types"
+import { useSendPageview } from "../analytics"
+import type { AddOwnCommentProps, OwnComment } from "../types"
+import { Message } from "../utils/message"
+import { postURL } from "../utils/utils"
+import type { Comment, Comments, Post } from "../valibot-types"
 import { CarbonAd } from "./carbonad"
 import { DisplayComment } from "./comment"
 import { ShowCommentTree } from "./comment-tree"
@@ -13,7 +13,7 @@ import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"
 import { useRememberVisit } from "./remember-visit"
 
-const ConfettiLazy = lazy(() => import("~/components/confetti-comment"))
+const ConfettiLazy = lazy(() => import("../components/confetti-comment"))
 
 type Props = {
   post: Post

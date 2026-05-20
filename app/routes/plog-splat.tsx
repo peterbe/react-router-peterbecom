@@ -1,12 +1,12 @@
 import { data, redirect } from "react-router"
 
 import * as v from "valibot"
-import { Blogpost } from "~/components/blogpost"
-import { get } from "~/lib/get-data"
-import { recursiveGetHighlightedComments } from "~/utils/get-highlighted-comments"
-import { absoluteURL, newValiError } from "~/utils/utils"
-import { ServerData } from "~/valibot-types"
+import { Blogpost } from "../components/blogpost"
+import { get } from "../lib/get-data"
 import stylesheet from "../styles/plog.scss?url"
+import { recursiveGetHighlightedComments } from "../utils/get-highlighted-comments"
+import { absoluteURL, newValiError } from "../utils/utils"
+import { ServerData } from "../valibot-types"
 import type { Route } from "./+types/plog-splat"
 
 export const links: Route.LinksFunction = () => [

@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react"
 import { useLocation } from "react-router"
 import * as v from "valibot"
 
-import type { AddOwnCommentProps } from "~/types"
-import { Message } from "~/utils/message"
-import { newValiError } from "~/utils/utils"
-import type { Post } from "~/valibot-types"
-import { PrepareData, SubmitData } from "~/valibot-types"
+import type { AddOwnCommentProps } from "../types"
+import { Message } from "../utils/message"
+import { newValiError } from "../utils/utils"
+import type { Post } from "../valibot-types"
+import { PrepareData, SubmitData } from "../valibot-types"
 
 import { DisplayComment } from "./comment"
 

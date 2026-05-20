@@ -1,4 +1,4 @@
-import type { CommentType } from "~/valibot-types"
+import type { CommentType } from "../valibot-types"
 
 export function recursiveGetHighlightedComments(comments: CommentType[]) {
   const here: CommentType[] = []

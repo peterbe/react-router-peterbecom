@@ -1,9 +1,9 @@
 import { Fragment } from "react"
 import { Link } from "react-router"
 
-import { useSendPageview } from "~/analytics"
-import type { HomepagePost } from "~/types"
-import { categoryURL, formatDateBasic, postURL } from "~/utils/utils"
+import { useSendPageview } from "../analytics"
+import type { HomepagePost } from "../types"
+import { categoryURL, formatDateBasic, postURL } from "../utils/utils"
 import { CarbonAd } from "./carbonad"
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"

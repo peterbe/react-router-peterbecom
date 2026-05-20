@@ -1,7 +1,7 @@
 import { redirect } from "react-router"
-import { About } from "~/components/about"
-import styles from "~/styles/about.scss?url"
-import { absoluteURL } from "~/utils/utils"
+import { About } from "../components/about"
+import styles from "../styles/about.scss?url"
+import { absoluteURL } from "../utils/utils"
 import type { Route } from "./+types/plog-index"
 
 export function links() {

@@ -2,14 +2,14 @@ import { Fragment, useEffect, useMemo, useState } from "react"
 import { Link, useNavigate } from "react-router"
 import useSWR from "swr"
 import { useInterval } from "usehooks-ts"
-import { useSearchResults, useSendPageview } from "~/analytics"
+import { useSearchResults, useSendPageview } from "../analytics"
 import type {
   Document,
   SearchTerm,
   SearchTermBoosts,
   ServerData,
-} from "~/search-types"
-import { categoryURL, formatDateBasic } from "~/utils/utils"
+} from "../search-types"
+import { categoryURL, formatDateBasic } from "../utils/utils"
 
 import { LinkWithPrefetching } from "./link-with-prefetching"
 import { Nav } from "./nav"

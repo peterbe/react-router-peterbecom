@@ -1,12 +1,12 @@
 import { data, redirect } from "react-router"
 import * as v from "valibot"
 
-import { LyricsSong } from "~/components/lyrics-song"
-import { LyricsSongError } from "~/components/lyrics-song-error"
-import { get } from "~/lib/get-data"
-import { absoluteURL, newValiError } from "~/utils/utils"
-import { ServerSongData } from "~/valibot-types"
+import { LyricsSong } from "../components/lyrics-song"
+import { LyricsSongError } from "../components/lyrics-song-error"
+import { get } from "../lib/get-data"
 import stylesheet from "../styles/lyrics-song.scss?url"
+import { absoluteURL, newValiError } from "../utils/utils"
+import { ServerSongData } from "../valibot-types"
 import type { Route } from "./+types/lyrics-song"
 
 export const links: Route.LinksFunction = () => [

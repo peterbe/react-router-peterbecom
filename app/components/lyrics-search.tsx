@@ -1,8 +1,6 @@
 import { Fragment } from "react"
-
-import type { LyricsSearchMetadata, LyricsSearchResult } from "~/valibot-types"
-
 import { useSendPageview } from "../analytics"
+import type { LyricsSearchMetadata, LyricsSearchResult } from "../valibot-types"
 import { CarbonAd } from "./carbonad"
 import { ScrollToTop } from "./scroll-to-top"
 
