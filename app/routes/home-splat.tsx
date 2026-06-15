@@ -81,7 +81,11 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Response(`Invalid splat part (${part})`, { status: 404 })
   }
 
-  const sp = new URLSearchParams({ page: `${page}`, size: "15" })
+  const sp = new URLSearchParams({
+    page: `${page}`,
+    size: "15",
+    is_photo: "false",
+  })
   categories.forEach((category) => {
     sp.append("oc", category)
   })

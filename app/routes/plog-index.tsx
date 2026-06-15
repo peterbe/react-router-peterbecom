@@ -36,7 +36,8 @@ export async function loader({ request }: Route.LoaderArgs) {
   if (pathname.endsWith("/")) {
     return redirect(pathname.slice(0, -1))
   }
-  const fetchURL = "/api/v1/plog/"
+  const sp = new URLSearchParams({ is_photo: "false" })
+  const fetchURL = `/api/v1/plog/?${sp}`
   const response = await get(fetchURL)
   if (response.status >= 500) {
     throw new Error(`${response.status} from ${fetchURL}`)
