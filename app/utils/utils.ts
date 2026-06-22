@@ -11,12 +11,21 @@ export function formatDateBasic(date: string) {
   })
 }
 
-export function postURL(oid: string, page?: number, comment?: string) {
-  let url = `/plog/${oid}`
+export function postURL(
+  oid: string,
+  page?: number,
+  comment?: string,
+  photos?: boolean,
+) {
+  let url = `/${photos ? "photos" : "plog"}/${oid}`
   if (page && page > 1) url += `/p${page}`
   if (comment) url += `#${comment}`
   return url
 }
+
+// export function photosURL(oid: string, page?: number, comment?: string) {
+//   return postURL(oid, page, comment, true)
+// }
 
 export function categoryURL(name: string) {
   return `/oc-${name.replaceAll(" ", "+")}`

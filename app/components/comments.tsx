@@ -39,6 +39,7 @@ export function PostComments({ post, comments, page }: Props) {
           page={page}
           totalPages={totalPages}
           oid={post.oid}
+          commentCount={comments.count}
           nextPage={comments.next_page}
           prevPage={comments.previous_page}
         />
@@ -110,13 +111,18 @@ function Heading({
   oid,
   nextPage,
   prevPage,
+  commentCount,
 }: {
   page: number
   totalPages: number
   oid: string
   nextPage: number | null
   prevPage: number | null
+  commentCount: number
 }) {
+  if (!commentCount) {
+    return null
+  }
   if (totalPages === 1)
     return (
       <h2 style={{ marginBottom: 5 }}>

@@ -1,0 +1,8 @@
+article.photo img {
+  display: block;
+  margin: 0 auto;
+}
+
+article.photo picture img {
+  border-radius: var(--pico-border-radius);
+}

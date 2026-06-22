@@ -18,8 +18,16 @@ type Props = {
   comments: Comments
   page: number
   highlightedComments?: CommentType[]
+  photo: boolean
 }
-export function Blogpost({ post, comments, page, highlightedComments }: Props) {
+
+export function Blogpost({
+  post,
+  comments,
+  page,
+  highlightedComments,
+  photo,
+}: Props) {
   useSendPageview()
   const pubDate = new Date(post.pub_date)
 
@@ -67,18 +75,38 @@ export function Blogpost({ post, comments, page, highlightedComments }: Props) {
 
       {post.url && <AboutPostURL url={post.url} />}
 
-      <div id="main-content" dangerouslySetInnerHTML={{ __html: post.body }} />
+      <div id="main-content">
+        {photo && <Photo post={post} />}
+        {!photo && <div dangerouslySetInnerHTML={{ __html: post.body }} />}
+      </div>
 
       <CarbonAd />
+
+      {photo && <NextPrevious post={post} photo={photo} />}
 
       <HighlightedComments post={post} comments={highlightedComments} />
 
       <PostComments post={post} comments={comments} page={page} />
 
-      <RelatedPosts post={post} />
+      {!photo && <RelatedPosts post={post} />}
 
       {comments.count >= 10 && <ScrollToTop />}
     </div>
+  )
+}
+
+function Photo({ post }: { post: Post }) {
+  if (!post.open_graph_image) return null
+
+  const webpURL = `/api/v1/plog/${post.oid}.webp`
+  return (
+    <article className="photo">
+      <picture>
+        <source srcSet={webpURL} type="image/webp" />
+        <img src={post.open_graph_image} alt={post.title} />
+      </picture>
+      {post.body && <footer dangerouslySetInnerHTML={{ __html: post.body }} />}
+    </article>
   )
 }
 
@@ -90,6 +118,48 @@ function AboutPostURL({ url }: { url: string }) {
         {url}
       </a>
     </p>
+  )
+}
+
+function NextPrevious({ post, photo }: { post: Post; photo: boolean }) {
+  const previousPost = post.previous_post
+  const nextPost = post.next_post
+  if (!nextPost && !previousPost) {
+    return null
+  }
+
+  return (
+    <dl>
+      {previousPost && (
+        <>
+          <dt>Previous:</dt>
+          <dd>
+            <LinkWithPrefetching
+              to={postURL(previousPost.oid, undefined, undefined, photo)}
+              discover="none"
+            >
+              {previousPost.title}
+            </LinkWithPrefetching>{" "}
+            <small>{formatDateBasic(previousPost.pub_date)}</small>{" "}
+          </dd>
+        </>
+      )}
+
+      {nextPost && (
+        <>
+          <dt>Next:</dt>
+          <dd>
+            <LinkWithPrefetching
+              to={postURL(nextPost.oid, undefined, undefined, photo)}
+              discover="none"
+            >
+              {nextPost.title}
+            </LinkWithPrefetching>{" "}
+            <small>{formatDateBasic(nextPost.pub_date)}</small>{" "}
+          </dd>
+        </>
+      )}
+    </dl>
   )
 }
 

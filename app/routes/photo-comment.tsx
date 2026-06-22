@@ -1,48 +1,28 @@
-import { data, redirect } from "react-router"
+import { data } from "react-router"
 
 import * as v from "valibot"
-import { Blogpost } from "../components/blogpost"
+import { Blogcomment } from "../components/blogcomment"
 import { get } from "../lib/get-data"
 import stylesheet from "../styles/plog.scss?url"
-import { recursiveGetHighlightedComments } from "../utils/get-highlighted-comments"
 import { absoluteURL, newValiError } from "../utils/utils"
-import { ServerData } from "../valibot-types"
-import type { Route } from "./+types/plog-splat"
+import { CommentServerData, type Post } from "../valibot-types"
+import type { Route } from "./+types/plog-comment"
 
 export const links: Route.LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ]
 
-export async function loader({ params, request }: Route.LoaderArgs) {
-  let page = 1
-  const url = new URL(request.url, "https://www.peterbe.com")
-  if (url.pathname.endsWith("/")) {
-    return redirect(url.pathname.slice(0, -1) + url.search, { status: 302 })
-  }
-  if (url.pathname.endsWith("/p1")) {
-    return redirect(url.pathname.slice(0, -3) + url.search, { status: 302 })
-  }
-
+export async function loader({ params }: Route.LoaderArgs) {
   const oid = params.oid
-  const p = params["*"]
-  if (p) {
-    if (/^p\d+$/.test(p)) {
-      page = Number.parseInt(p.replace("p", ""), 10)
-      if (Number.isNaN(page)) {
-        throw data("Not Found (page not valid)", { status: 404 })
-      }
-    } else {
-      throw new Response(`Unrecognized excess splat ('${p}')`, {
-        status: 404,
-        statusText: "Not found",
-        // This does not appear to work annoyingly!
-        headers: cacheHeaders(60),
-      })
-    }
+  const commentoid = params.commentoid
+  if (!oid) {
+    throw new Response("Not Found (no oid)", { status: 404 })
+  }
+  if (!commentoid) {
+    throw new Response("Not Found (no commentoid)", { status: 404 })
   }
 
-  const sp = new URLSearchParams({ page: `${page}`, is_photo: "false" })
-  const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}?${sp}`
+  const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}/comment/${encodeURIComponent(commentoid)}`
 
   const response = await get(fetchURL)
   if (response.status === 404) {
@@ -52,13 +32,17 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     throw new Error(`${response.status} from ${fetchURL}`)
   }
   try {
-    const { post, comments } = v.parse(ServerData, response.data)
-    const highlightedComments = recursiveGetHighlightedComments(comments.tree)
-    const cacheSeconds =
-      post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
+    const { post, replies, page, comment, parent } = v.parse(
+      CommentServerData,
+      response.data,
+    )
+
+    // const cacheSeconds =
+    //   post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
+    const cacheSeconds = comment.not_approved ? 0 : 60 * 60 * 12
 
     return data(
-      { post, comments, page, highlightedComments },
+      { post, replies, page, comment, parent },
       { headers: cacheHeaders(cacheSeconds) },
     )
   } catch (error) {
@@ -66,10 +50,10 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
 }
 
-function isNotPublished(date: string) {
-  const actualDate = new Date(date)
-  return actualDate > new Date()
-}
+// function isNotPublished(date: string) {
+//   const actualDate = new Date(date)
+//   return actualDate > new Date()
+// }
 
 function cacheHeaders(seconds: number) {
   return { "cache-control": `public, max-age=${seconds}` }
@@ -82,15 +66,26 @@ export function headers({ loaderHeaders }: Route.HeadersArgs) {
 export function meta({ params, location, data }: Route.MetaArgs) {
   const oid = params.oid
   if (!oid) throw new Error("No oid")
+  const commentoid = params.commentoid
+  if (!commentoid) throw new Error("No commentoid")
 
   if (!data) {
     // In catch CatchBoundary
     return [{ title: "Page not found" }]
   }
 
-  let pageTitle = ""
+  const postTitleQuoted =
+    data.post.title.startsWith('"') && data.post.title.endsWith('"')
+      ? `${data.post.title}`
+      : `"${data.post.title}"`
 
-  pageTitle = data.post.title
+  let pageTitle = ""
+  if (data.comment.name) {
+    pageTitle += `Comment by ${data.comment.name} on ${postTitleQuoted}`
+  } else {
+    pageTitle += `Comment on ${postTitleQuoted}`
+  }
+  pageTitle += ` (${data.comment.comment.split(/\s+/).slice(0, 7).join(" ")}...)`
 
   if (data.page > 1) {
     pageTitle += ` (page ${data.page})`
@@ -105,7 +100,7 @@ export function meta({ params, location, data }: Route.MetaArgs) {
     { title: pageTitle },
     {
       property: "og:url",
-      content: `https://www.peterbe.com/plog/${oid}`,
+      content: `https://www.peterbe.com/plog/${oid}/comment/${data.comment.oid}`,
     },
     {
       property: "og:type",
@@ -128,14 +123,14 @@ export function meta({ params, location, data }: Route.MetaArgs) {
 }
 
 export default function Component({ loaderData }: Route.ComponentProps) {
-  const { post, comments, page, highlightedComments } = loaderData
+  const { post, replies, page, comment, parent } = loaderData
   return (
-    <Blogpost
-      post={post}
-      comments={comments}
+    <Blogcomment
+      post={post as Post}
+      comment={comment}
+      comments={replies}
+      parentComment={parent}
       page={page}
-      highlightedComments={highlightedComments}
-      photo={false}
     />
   )
 }
