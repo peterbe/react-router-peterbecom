@@ -14,6 +14,7 @@ export function ShowCommentTree({
   disallowComments,
   setParent,
   parent,
+  photo,
   root = true,
 }: {
   post: Post
@@ -21,6 +22,7 @@ export function ShowCommentTree({
   disallowComments: boolean
   setParent: (oid: string | null) => void
   parent: string | null
+  photo: boolean
   root?: boolean
 }) {
   const [ownComments, setOwnComments] = useState<OwnComment[]>([])
@@ -92,6 +94,7 @@ export function ShowCommentTree({
               parent={parent}
               allowReply={true}
               post={post}
+              photo={photo}
             >
               {submitted === comment.oid && (
                 <Message
@@ -111,6 +114,7 @@ export function ShowCommentTree({
                 <CommentForm
                   parent={parent}
                   post={post}
+                  photo={photo}
                   addOwnComment={addOwnComment}
                   setParent={setParent}
                   depth={comment.depth + 1}
@@ -129,6 +133,7 @@ export function ShowCommentTree({
                 setParent={setParent}
                 parent={parent}
                 root={false}
+                photo={photo}
               />
             )}
 
@@ -141,6 +146,7 @@ export function ShowCommentTree({
                     ownComment={ownComment}
                     addOwnComment={addOwnComment}
                     post={post}
+                    photo={photo}
                   />
                 )
               })}
@@ -172,6 +178,7 @@ export function ShowCommentTree({
               ownComment={ownComment}
               addOwnComment={addOwnComment}
               post={post}
+              photo={photo}
             />
           )
         })}
@@ -181,6 +188,7 @@ export function ShowCommentTree({
           <CommentForm
             parent={parent}
             post={post}
+            photo={photo}
             addOwnComment={addOwnComment}
             setParent={setParent}
             depth={0}
@@ -198,10 +206,12 @@ function DisplayOwnComment({
   ownComment,
   addOwnComment,
   post,
+  photo,
 }: {
   ownComment: OwnComment
   addOwnComment: (props: AddOwnCommentProps) => void
   post: Post
+  photo: boolean
 }) {
   const [editMode, setEditMode] = useState(false)
   if (editMode) {
@@ -219,6 +229,7 @@ function DisplayOwnComment({
         depth={ownComment.depth}
         setParent={() => {}}
         post={post}
+        photo={photo}
       />
     )
   }
@@ -240,6 +251,7 @@ function DisplayOwnComment({
       setParent={() => {}}
       parent={null}
       post={post}
+      photo={photo}
       toggleEditMode={() => {
         setEditMode((prevState) => !prevState)
       }}

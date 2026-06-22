@@ -66,5 +66,5 @@ export default function Component({ loaderData }: Route.ComponentProps) {
   }
   const { groups } = loaderData
 
-  return <BlogArchive groups={groups} />
+  return <BlogArchive groups={groups} photos={false} />
 }

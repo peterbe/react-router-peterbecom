@@ -10,8 +10,10 @@ type Props = {
   post: Post
   comments: Comments
   page: number
+  photo: boolean
 }
-export function PostComments({ post, comments, page }: Props) {
+
+export function PostComments({ post, comments, page, photo }: Props) {
   const disallowComments = post.disallow_comments
   const hideComments = post.hide_comments
   const [parent, setParent] = useState<string | null>(null)
@@ -60,6 +62,7 @@ export function PostComments({ post, comments, page }: Props) {
             disallowComments={disallowComments}
             setParent={setParent}
             parent={parent}
+            photo={photo}
           />
         </div>
       )}

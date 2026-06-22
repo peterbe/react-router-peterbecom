@@ -33,7 +33,7 @@ export function Lyricspost({
 
       <HighlightedComments post={post} comments={highlightedComments} />
 
-      <PostComments post={post} comments={comments} page={page} />
+      <PostComments post={post} comments={comments} page={page} photo={false} />
     </div>
   )
 }

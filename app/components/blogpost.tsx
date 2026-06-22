@@ -82,11 +82,11 @@ export function Blogpost({
 
       <CarbonAd />
 
-      {photo && <NextPrevious post={post} photo={photo} />}
+      {photo && <NextPreviousPhoto post={post} photo={photo} />}
 
       <HighlightedComments post={post} comments={highlightedComments} />
 
-      <PostComments post={post} comments={comments} page={page} />
+      <PostComments post={post} comments={comments} page={page} photo={photo} />
 
       {!photo && <RelatedPosts post={post} />}
 
@@ -121,7 +121,7 @@ function AboutPostURL({ url }: { url: string }) {
   )
 }
 
-function NextPrevious({ post, photo }: { post: Post; photo: boolean }) {
+function NextPreviousPhoto({ post, photo }: { post: Post; photo: boolean }) {
   const previousPost = post.previous_post
   const nextPost = post.next_post
   if (!nextPost && !previousPost) {
@@ -129,37 +129,32 @@ function NextPrevious({ post, photo }: { post: Post; photo: boolean }) {
   }
 
   return (
-    <dl>
+    <div className="grid">
       {previousPost && (
-        <>
-          <dt>Previous:</dt>
-          <dd>
-            <LinkWithPrefetching
-              to={postURL(previousPost.oid, undefined, undefined, photo)}
-              discover="none"
-            >
-              {previousPost.title}
-            </LinkWithPrefetching>{" "}
-            <small>{formatDateBasic(previousPost.pub_date)}</small>{" "}
-          </dd>
-        </>
+        <div>
+          Previous{" "}
+          <LinkWithPrefetching
+            to={postURL(previousPost.oid, undefined, undefined, photo)}
+            discover="none"
+          >
+            {previousPost.title}
+          </LinkWithPrefetching>{" "}
+          <small>{formatDateBasic(previousPost.pub_date)}</small>
+        </div>
       )}
-
       {nextPost && (
-        <>
-          <dt>Next:</dt>
-          <dd>
-            <LinkWithPrefetching
-              to={postURL(nextPost.oid, undefined, undefined, photo)}
-              discover="none"
-            >
-              {nextPost.title}
-            </LinkWithPrefetching>{" "}
-            <small>{formatDateBasic(nextPost.pub_date)}</small>{" "}
-          </dd>
-        </>
+        <div style={{ textAlign: "right" }}>
+          Next{" "}
+          <LinkWithPrefetching
+            to={postURL(nextPost.oid, undefined, undefined, photo)}
+            discover="none"
+          >
+            {nextPost.title}
+          </LinkWithPrefetching>{" "}
+          <small>{formatDateBasic(nextPost.pub_date)}</small>
+        </div>
       )}
-    </dl>
+    </div>
   )
 }
 

@@ -131,6 +131,7 @@ export default function Component({ loaderData }: Route.ComponentProps) {
       comments={replies}
       parentComment={parent}
       page={page}
+      photo={false}
     />
   )
 }
