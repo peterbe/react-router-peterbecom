@@ -95,7 +95,8 @@ export function meta({ params, location, data }: Route.MetaArgs) {
   if (data.page > 1) {
     pageTitle += ` (page ${data.page})`
   }
-  pageTitle += " - Peterbe.com"
+
+  pageTitle += " - Photos on Peterbe.com"
 
   const summary = data.post.summary || undefined
   const openGraphImage = data.post.open_graph_image

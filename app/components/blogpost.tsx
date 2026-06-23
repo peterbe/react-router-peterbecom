@@ -32,11 +32,18 @@ export function Blogpost({
   const pubDate = new Date(post.pub_date)
 
   useRememberVisit(post)
+  const title = photo ? (
+    <>
+      <span className="photo-title-prefix">Photo:</span> {post.title}
+    </>
+  ) : (
+    post.title
+  )
 
   return (
     <div>
       <Nav
-        title={post.title}
+        title={title}
         subHead={
           <>
             <b>
