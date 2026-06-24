@@ -10,10 +10,7 @@ import { Nav } from "./nav"
 
 type Props = {
   groups: Group[]
-  photos: boolean
 }
-
-// const intl = new Intl.NumberFormat("en-us")
 
 export function PhotosArchive({ groups }: Props) {
   useSendPageview()
@@ -27,7 +24,7 @@ export function PhotosArchive({ groups }: Props) {
             <Fragment key={date}>
               <h3>{formatDateShort(date)}</h3>
 
-              {chunk(posts, 4).map((posts, i) => {
+              {chunk(posts, 4).map((posts) => {
                 return (
                   <div className="grid" key={posts.map((p) => p.oid).join("-")}>
                     {posts.map((post) => {
