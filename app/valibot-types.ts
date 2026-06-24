@@ -134,6 +134,7 @@ export const Group = v.object({
       title: v.string(),
       categories: v.array(v.string()),
       comments: v.number(),
+      open_graph_image: v.nullable(v.string()),
     }),
   ),
 })

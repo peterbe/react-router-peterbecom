@@ -15,11 +15,11 @@ type Props = {
 
 const intl = new Intl.NumberFormat("en-us")
 
-export function BlogArchive({ groups, photos }: Props) {
+export function BlogArchive({ groups }: Props) {
   useSendPageview()
   return (
     <div>
-      <Nav title={photos ? "Photos archive" : "Blog archive"} />
+      <Nav title="Blog archive" />
 
       <dl id="main-content">
         {groups.map(({ date, posts }) => {
@@ -32,10 +32,7 @@ export function BlogArchive({ groups, photos }: Props) {
                 }`
                 return (
                   <dd key={post.oid}>
-                    <LinkWithPrefetching
-                      to={postURL(post.oid, undefined, undefined, photos)}
-                      discover="none"
-                    >
+                    <LinkWithPrefetching to={postURL(post.oid)} discover="none">
                       {post.title}
                     </LinkWithPrefetching>{" "}
                     {post.comments > 0 && <span>{count}</span>}{" "}

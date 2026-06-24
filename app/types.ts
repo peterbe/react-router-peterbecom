@@ -88,6 +88,7 @@ export interface Group {
     title: string
     categories: string[]
     comments: number
+    open_graph_image?: string | null
   }[]
 }
 
