@@ -233,10 +233,12 @@ test.each([
   "/contact",
   "/search",
   "/plog",
+  "/photos",
   "/plog/blogitem-040601-1",
   "/plog/blogitem-20030629-2128",
 ])("canonical link on home page (%s)", async (url) => {
   const response = await get(url)
+  console.log("URL:", url, "Status:", response.status)
   expect(response.status).toBe(200)
   const $ = cheerio.load(response.data)
   const href = $('link[rel="canonical"]').attr("href")
