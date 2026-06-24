@@ -1,8 +1,8 @@
 import { redirect } from "react-router"
 import * as v from "valibot"
-import { BlogArchive } from "../components/blogarchive"
+import { PhotosArchive } from "../components/photosarchive"
 import { get } from "../lib/get-data"
-import stylesheet from "../styles/plog-index.scss?url"
+import stylesheet from "../styles/photos-index.scss?url"
 import { absoluteURL } from "../utils/utils"
 import { IndexServerData } from "../valibot-types"
 import type { Route } from "./+types/plog-index"
@@ -14,7 +14,7 @@ export const links: Route.LinksFunction = () => [
 export function meta({ location }: Route.MetaArgs) {
   return [
     {
-      title: "Blog archive - Peterbe.com",
+      title: "Photos - Peterbe.com",
     },
     {
       tagName: "link",
@@ -36,7 +36,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   if (pathname.endsWith("/")) {
     return redirect(pathname.slice(0, -1))
   }
-  const sp = new URLSearchParams({ is_photo: "false" })
+  const sp = new URLSearchParams({ is_photo: "true" })
   const fetchURL = `/api/v1/plog/?${sp}`
   const response = await get(fetchURL)
   if (response.status >= 500) {
@@ -66,5 +66,5 @@ export default function Component({ loaderData }: Route.ComponentProps) {
   }
   const { groups } = loaderData
 
-  return <BlogArchive groups={groups} photos={false} />
+  return <PhotosArchive groups={groups} />
 }

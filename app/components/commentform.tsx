@@ -49,6 +49,7 @@ export function CommentForm({
   depth,
   setParent,
   onSubmitted,
+  photo,
 }: {
   parent: string | null
   post: Post
@@ -60,6 +61,7 @@ export function CommentForm({
   depth: number
   setParent: (oid: string | null) => void
   onSubmitted?: () => void
+  photo: boolean
 }) {
   const { hash } = useLocation()
   const [comment, setComment] = useState(initialComment)
@@ -205,6 +207,7 @@ export function CommentForm({
           disallowComments={true}
           parent={null}
           post={post}
+          photo={photo}
         />
       )}
 

@@ -21,13 +21,16 @@ type Props = {
   comment: Comment
   comments: Comments
   parentComment: Comment | null
+  photo: boolean
 }
+
 export function Blogcomment({
   post,
   comments,
   comment,
   page,
   parentComment,
+  photo,
 }: Props) {
   useSendPageview()
   const disallowComments = post.disallow_comments
@@ -114,7 +117,7 @@ export function Blogcomment({
       />
 
       <div id="main-content">
-        <BackToPost post={post} page={page} comment={comment} />
+        <BackToPost post={post} page={page} comment={comment} photo={photo} />
         <div id="comments">
           <h2>Comment</h2>
           <DisplayComment
@@ -124,6 +127,7 @@ export function Blogcomment({
             setParent={setParent}
             parent={parent}
             post={post}
+            photo={photo}
             allowReply={!disallowComments}
           >
             {submitted === comment.oid && (
@@ -144,6 +148,7 @@ export function Blogcomment({
               <CommentForm
                 parent={parent}
                 post={post}
+                photo={photo}
                 addOwnComment={addOwnComment}
                 setParent={setParent}
                 depth={comment.depth + 0}
@@ -162,6 +167,7 @@ export function Blogcomment({
               setParent={setParent}
               parent={parent}
               post={post}
+              photo={photo}
               // allowReply={!disallowComments}
               allowReply={false} // for now
             >
@@ -183,6 +189,7 @@ export function Blogcomment({
                 <CommentForm
                   parent={parent}
                   post={post}
+                  photo={photo}
                   addOwnComment={addOwnComment}
                   setParent={setParent}
                   depth={parentComment.depth}
@@ -202,6 +209,7 @@ export function Blogcomment({
             setParent={setParent}
             parent={parent}
             root={false}
+            photo={photo}
           />
 
           {ownComments
@@ -213,6 +221,7 @@ export function Blogcomment({
                   ownComment={ownComment}
                   addOwnComment={addOwnComment}
                   post={post}
+                  photo={photo}
                 />
               )
             })}
@@ -234,10 +243,12 @@ function DisplayOwnComment({
   ownComment,
   addOwnComment,
   post,
+  photo,
 }: {
   ownComment: OwnComment
   addOwnComment: (props: AddOwnCommentProps) => void
   post: Post
+  photo: boolean
 }) {
   const [editMode, setEditMode] = useState(false)
   if (editMode) {
@@ -255,6 +266,7 @@ function DisplayOwnComment({
         depth={ownComment.depth}
         setParent={() => {}}
         post={post}
+        photo={photo}
       />
     )
   }
@@ -276,6 +288,7 @@ function DisplayOwnComment({
       setParent={() => {}}
       parent={null}
       post={post}
+      photo={photo}
       toggleEditMode={() => {
         setEditMode((prevState) => !prevState)
       }}
@@ -287,16 +300,18 @@ function BackToPost({
   post,
   page,
   comment,
+  photo,
 }: {
   post: Post
   page: number
   comment: Comment
+  photo: boolean
 }) {
   return (
     <article>
       <p style={{ textAlign: "center", marginBottom: "0.5rem" }}>
         ⬅︎ Back to{" "}
-        <LinkWithPrefetching to={postURL(post.oid, page, comment.oid)}>
+        <LinkWithPrefetching to={postURL(post.oid, page, comment.oid, photo)}>
           {post.title}
         </LinkWithPrefetching>
       </p>

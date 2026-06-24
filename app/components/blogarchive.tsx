@@ -10,6 +10,7 @@ import { Nav } from "./nav"
 
 type Props = {
   groups: Group[]
+  photos: boolean
 }
 
 const intl = new Intl.NumberFormat("en-us")

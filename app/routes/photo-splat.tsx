@@ -3,7 +3,7 @@ import { data, redirect } from "react-router"
 import * as v from "valibot"
 import { Blogpost } from "../components/blogpost"
 import { get } from "../lib/get-data"
-import stylesheet from "../styles/plog.scss?url"
+import stylesheet from "../styles/photo.scss?url"
 import { recursiveGetHighlightedComments } from "../utils/get-highlighted-comments"
 import { absoluteURL, newValiError } from "../utils/utils"
 import { ServerData } from "../valibot-types"
@@ -41,7 +41,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     }
   }
 
-  const sp = new URLSearchParams({ page: `${page}`, is_photo: "false" })
+  const sp = new URLSearchParams({ page: `${page}`, is_photo: "true" })
   const fetchURL = `/api/v1/plog/${encodeURIComponent(oid)}?${sp}`
 
   const response = await get(fetchURL)
@@ -95,7 +95,8 @@ export function meta({ params, location, data }: Route.MetaArgs) {
   if (data.page > 1) {
     pageTitle += ` (page ${data.page})`
   }
-  pageTitle += " - Peterbe.com"
+
+  pageTitle += " - Photos on Peterbe.com"
 
   const summary = data.post.summary || undefined
   const openGraphImage = data.post.open_graph_image
@@ -105,7 +106,7 @@ export function meta({ params, location, data }: Route.MetaArgs) {
     { title: pageTitle },
     {
       property: "og:url",
-      content: `https://www.peterbe.com/plog/${oid}`,
+      content: `https://www.peterbe.com/photos/${oid}`,
     },
     {
       property: "og:type",
@@ -135,7 +136,7 @@ export default function Component({ loaderData }: Route.ComponentProps) {
       comments={comments}
       page={page}
       highlightedComments={highlightedComments}
-      photo={false}
+      photo={true}
     />
   )
 }

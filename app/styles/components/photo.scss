@@ -1,0 +1,12 @@
+h1 .photo-title-prefix {
+  color: var(--pico-muted-color);
+}
+
+article.photo img {
+  display: block;
+  margin: 0 auto;
+}
+
+article.photo picture img {
+  border-radius: var(--pico-border-radius);
+}

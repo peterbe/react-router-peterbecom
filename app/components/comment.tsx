@@ -15,6 +15,7 @@ export function DisplayComment({
   toggleEditMode,
   allowReply,
   post,
+  photo,
 }: {
   comment: Comment
   children?: ReactNode | null
@@ -25,12 +26,13 @@ export function DisplayComment({
   toggleEditMode?: () => void
   allowReply?: boolean
   post: Post
+  photo: boolean
 }) {
   let className = "comment"
   if (comment.depth) {
     className += ` nested d-${comment.depth}`
   }
-  const commentUrl = `/plog/${post.oid}/comment/${comment.oid}`
+  const commentUrl = `/${photo ? "photos" : "plog"}/${post.oid}/comment/${comment.oid}`
   return (
     <div id={comment.oid} className={className}>
       <b>{comment.name ? comment.name : <i>Anonymous</i>}</b>{" "}

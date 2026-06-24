@@ -15,6 +15,11 @@ export default [
     route(":oid/comment/:commentoid", "./routes/plog-comment.tsx"),
     route(":oid/*", "./routes/plog-splat.tsx"),
   ]),
+  ...prefix("photos", [
+    index("./routes/photos-index.tsx"),
+    route(":oid/comment/:commentoid", "./routes/photo-comment.tsx"),
+    route(":oid/*", "./routes/photo-splat.tsx"),
+  ]),
   route("about", "routes/about.tsx"),
   route("contact", "routes/contact.tsx"),
   route("search", "routes/search.tsx"),

@@ -100,7 +100,7 @@ export function meta({ params, location, data }: Route.MetaArgs) {
     { title: pageTitle },
     {
       property: "og:url",
-      content: `https://www.peterbe.com/plog/${oid}/comment/${data.comment.oid}`,
+      content: `https://www.peterbe.com/photos/${oid}/comment/${data.comment.oid}`,
     },
     {
       property: "og:type",
@@ -131,7 +131,7 @@ export default function Component({ loaderData }: Route.ComponentProps) {
       comments={replies}
       parentComment={parent}
       page={page}
-      photo={false}
+      photo={true}
     />
   )
 }

@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router"
 import { ModalSearch } from "./modal-search"
 
 type Props = {
-  title?: string
+  title?: string | ReactNode
   subHead?: string | ReactNode
 }
 
