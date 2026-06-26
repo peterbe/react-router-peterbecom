@@ -103,14 +103,13 @@ export function Blogpost({
 }
 
 function Photo({ post }: { post: Post }) {
-  if (!post.open_graph_image) return null
-
   const webpURL = `/api/v1/plog/${post.oid}.webp`
+  const pngURL = `/api/v1/plog/${post.oid}.png`
   return (
     <article className="photo">
       <picture>
         <source srcSet={webpURL} type="image/webp" />
-        <img src={post.open_graph_image} alt={post.title} />
+        <img src={pngURL} alt={post.title} />
       </picture>
       {post.body && <footer dangerouslySetInnerHTML={{ __html: post.body }} />}
     </article>

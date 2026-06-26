@@ -1,5 +1,4 @@
 import { Fragment } from "react"
-// import { Link } from "react-router"
 
 import { useSendPageview } from "../analytics"
 import type { Group } from "../types"
@@ -28,12 +27,8 @@ export function PhotosArchive({ groups }: Props) {
                 return (
                   <div className="grid" key={posts.map((p) => p.oid).join("-")}>
                     {posts.map((post) => {
-                      // const count = `${intl.format(post.comments)} comment${
-                      //   post.comments === 1 ? "" : "s"
-                      // }`
-                      if (!post.open_graph_image) return null
-
-                      const webpURL = `/api/v1/plog/${post.oid}.webp`
+                      const webpURL = `/api/v1/plog/${post.oid}.w400.webp`
+                      const pngURL = `/api/v1/plog/${post.oid}.w400.png`
                       return (
                         <article key={post.oid} className="photo">
                           <header>
@@ -44,19 +39,16 @@ export function PhotosArchive({ groups }: Props) {
                               {post.title}
                             </LinkWithPrefetching>
                           </header>
+                          <LinkWithPrefetching
+                            to={postURL(post.oid, undefined, undefined, true)}
+                            discover="none"
+                          >
+                            <picture>
+                              <source srcSet={webpURL} type="image/webp" />
 
-                          <picture>
-                            <source srcSet={webpURL} type="image/webp" />
-                            <LinkWithPrefetching
-                              to={postURL(post.oid, undefined, undefined, true)}
-                              discover="none"
-                            >
-                              <img
-                                src={post.open_graph_image}
-                                alt={post.title}
-                              />
-                            </LinkWithPrefetching>
-                          </picture>
+                              <img src={pngURL} alt={post.title} />
+                            </picture>
+                          </LinkWithPrefetching>
                         </article>
                       )
                     })}
