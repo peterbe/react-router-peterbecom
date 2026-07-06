@@ -11,11 +11,12 @@ export type RememberedPost = {
   title: string
   pubDate: string
   visited: string
+  is_photo?: boolean
 }
 
 const DELAY_SECONDS = 2
 
-export function useRememberVisit(post: Post) {
+export function useRememberVisit(post: Post, config?: { is_photo: boolean }) {
   const remember = useCallback(() => {
     const previous = JSON.parse(
       localStorage.getItem(STORAGE_KEY) || "[]",
@@ -27,6 +28,7 @@ export function useRememberVisit(post: Post) {
       previous[0].categories = post.categories
       previous[0].pubDate = post.pub_date
       previous[0].visited = new Date().toISOString()
+      previous[0].is_photo = config?.is_photo
       save = true
     } else {
       // Remove if previously there
@@ -44,6 +46,7 @@ export function useRememberVisit(post: Post) {
         title: post.title,
         pubDate: post.pub_date,
         visited: new Date().toISOString(),
+        is_photo: config?.is_photo,
       })
 
       save = true
@@ -54,7 +57,7 @@ export function useRememberVisit(post: Post) {
         JSON.stringify(previous.slice(0, MAX_REMEMBERED)),
       )
     }
-  }, [post])
+  }, [post, config])
 
   useEffect(() => {
     let mounted = true

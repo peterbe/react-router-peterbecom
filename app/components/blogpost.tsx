@@ -31,7 +31,7 @@ export function Blogpost({
   useSendPageview()
   const pubDate = new Date(post.pub_date)
 
-  useRememberVisit(post)
+  useRememberVisit(post, { is_photo: photo })
   const title = photo ? (
     <>
       <span className="photo-title-prefix">Photo:</span> {post.title}
