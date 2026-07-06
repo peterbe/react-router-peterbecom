@@ -68,12 +68,13 @@ function RecentVisits({
       <RecentHeading text="Recently visited" />
 
       {visited.map((doc) => {
+        const docURL = postURL(doc.oid, undefined, undefined, doc.is_photo)
         return (
           <p key={doc.oid} style={{ padding: 5, marginBottom: 10 }}>
             <LinkWithPrefetching
-              to={postURL(doc.oid)}
+              to={docURL}
               onClick={() => {
-                goTo(postURL(doc.oid))
+                goTo(docURL)
               }}
             >
               {doc.title}

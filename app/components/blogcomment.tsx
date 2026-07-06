@@ -41,7 +41,7 @@ export function Blogcomment({
   const [ownComments, setOwnComments] = useState<OwnComment[]>([])
   const [submitted, setSubmitted] = useState<string | boolean | null>(null)
 
-  useRememberVisit(post)
+  useRememberVisit(post, { is_photo: photo })
 
   useEffect(() => {
     let mounted = true
