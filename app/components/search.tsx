@@ -137,7 +137,8 @@ export function Search({ q, debug }: Props) {
         <div id="main-content">
           {data.results.documents.map((result, i) => {
             const first = !i
-            let url = `/plog/${result.oid}`
+            const prefix = result.is_photo ? "photos" : "plog"
+            let url = `/${prefix}/${result.oid}`
             if (result.comment_oid) {
               url += `/comment/${result.comment_oid}`
             }

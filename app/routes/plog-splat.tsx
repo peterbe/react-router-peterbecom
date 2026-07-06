@@ -53,6 +53,13 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
   try {
     const { post, comments } = v.parse(ServerData, response.data)
+
+    // We know we're in the `/plog/{oid}` route but the blogitem we
+    // got from the server is a photo. Correct the URL.
+    if (post.is_photo) {
+      return redirect(`/photos/${oid}${p ? `/${p}` : ""}`, { status: 302 })
+    }
+
     const highlightedComments = recursiveGetHighlightedComments(comments.tree)
     const cacheSeconds =
       post.pub_date && isNotPublished(post.pub_date) ? 0 : 60 * 60 * 12
