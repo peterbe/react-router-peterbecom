@@ -118,6 +118,24 @@ test("contact page", async () => {
   expect(isCached(response)).toBe(true)
 })
 
+test("photos page", async () => {
+  const response = await get("/photos")
+  expect(response.status).toBe(200)
+  expect(isCached(response)).toBe(true)
+})
+
+test("photo page", async () => {
+  const response = await get("/photos/first-photo")
+  expect(response.status).toBe(200)
+  expect(isCached(response)).toBe(true)
+})
+
+test("photo page but wrong url", async () => {
+  const response = await get("/plog/first-photo")
+  expect(response.status).toBe(302)
+  expect(response.headers.location).toBe("/photos/first-photo")
+})
+
 test("filter home page by category", async () => {
   const response = await get("/oc-JavaScript")
   expect(response.status).toBe(200)

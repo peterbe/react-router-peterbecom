@@ -10,18 +10,19 @@ export type Comment = {
 }
 
 type Blogitem = {
-  oid: string
-  title: string
   categories: string[]
-  pub_date: string
   comments: Comment[]
-  html: string
   disallow_comments: false
-  split?: number
-  url?: string
-  open_graph_image?: string
-  summary?: string
   hide_comments?: boolean
+  html: string
+  is_photo: boolean
+  oid: string
+  open_graph_image?: string
+  pub_date: string
+  split?: number
+  summary?: string
+  title: string
+  url?: string
 }
 
 function generateFakeComments(howmany: number): Comment[] {
@@ -57,6 +58,7 @@ export const blogitems: Blogitem[] = [
     disallow_comments: false,
     open_graph_image: undefined,
     summary: "",
+    is_photo: false,
   },
   {
     oid: "some-js-code",
@@ -68,6 +70,7 @@ export const blogitems: Blogitem[] = [
     disallow_comments: false,
     open_graph_image: undefined,
     summary: "",
+    is_photo: false,
   },
   {
     oid: "some-web-dev",
@@ -79,6 +82,7 @@ export const blogitems: Blogitem[] = [
     disallow_comments: false,
     open_graph_image: undefined,
     summary: "",
+    is_photo: false,
   },
   {
     oid: "blogitem-040601-1",
@@ -91,6 +95,19 @@ export const blogitems: Blogitem[] = [
     disallow_comments: false,
     open_graph_image: undefined,
     summary: "",
+    is_photo: false,
+  },
+  {
+    oid: "first-photo",
+    title: "First Photo",
+    categories: [],
+    pub_date: "2026-07-01T12:41:56.501Z",
+    comments: [],
+    html: "<p>My <i>first</i> photo</p>",
+    disallow_comments: false,
+    open_graph_image: undefined,
+    summary: "",
+    is_photo: true,
   },
 ]
 
@@ -115,6 +132,7 @@ function generateBlogItems(howmany: number, categories: string[]): Blogitem[] {
       disallow_comments: false,
       open_graph_image: undefined,
       summary: "",
+      is_photo: false,
     }
     items.push(item)
   }

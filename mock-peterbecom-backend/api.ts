@@ -238,7 +238,9 @@ router.get("/v1/plog/:slug", (req: Request, res: Response) => {
     open_graph_image,
     hide_comments,
     summary,
+    is_photo,
   } = item
+  console.log({ ITEM: item })
   const post = {
     oid,
     title,
@@ -252,6 +254,7 @@ router.get("/v1/plog/:slug", (req: Request, res: Response) => {
     hide_comments: Boolean(hide_comments),
     next_post,
     previous_post,
+    is_photo,
   }
 
   const tree = generateTree(comments)
