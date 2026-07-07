@@ -5,6 +5,7 @@ export interface Document {
   comment_oid: string | null
   summary: string
   categories?: string[]
+  is_photo?: boolean
 
   score: number
   score_boosted?: number

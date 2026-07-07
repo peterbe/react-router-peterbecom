@@ -31,7 +31,7 @@ export function Blogpost({
   useSendPageview()
   const pubDate = new Date(post.pub_date)
 
-  useRememberVisit(post)
+  useRememberVisit(post, { is_photo: photo })
   const title = photo ? (
     <>
       <span className="photo-title-prefix">Photo:</span> {post.title}
@@ -103,14 +103,17 @@ export function Blogpost({
 }
 
 function Photo({ post }: { post: Post }) {
+  const largeWebpURL = `/api/v1/plog/${post.oid}.w3000.webp`
   const webpURL = `/api/v1/plog/${post.oid}.webp`
   const pngURL = `/api/v1/plog/${post.oid}.png`
   return (
     <article className="photo">
-      <picture>
-        <source srcSet={webpURL} type="image/webp" />
-        <img src={pngURL} alt={post.title} />
-      </picture>
+      <a href={largeWebpURL}>
+        <picture>
+          <source srcSet={webpURL} type="image/webp" />
+          <img src={pngURL} alt={post.title} />
+        </picture>
+      </a>
       {post.body && <footer dangerouslySetInnerHTML={{ __html: post.body }} />}
     </article>
   )

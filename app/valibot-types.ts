@@ -23,6 +23,7 @@ export const Post = v.object({
   next_post: v.nullable(RelatedPost),
   related_by_category: v.optional(v.array(RelatedPost)),
   related_by_keyword: v.optional(v.array(RelatedPost)),
+  is_photo: v.optional(v.boolean()),
 })
 export type Post = v.InferInput<typeof Post>
 
