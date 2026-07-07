@@ -49,6 +49,14 @@ export function PhotosArchive({ groups }: Props) {
                               <img src={pngURL} alt={post.title} />
                             </picture>
                           </LinkWithPrefetching>
+                          {post.comments > 0 && (
+                            <footer>
+                              <small>
+                                {post.comments} comment
+                                {post.comments !== 1 ? "s" : ""}
+                              </small>
+                            </footer>
+                          )}
                         </article>
                       )
                     })}

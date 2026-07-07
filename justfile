@@ -42,8 +42,7 @@ outdated:
     bun outdated
 
 upgrade:
-    bun update --interactive
-    bun install
+    bun update --interactive --minimum-release-age=86400 && bun install
 
 start-mock-peterbecom-backend:
     bun run mock-peterbecom-backend
