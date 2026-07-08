@@ -12,6 +12,7 @@ type Props = {
 export const links = [
   ["/", "Home"],
   ["/plog", "Archive"],
+  ["/photos", "Photos"],
   ["/about", "About"],
   ["/contact", "Contact"],
   ["/search", "Search"],
