@@ -3,7 +3,7 @@ import autoprefixer from "autoprefixer"
 import { defineConfig } from "vite"
 import { dynamicImagesPlugin } from "./app/dynamic-images-vite-plugin"
 
-const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
+const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8888"
 
 const backendProxy = {
   target: BACKEND_BASE_URL,
