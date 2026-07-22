@@ -240,7 +240,6 @@ router.get("/v1/plog/:slug", (req: Request, res: Response) => {
     summary,
     is_photo,
   } = item
-  console.log({ ITEM: item })
   const post = {
     oid,
     title,

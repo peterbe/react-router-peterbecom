@@ -14,7 +14,7 @@ app.use(
 )
 app.use("/api", router)
 
-const port = process.env.PORT || 8000
+const port = process.env.PORT || 8888
 
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`)

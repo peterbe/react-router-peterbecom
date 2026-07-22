@@ -150,6 +150,7 @@ function Clear({
             type="button"
             className="secondary outline"
             onClick={clearSearches}
+            style={{ marginLeft: 10 }}
           >
             Clear searches
           </button>
