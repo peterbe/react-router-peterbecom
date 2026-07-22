@@ -29,7 +29,7 @@ const rollbar =
     captureUnhandledRejections: true,
   })
 
-const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8000"
+const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8888"
 const DATABASE_URL = process.env.DATABASE_URL
 
 const buildPathArg = process.env.BUILD_PATH || process.argv[2]

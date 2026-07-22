@@ -11,7 +11,7 @@ bun run dev
 ```
 
 and visit <http://localhost:3000>.
-By default, it'll fetch JSON data from <http://localhost:8000>
+By default, it'll fetch JSON data from <http://localhost:8888>
 but you can set `API_BASE`
 
 ```bash
