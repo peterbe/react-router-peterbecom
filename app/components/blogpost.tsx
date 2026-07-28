@@ -1,5 +1,5 @@
 import { Fragment } from "react"
-import { Link } from "react-router"
+import { Link, useLocation, useSearchParams } from "react-router"
 
 import { useSendPageview } from "../analytics"
 import { categoryURL, formatDateBasic, postURL } from "../utils/utils"
@@ -103,9 +103,28 @@ export function Blogpost({
 }
 
 function Photo({ post }: { post: Post }) {
-  const largeWebpURL = `/api/v1/plog/${post.oid}.w3000.webp`
-  const webpURL = `/api/v1/plog/${post.oid}.webp`
-  const pngURL = `/api/v1/plog/${post.oid}.png`
+  const { pathname } = useLocation()
+  const [searchParams] = useSearchParams()
+  const photoNumber = Number(searchParams.get("photo") || "1")
+
+  const photoPrefix = photoNumber > 1 ? `.p${photoNumber}` : ""
+  const largeWebpURL = `/api/v1/plog/${post.oid}.w3000${photoPrefix}.webp`
+  const webpURL = `/api/v1/plog/${post.oid}${photoPrefix}.webp`
+  const pngURL = `/api/v1/plog/${post.oid}${photoPrefix}.png`
+
+  let nextURL = ""
+  if (post.photo_count && post.photo_count > 1) {
+    const nextPhotoNumber = 1 + (photoNumber % post.photo_count)
+    if (nextPhotoNumber === 1) {
+      const nextSP = new URLSearchParams(searchParams)
+      nextSP.delete("photo")
+      nextURL = `${pathname}?${nextSP.toString()}`
+    } else {
+      const nextSP = new URLSearchParams(searchParams)
+      nextSP.set("photo", nextPhotoNumber.toString())
+      nextURL = `${pathname}?${nextSP.toString()}`
+    }
+  }
   return (
     <article className="photo">
       <a href={largeWebpURL}>
@@ -114,6 +133,14 @@ function Photo({ post }: { post: Post }) {
           <img src={pngURL} alt={post.title} />
         </picture>
       </a>
+      {nextURL && (
+        <p className="photo-pagination">
+          {photoNumber} of {post.photo_count} photos:{" "}
+          <Link to={nextURL} replace={true}>
+            next
+          </Link>
+        </p>
+      )}
       {post.body && <footer dangerouslySetInnerHTML={{ __html: post.body }} />}
     </article>
   )

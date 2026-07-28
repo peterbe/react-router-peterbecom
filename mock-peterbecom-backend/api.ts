@@ -90,8 +90,12 @@ router.get("/v1/plog/homepage", (req: Request, res: Response) => {
   res.json({ posts, next_page, previous_page })
 })
 
-router.get("/v1/plog/", (_req: Request, res: Response) => {
-  const buckets = Object.groupBy(blogitems, (item) => {
+router.get("/v1/plog/", (req: Request, res: Response) => {
+  const is_photo = req.query.is_photo === "true"
+  const filteredBlogitems = blogitems.filter((item) => {
+    return item.is_photo === is_photo
+  })
+  const buckets = Object.groupBy(filteredBlogitems, (item) => {
     return item.pub_date.split("-").slice(0, 2).join(".")
   })
 
@@ -239,6 +243,7 @@ router.get("/v1/plog/:slug", (req: Request, res: Response) => {
     hide_comments,
     summary,
     is_photo,
+    photo_count,
   } = item
   const post = {
     oid,
@@ -254,6 +259,7 @@ router.get("/v1/plog/:slug", (req: Request, res: Response) => {
     next_post,
     previous_post,
     is_photo,
+    photo_count,
   }
 
   const tree = generateTree(comments)
