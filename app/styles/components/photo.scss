@@ -10,3 +10,11 @@ article.photo img {
 article.photo picture img {
   border-radius: var(--pico-border-radius);
 }
+
+
+p.photo-pagination {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--pico-muted-color);
+  margin: 10px;
+}

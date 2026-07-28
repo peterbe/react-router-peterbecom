@@ -112,3 +112,12 @@ test("comment and edit on lyrics post", async ({ page }) => {
 
   await expect(page.getByText("Line 1. <&> Line 2.")).toBeVisible()
 })
+
+test("go to photo with multiple photos", async ({ page }) => {
+  await page.goto("/photos")
+
+  await page.getByText("Multiple Photos").click()
+  await expect(page).toHaveURL("/photos/multi-photos")
+  await page.getByRole("link", { name: "next" }).click()
+  await expect(page).toHaveURL("/photos/multi-photos?photo=2")
+})

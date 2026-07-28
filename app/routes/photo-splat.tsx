@@ -23,6 +23,15 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     return redirect(url.pathname.slice(0, -3) + url.search, { status: 302 })
   }
 
+  const { search } = new URL(request.url)
+  const searchParams = new URLSearchParams(search)
+  const photoNumber = Number(searchParams.get("photo"))
+  if (searchParams.get("photo")) {
+    if (Number.isNaN(photoNumber) || photoNumber <= 1) {
+      return redirect(url.pathname)
+    }
+  }
+
   const oid = params.oid
   const p = params["*"]
   if (p) {
@@ -58,6 +67,10 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     // got from the server is not a photo. Correct the URL.
     if (!post.is_photo && !request.url.startsWith("/photos/")) {
       return redirect(`/plog/${oid}${p ? `/${p}` : ""}`, { status: 302 })
+    }
+
+    if (photoNumber > (post.photo_count || 1)) {
+      return redirect(url.pathname)
     }
 
     const highlightedComments = recursiveGetHighlightedComments(comments.tree)

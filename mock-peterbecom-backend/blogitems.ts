@@ -18,6 +18,7 @@ type Blogitem = {
   is_photo: boolean
   oid: string
   open_graph_image?: string
+  photo_count?: number
   pub_date: string
   split?: number
   summary?: string
@@ -108,6 +109,19 @@ export const blogitems: Blogitem[] = [
     open_graph_image: undefined,
     summary: "",
     is_photo: true,
+  },
+  {
+    oid: "multi-photos",
+    title: "Multiple Photos",
+    categories: [],
+    pub_date: "2026-07-01T12:41:56.501Z",
+    comments: [],
+    html: "<p>My a bunch of them photo</p>",
+    disallow_comments: false,
+    open_graph_image: undefined,
+    summary: "",
+    is_photo: true,
+    photo_count: 2,
   },
 ]
 
