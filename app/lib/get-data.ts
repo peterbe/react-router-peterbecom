@@ -1,4 +1,5 @@
-import axios, { AxiosError } from "axios"
+import { TTLCache } from "@isaacs/ttlcache"
+import axios, { AxiosError, type AxiosResponse } from "axios"
 import axiosRetry from "axios-retry"
 import Rollbar from "rollbar"
 
@@ -6,6 +7,9 @@ const API_BASE = process.env.API_BASE || "http://127.0.0.1:8888"
 
 const RETRIES = process.env.NODE_ENV === "development" ? 1 : 4
 const TIMEOUT = 1000
+const USE_GET_CACHE_DEFAULT = process.env.NODE_ENV !== "development"
+// This cache is deliberately short
+const USE_GET_CACHE_TTL = Number(process.env.USE_GET_CACHE_TTL || 1000 * 60 * 1)
 
 axiosRetry(axios, {
   retries: RETRIES,
@@ -27,6 +31,10 @@ axiosRetry(axios, {
   },
 })
 
+const getCache = new TTLCache<string, AxiosResponse>({
+  ttl: USE_GET_CACHE_TTL,
+})
+
 export async function get<T>(
   uri: string,
   {
@@ -34,12 +42,23 @@ export async function get<T>(
     followRedirect = true,
     timeout = TIMEOUT,
     reportToRollbar = true,
+    useCache = USE_GET_CACHE_DEFAULT,
   } = {},
 ) {
   if (!uri.startsWith("/")) {
     throw new Error(`uri parameter should start with / (not: ${uri})`)
   }
   const t0 = new Date()
+  if (useCache) {
+    const cached = getCache.get(uri)
+    if (cached) {
+      const t1 = new Date()
+      console.log(
+        `Fetch ${uri} took ${t1.getTime() - t0.getTime()} ms (cache hit)`,
+      )
+      return cached
+    }
+  }
   try {
     const response = await axios.get<T>(API_BASE + uri, {
       maxRedirects: followRedirect ? 10 : 0,
@@ -47,7 +66,12 @@ export async function get<T>(
     })
     const t1 = new Date()
     if (response.status === 200) {
-      console.log(`Fetch ${uri} took ${t1.getTime() - t0.getTime()} ms`)
+      console.log(
+        `Fetch ${uri} took ${t1.getTime() - t0.getTime()} ms (cache miss)`,
+      )
+      if (useCache) {
+        getCache.set(uri, response)
+      }
     }
 
     return response

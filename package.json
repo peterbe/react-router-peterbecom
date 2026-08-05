@@ -23,6 +23,7 @@
     "navigate-local-dev": "bun run scripts/navigate-local-dev.ts"
   },
   "dependencies": {
+    "@isaacs/ttlcache": "^2.1.5",
     "@picocss/pico": "^2.1.1",
     "@react-router/node": "^7.3.0",
     "@react-router/serve": "^7.3.0",
