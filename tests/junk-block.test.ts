@@ -64,17 +64,16 @@ test("ok Chinese searches", async () => {
   expect(response.status).toBe(200)
 })
 
-test.each([
-  "/xmlrpc.php",
-  "/blog/wp-login.php",
-  "/about/wp-login.php",
-])("junk URLs", async (url) => {
-  const response = await get(url)
-  expect([404, 429]).toContain(response.status)
-  if (response.status === 404) {
-    expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
-  }
-})
+test.each(["/xmlrpc.php", "/blog/wp-login.php", "/about/wp-login.php"])(
+  "junk URLs",
+  async (url) => {
+    const response = await get(url)
+    expect([404, 429]).toContain(response.status)
+    if (response.status === 404) {
+      expect(response.headers["content-type"]).toBe("text/plain; charset=utf-8")
+    }
+  },
+)
 
 test("GET assets with query string", async () => {
   const response = await get("/assets/foo.js?foo=bar&baz=qux")
