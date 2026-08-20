@@ -5,7 +5,7 @@
   "scripts": {
     "build": "cross-env NODE_ENV=production react-router build",
     "build:witholdbuildpreserved": "rm -fr /tmp/_old_build && bun run scripts/backup-old-build.ts && bun run build && bun run scripts/restore-old-build.ts",
-    "dev": "react-router dev",
+    "dev": "bunx --bun react-router dev",
     "start": "cross-env NODE_ENV=production bun run start-server.ts ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint": "biome check",
@@ -56,7 +56,7 @@
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.0",
+    "@biomejs/biome": "^2.5.9",
     "@playwright/test": "^1.61.0",
     "@react-router/dev": "^7.9.3",
     "@types/bun": "1.3.14",

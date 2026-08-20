@@ -1,7 +1,5 @@
-import fs from "node:fs/promises"
 import path from "node:path"
 import type { NextFunction, Request, Response } from "express"
-import sharp from "sharp"
 
 const PUBLIC_DIR = path.resolve("public")
 
@@ -22,9 +20,7 @@ export async function dynamicImages(
         PUBLIC_DIR,
         req.url.slice(1).replace(/\.webp$/, ".png"),
       )
-      const originalBuffer = await fs.readFile(pngPath)
-      const image = sharp(originalBuffer)
-      const buffer = await image.webp().toBuffer()
+      const buffer = await new Bun.Image(pngPath).webp().toBuffer()
       res.set("cache-control", `public,max-age=${60 * 60 * 24}`)
       res.type("image/webp").send(buffer)
       return

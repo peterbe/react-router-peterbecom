@@ -1,6 +1,4 @@
-import fs from "node:fs/promises"
 import path from "node:path"
-import sharp from "sharp"
 
 import type { Plugin } from "vite"
 
@@ -21,9 +19,7 @@ export function dynamicImagesPlugin(): Plugin {
               PUBLIC_DIR,
               url.slice(1).replace(/\.webp$/, ".png"),
             )
-            const originalBuffer = await fs.readFile(pngPath)
-            const image = sharp(originalBuffer)
-            const buffer = await image.webp().toBuffer()
+            const buffer = await new Bun.Image(pngPath).webp().toBuffer()
             res.writeHead(200, {
               "cache-control": `public,max-age=${60 * 60 * 24}`,
               "content-type": "image/webp",
