@@ -117,6 +117,7 @@ export const ServerSearchData = v.object({
 
 const LyricsSong = v.object({
   name: v.string(),
+  _url: v.optional(v.string()),
   text_html: v.string(),
   year: v.nullable(v.number()),
   artist: LyricsArtist,

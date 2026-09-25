@@ -6,7 +6,10 @@ import { LyricsSongError } from "../components/lyrics-song-error"
 import { get } from "../lib/get-data"
 import stylesheet from "../styles/lyrics-song.scss?url"
 import { absoluteURL, newValiError } from "../utils/utils"
-import { ServerSongData } from "../valibot-types"
+import {
+  type LyricsSong as LyricsSongT,
+  ServerSongData,
+} from "../valibot-types"
 import type { Route } from "./+types/lyrics-song"
 
 export const links: Route.LinksFunction = () => [
@@ -32,7 +35,8 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     return redirect(newUrl, 308)
   }
 
-  const sp = new URLSearchParams({ id: parts[2] })
+  const songID = parts[2]
+  const sp = new URLSearchParams({ id: songID })
   const fetchURL = `/api/v1/lyrics/song?${sp}`
   const response = await get(fetchURL, { followRedirect: false })
 
@@ -64,6 +68,15 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const { song } = v.parse(ServerSongData, response.data)
     const cacheSeconds = 60 * 60 * 12
+
+    const expectedPathname = pathnameBySong(song)
+    if (expectedPathname && pathname !== expectedPathname) {
+      console.warn(
+        `(song id: ${songID}) Redirecting from ${pathname} to ${expectedPathname}`,
+      )
+      return redirect(expectedPathname, 308)
+    }
+
     return data(
       { song, error: undefined },
       { headers: cacheHeaders(cacheSeconds) },
@@ -71,6 +84,11 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   } catch (error) {
     throw newValiError(error)
   }
+}
+
+function pathnameBySong(song: LyricsSongT) {
+  if (!song._url) return
+  return `/plog/blogitem-040601-1${song._url}`
 }
 
 function cacheHeaders(seconds: number) {
