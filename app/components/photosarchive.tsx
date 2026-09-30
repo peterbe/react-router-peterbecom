@@ -31,14 +31,6 @@ export function PhotosArchive({ groups }: Props) {
                       const pngURL = `/api/v1/plog/${post.oid}.w400.png`
                       return (
                         <article key={post.oid} className="photo">
-                          <header>
-                            <LinkWithPrefetching
-                              to={postURL(post.oid, undefined, undefined, true)}
-                              discover="none"
-                            >
-                              {post.title}
-                            </LinkWithPrefetching>
-                          </header>
                           <LinkWithPrefetching
                             to={postURL(post.oid, undefined, undefined, true)}
                             discover="none"
@@ -49,14 +41,21 @@ export function PhotosArchive({ groups }: Props) {
                               <img src={pngURL} alt={post.title} />
                             </picture>
                           </LinkWithPrefetching>
-                          {post.comments > 0 && (
-                            <footer>
+                          <footer>
+                            <LinkWithPrefetching
+                              to={postURL(post.oid, undefined, undefined, true)}
+                              discover="none"
+                            >
+                              {post.title}
+                            </LinkWithPrefetching>
+                            <br />
+                            {post.comments > 0 && (
                               <small>
                                 {post.comments} comment
                                 {post.comments !== 1 ? "s" : ""}
                               </small>
-                            </footer>
-                          )}
+                            )}
+                          </footer>
                         </article>
                       )
                     })}
