@@ -18,6 +18,7 @@ const RATE_LIMIT_BOT_AGENTS = new Set([
   "https://ibou.io/iboubot.html",
   "https://babbar.tech/crawler",
   "http://mj12bot.com/",
+  "Pinterestbot",
 ])
 
 export const limiter = rateLimit({
