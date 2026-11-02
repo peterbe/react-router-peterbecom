@@ -1,7 +1,7 @@
 import { reactRouter } from "@react-router/dev/vite"
 import autoprefixer from "autoprefixer"
 import { defineConfig } from "vite"
-import { dynamicImagesPlugin } from "./app/dynamic-images-vite-plugin"
+import { dynamicImagesPlugin } from "./app/dynamic-images-vite-plugin.ts"
 
 const BACKEND_BASE_URL = process.env.API_BASE || "http://127.0.0.1:8888"
 
