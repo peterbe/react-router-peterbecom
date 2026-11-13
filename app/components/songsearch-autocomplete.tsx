@@ -4,15 +4,15 @@ import { debounce, throttle } from "throttle-debounce"
 
 import { sendEvent as _sendEvent } from "../analytics"
 
-type SendEventData = {
-  type: "submit" | "select" | "enter"
-  q?: string
-  gotoURL?: string
-}
+// type SendEventData = {
+//   type: "submit" | "select" | "enter"
+//   q?: string
+//   gotoURL?: string
+// }
 
-function sendEvent(d: SendEventData) {
-  _sendEvent("songsearch-autocomplete", d)
-}
+// function sendEvent(d: SendEventData) {
+//   _sendEvent("songsearch-autocomplete", d)
+// }
 
 interface Suggestion {
   id: number
@@ -141,7 +141,7 @@ export default function SongSearchAutocomplete() {
     setAutocompleteHighlight(-1)
     setShowAutocompleteSuggestions(true)
 
-    sendEvent({ type: "submit", q })
+    // sendEvent({ type: "submit", q })
 
     document.location.href = gotoURL
   }
@@ -156,7 +156,7 @@ export default function SongSearchAutocomplete() {
     setAutocompleteSuggestions(null)
     setAutocompleteHighlight(-1)
 
-    sendEvent({ type: "select", gotoURL, q })
+    // sendEvent({ type: "select", gotoURL, q })
 
     document.location.href = gotoURL
   }
@@ -304,7 +304,7 @@ export default function SongSearchAutocomplete() {
             setAutocompleteSuggestions(null)
             setAutocompleteHighlight(-1)
 
-            sendEvent({ type: "enter", gotoURL, q })
+            // sendEvent({ type: "enter", gotoURL, q })
 
             document.location.href = absolutifyUrl(gotoURL, server)
           }
